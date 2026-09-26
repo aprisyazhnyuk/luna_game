@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f7f2">
+  <meta name="description" content="A little cat. A little adventure. A cozy, one-tap running game starring Luna.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+  <title>Luna · little adventures</title>
+</head>
+<body>
+  <main class="notebook" id="game">
+    <header class="toolbar">
+      <h1>Luna</h1>
+      <div class="tools"><button id="about" class="icon-button" aria-label="How to play">?</button><button id="pause" class="icon-button" aria-label="Pause game" disabled>Ⅱ</button></div>
+    </header>
+    <section class="stage" aria-label="Luna's run">
+      <div class="playfield">
+        <div class="scoreboard" aria-label="Run statistics">
+          <span class="best-score"><span aria-hidden="true">HI</span> <span id="best" aria-label="Best distance: 0 metres">00000</span></span>
+          <span id="distance" aria-label="Distance: 0 metres">00000</span>
+        </div>
+        <canvas id="scene" width="780" height="760" aria-label="Luna runs and jumps over yarn and boxes to collect treats."></canvas>
+        <div class="message" id="message" aria-live="polite"><h2 id="message-title">Tap to start</h2><p id="message-copy" hidden></p></div>
+        <div class="run-items"><span id="hearts" aria-label="3 chances remaining">♡ ♡ ♡</span><span class="bite-counter"><span class="bite-icon" aria-hidden="true"></span><span id="treats" aria-label="0 treats collected">0</span></span></div>
+      </div>
+      <button id="jump" class="play-button" aria-label="Start game. Tap or press Space to jump."><span class="sr-only" id="action">Start</span></button>
+    </section>
+  </main>
+  <dialog id="help">
+    <button id="close-help" class="icon-button close" aria-label="Close help">×</button>
+    <h2>How to play</h2>
+    <p>Tap to jump. Avoid boxes and yarn. Collect the dots. You get three chances.</p>
+    <p>Keyboard: Space or ↑ to jump; P or Escape to pause.</p>
+    <p>On Android, use Chrome’s <b>Install app / Add to Home screen</b> menu. Wait for the offline status below before disconnecting.</p>
+    <p id="offline-status" role="status">Preparing offline play…</p>
+    <button id="install" hidden>Install game ↗</button>
+    <p class="fine-print">Best distance is saved on this device. <a href="./PRIVACY.md">Privacy</a> · <a href="./CREDITS.md">Credits</a></p>
+  </dialog>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

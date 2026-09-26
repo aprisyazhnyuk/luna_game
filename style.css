@@ -1,0 +1,35 @@
+:root { color-scheme: light; --paper: #f7f7f2; --ink: #42443f; --muted: #82847d; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Courier New', monospace; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 2px dashed var(--muted); outline-offset: 3px; }
+button:disabled { opacity: .25; cursor: default; }
+[hidden] { display: none !important; }
+.notebook { width: 100%; max-width: 520px; min-height: 100svh; margin: auto; padding: max(16px, env(safe-area-inset-top)) 20px max(16px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; user-select: none; touch-action: manipulation; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; }
+h1 { margin: 0; font: bold 20px 'Courier New', monospace; letter-spacing: 2px; }
+.tools { display: flex; gap: 4px; }
+.icon-button { width: 44px; height: 44px; padding: 0; border: 0; background: transparent; font-size: 20px; }
+.stage { position: relative; flex: 1; display: flex; align-items: center; min-height: 360px; }
+.playfield { position: relative; width: 100%; }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 390 / 380; image-rendering: pixelated; }
+.scoreboard { position: absolute; top: 9%; right: 0; display: flex; gap: 20px; font-size: 14px; letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+.best-score { color: var(--muted); }
+.message { position: absolute; top: 39%; left: 0; right: 0; text-align: center; pointer-events: none; }
+.message h2 { margin: 0; font: 14px 'Courier New', monospace; letter-spacing: 1px; }
+.message p { margin: 14px 0 0; font-size: 11px; color: var(--muted); }
+.run-items { position: absolute; top: 92%; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+#hearts { letter-spacing: 2px; font-size: 19px; }
+.bite-counter { display: flex; align-items: center; gap: 9px; }
+.bite-icon { width: 6px; height: 6px; background: var(--ink);  }
+.play-button { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; background: transparent; border: 0; touch-action: none; }
+.play-button:focus-visible { outline-offset: -3px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+dialog { background: var(--paper); color: var(--ink); border: 1px solid #d6d8ce; border-radius: 8px; width: calc(100% - 32px); max-width: 370px; padding: 28px; font: 14px/1.6 Arial, sans-serif; }
+dialog::backdrop { background: #30312f55; }
+dialog h2 { font: 18px 'Courier New', monospace; margin: 5px 0 20px; }
+dialog .close { position: absolute; top: 6px; right: 6px; }
+dialog .fine-print, #offline-status { font-size: 11px; color: var(--muted); }
+dialog a { color: inherit; }
+#install { padding: 10px 14px; border: 1px solid var(--muted); background: transparent; border-radius: 4px; }
+@media (max-height: 550px) { .stage { min-height: 0; } .playfield { max-width: 360px; margin: auto; } .notebook { padding-top: 8px; } }
