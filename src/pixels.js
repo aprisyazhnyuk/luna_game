@@ -9,24 +9,22 @@ export function stamp(c,rows,x,y,size=PIXEL) {
  }
 }
 const BODY = [
- '........XXXXXXXXXX...........',
- '.....XXXGGGGGGGGWWXXX........',
- '...XXGGXGGXGGGGWWWWWWXX......',
- '..XGGGGGGGGGGGWWWWWWWWWX.....',
- '.XGGGXGGXGGGGWWWWWWWWWWWX....',
- 'XGGGGGGGGGGGWWWWWWWWWWWWWX...',
- 'XGGGGGGGGGGWWWWWWWWWWWWWWX...',
- 'XWGGGGGGGGWWWWWWWWWWWWWWWWX..',
- 'XWWWGGGGGWWWWWWWWWWWWWWWWWX..',
- 'XWWWWGGGWWWWWWWWWWWWWWWWWWX..',
- 'XWWWWWWWWWWWWWWWWWWWWWWWWWX..',
- 'XWWWWWWWWWWWWWWWWWWWWWWWWWX..',
- '.XWWWWWWWWWWWWWWWWWWWWWWWWX..',
- '.XWWWWWWWWWWWWWWWWWWWWWWWX...',
- '..XWWWWWWWWWWWWWWWWWWWWWWX...',
- '..XWWWWWWWWWWWWWWWWWWWWWX....',
- '...XXWWWWWWWWWWWWWWWWWXX.....',
- '.....XXXXXXXXXXXXXXXXX.......'
+ '......XXXXXXXXXXX.............',
+ '...XXXGGGGGGGGGXXXXXXXX......',
+ '.XXGGGGGGGGGGGWWWWWWWWWWXX...',
+ 'XGGGGXGGGGGGGWWWWWWWWWWWWWX..',
+ 'XGGXGGGGGGGGGWWWWWWWWWWWWWX..',
+ 'XGGGGGGGGGGGGWWWWWWWWWWWWWWX.',
+ 'XGGGGGGGGGGGWWWWWWWWWWWWWWWX.',
+ 'XGGGGGGGGGGWWWWWWWWWWWWWWWWX.',
+ 'XGGGGGGGGGWWWWWWWWWWWWWWWWWX.',
+ '.XGGGGGGGWWWWWWWWWWWWWWWWWWX.',
+ '.XGGGGGGWWWWWWWWWWWWWWWWWWWWX',
+ '..XGGGGWWWWWWWWWWWWWWWWWWWWWX',
+ '...XWWWWWWWWWWWWWWWWWWWWWWWWX',
+ '....XWWWWWWWWWWWWWWWWWWWWWWX',
+ '.....XWWWWWWWWWWWWWWWWWWWWWX',
+ '......XXXXXXXXXXXXXXXXXXXXXX.'
 ];
 const HEAD = [
  '..XX......XX....',
@@ -41,9 +39,8 @@ const HEAD = [
  'XWGGGWWWWWXWWXX.',
  'XWWWWWWWWWWWWWWX',
  '.XWWWWWWWWWWWXXX',
- '.XWWWWWWWWWWWWX.',
- '..XWWWWWWWWXXX..',
- '...XWWWWWWWWX...',
+ '..XWWWWWWWWWWWWX',
+ '...XWWWWWWWWXXX.',
  '....XXXXXXXX....'
 ];
 const TAIL = [
@@ -103,8 +100,8 @@ export function drawPixelLuna(c,x,y,time,moving,airborne) {
  part(TAIL,0,11+(frame===2?1:0));
  // Keep the pairs apart in every pose, including the tucked jump frame.
  const swing=moving&&!airborne?[0,1,0,-1][frame]:0;
- part(FAR_PAW,16-swing,airborne?17:18+(frame===1?-1:0));
- part(FAR_PAW,30+swing,airborne?17:18+(frame===3?-1:0));
+ part(FAR_PAW,13-swing,airborne?17:18+(frame===1?-1:0));
+ part(FAR_PAW,27+swing,airborne?17:18+(frame===3?-1:0));
  part(PAW,10+swing+(airborne?1:0),airborne?19:20+(frame===3?-1:0));
  part(PAW,24-swing+(airborne?1:0),airborne?19:20+(frame===1?-1:0));
  part(BODY,8,8+bob);
