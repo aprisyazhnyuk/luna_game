@@ -4,9 +4,12 @@ const $=id=>document.getElementById(id);
 const canvas=$('scene'),ctx=canvas.getContext('2d');
 let run=createRun(),lastTime=0,accumulator=0,best=0,installPrompt=null,endedAt=0,displayedPhase='';
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lunaImage=new Image();
+lunaImage.addEventListener('load',()=>draw(ctx,run,reducedMotion,lunaImage));
+lunaImage.src=new URL('../assets/luna-run.png',import.meta.url).href;
 try {best=Math.max(0,Number(localStorage.getItem('luna.best.v1'))||0);}catch{}
 function saveBest(){best=Math.max(best,Math.floor(run.distance));try{localStorage.setItem('luna.best.v1',String(best));}catch{}}
-function resize(){canvas.width=390;canvas.height=380;ctx.imageSmoothingEnabled=false;draw(ctx,run,reducedMotion);}
+function resize(){canvas.width=390;canvas.height=380;ctx.imageSmoothingEnabled=false;draw(ctx,run,reducedMotion,lunaImage);}
 function updateUI(){
  const distance=Math.floor(run.distance);
  const setStat=(id,value,label)=>{const el=$(id);if(el.textContent!==String(value)){el.textContent=value;el.setAttribute('aria-label',label);}};
@@ -25,7 +28,7 @@ function updateUI(){
   $('message-copy').textContent=paused?'Tap to resume':over?'↻  Tap to restart':'';
   $('message-copy').hidden=!paused&&!over;
  }
- if(!running)draw(ctx,run,reducedMotion);
+ if(!running)draw(ctx,run,reducedMotion,lunaImage);
 }
 function action(){
  if($('help').open)return;
@@ -61,7 +64,7 @@ function pause(){if(run.phase==='running'){run.phase='paused';saveBest();}else i
    while(accumulator>=1/120){step(run,1/120);accumulator-=1/120;if(run.phase==='over'){endedAt=time;saveBest();break;}}
    updateUI();
   }
-  if(run.phase==='running')draw(ctx,run,reducedMotion);requestAnimationFrame(frame);
+  if(run.phase==='running')draw(ctx,run,reducedMotion,lunaImage);requestAnimationFrame(frame);
  }
  resize();updateUI();requestAnimationFrame(frame);
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('install').hidden=false;});

@@ -6,7 +6,7 @@ A cozy, portrait, one-tap runner starring Luna: white chest and paws, a tabby ca
 
 - One endless run on a minimal pixel ground line, with a steady, gentle pace.
 - Tap anywhere in the play area to jump. Space / Up also work; P / Escape pause.
-- Four animated pixel paws, a ringed tail, and a compact score display.
+- The supplied Luna artwork, with a subtle running bob and a compact score display.
 - Jump over yarn and boxes and collect little dark crispy bites.
 - Three chances per run, forgiving collision bounds, brief recovery after a bump, and a small input buffer before landing.
 - Best distance saved on this device. Automatic pause when switching away.
@@ -44,7 +44,7 @@ The [manifest enables installation](https://developer.mozilla.org/en-US/docs/Web
 
 With Node.js 22 or later, run `node --test tests/*.test.js` (or `npm test`). Tests cover jump height, buffering, absence of double jump, collisions, recovery, treat pickup, pause, consistent physics, object cleanup, offline asset availability at root and repository paths, and cache isolation from other apps. Cache tests simulate service worker events; they do not replace real browser or phone checks.
 
-The sprites are hand-placed pixel grids in `src/pixels.js`. The canvas uses nearest-neighbor display scaling to keep their edges crisp. To regenerate the SVG and PNG app icons from the current Luna sprite, run `node scripts/export-icons.mjs`; no extra packages are needed.
+The active Luna artwork is `assets/luna-run.png`, drawn by `src/draw.js` with its transparent margins cropped at render time. While the image loads, the hand-placed pixel sprite in `src/pixels.js` acts as a fallback; that file also defines the obstacles. The canvas uses nearest-neighbor display scaling to keep edges crisp. The current SVG and PNG app icons are based on the fallback sprite; to regenerate them after editing it, run `node scripts/export-icons.mjs`. No extra packages are needed.
 
 Manual device checks before release:
 

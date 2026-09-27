@@ -2,7 +2,7 @@
 
 ## Agreed direction
 
-Portrait, one-handed Android play. Minimal black-and-white pixel art, with a round, white-and-gray Luna and matching pixel obstacles. Cozy and forgiving, with some challenge in later levels. Hosted on GitHub Pages, installable on the home screen, playable offline after the initial download.
+Portrait, one-handed Android play. Minimal black-and-white pixel art, with a lean, white-and-gray Luna and matching pixel obstacles. Cozy and forgiving, with some challenge in later levels. Hosted on GitHub Pages, installable on the home screen, playable offline after the initial download.
 
 ## 1 · Make the first hop feel right (current prototype)
 
