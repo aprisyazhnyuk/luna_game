@@ -27,6 +27,11 @@ for(const path of ['/', '/luna_game/'])test(`all assets are present and availabl
  const w=await worker('https://example.test'+path);await w.lifecycle('install');await w.lifecycle('activate');w.setOffline();
  assert.ok(w.claimed());assert.match(await(await w.fetchEvent('./','navigate')).text(),/id="scene"/);
  assert.match(await(await w.fetchEvent('./src/engine.js?v=1')).text(),/createRun/);
+ assert.match(await(await w.fetchEvent('./src/animation.js')).text(),/drawImageLuna/);
+ assert.match(await(await w.fetchEvent('./src/customisation.js')).text(),/recordTreats/);
+ assert.match(await(await w.fetchEvent('./src/store.js')).text(),/createStore/);
+ assert.match(await(await w.fetchEvent('./src/cosmetics.js')).text(),/drawShoes/);
+ assert.equal((await w.fetchEvent('./assets/luna-custom.png')).status,200);
  assert.equal((await w.fetchEvent('./assets/luna-run.png')).status,200);
  assert.equal((await w.fetchEvent('./assets/icon-512.png')).status,200);
  assert.match(await(await w.fetchEvent('./unknown','navigate')).text(),/id="scene"/);

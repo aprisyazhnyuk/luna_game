@@ -14,7 +14,7 @@ Introduce short levels with endings. Increase difficulty gently with obstacle ar
 
 ## 3 · Luna's dress-up drawer
 
-Earn random cosmetic rewards such as hats through play. Decide reward cadence and duplicate handling together. Keep cosmetics separate from movement and collision bounds. Draw hats at Luna's head anchor so they follow her animation. Introduce versioned inventory saves when this feature is implemented; the current prototype saves only best distance.
+Implemented: single-run treat milestones unlock a bowler hat at 30, a star mark at 45, and adventure boots at 60. The store previews independent hat/mark/shoe combinations and saves unlocks and selections locally with a versioned wardrobe profile. Cosmetics follow the head, torso, and individual paws, with unchanged collision bounds. Next: more items and player feedback on milestone difficulty.
 
 ## Later decisions
 

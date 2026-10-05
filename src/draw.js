@@ -1,9 +1,10 @@
 import {RULES} from './engine.js';
+import {lunaPose,drawImageLuna} from './animation.js';
 import {PALETTE, PIXEL, stamp, BOX, YARN, drawPixelLuna} from './pixels.js';
 export {drawPixelLuna as drawLuna} from './pixels.js';
 const snap=value=>Math.round(value/PIXEL)*PIXEL;
 function block(c,x,y,w,h,color=PALETTE.X){c.fillStyle=color;c.fillRect(snap(x),snap(y),w,h);}
-export function draw(c,run,reducedMotion=false,lunaImage=null) {
+export function draw(c,run,reducedMotion=false,lunaImage=null,animationTime=run.time) {
  c.clearRect(0,0,390,380);c.imageSmoothingEnabled=false;
  const offset=snap(run.time*RULES.speed);
  block(c,0,RULES.ground,390,2,PALETTE.G);
@@ -21,12 +22,10 @@ export function draw(c,run,reducedMotion=false,lunaImage=null) {
  c.save();
  // A brief on/off blink keeps recovery readable without introducing gray blur.
  if(run.invincible===0||reducedMotion||Math.floor(run.time*10)%2===0){
+  const pose=lunaPose(run,animationTime,reducedMotion);
   if(lunaImage?.complete&&lunaImage.naturalWidth>0){
-   // Crop the transparent margins at draw time; keep the owner's artwork intact.
-   const running=run.phase==='running'&&run.y===0;
-   const bob=!reducedMotion&&running&&Math.floor(run.time*9)%2===1?-2:0;
-   c.drawImage(lunaImage,132,370,970,605,snap(RULES.catX-44),snap(RULES.ground-run.y-54+bob),86,54);
-  }else drawPixelLuna(c,RULES.catX,RULES.ground-run.y,run.time,run.phase==='running',run.y>0);
+   drawImageLuna(c,lunaImage,RULES.catX,RULES.ground-run.y,pose,run.outfit);
+  }else drawPixelLuna(c,RULES.catX,RULES.ground-run.y,run.time,run.phase!=='ready'&&!reducedMotion,run.y>0,pose);
  }
  c.restore();
  for(const p of run.particles){

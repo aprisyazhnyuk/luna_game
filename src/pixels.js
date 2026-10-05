@@ -92,7 +92,7 @@ export const YARN = [
  '...XXLLLLXX...',
  '.....XXXX.....'
 ];
-export function drawPixelLuna(c,x,y,time,moving,airborne) {
+export function drawPixelLuna(c,x,y,time,moving,airborne,pose=null) {
  const frame=moving&&!airborne?Math.floor(time*9)%4:0;
  const ox=Math.round(x/PIXEL)*PIXEL-44,oy=Math.round(y/PIXEL)*PIXEL-60;
  const bob=moving&&!airborne&&frame%2===1?-1:0;
@@ -100,11 +100,16 @@ export function drawPixelLuna(c,x,y,time,moving,airborne) {
  part(TAIL,0,11+(frame===2?1:0));
  // Keep the pairs apart in every pose, including the tucked jump frame.
  const swing=moving&&!airborne?[0,1,0,-1][frame]:0;
- part(FAR_PAW,13-swing,airborne?17:18+(frame===1?-1:0));
- part(FAR_PAW,27+swing,airborne?17:18+(frame===3?-1:0));
- part(PAW,10+swing+(airborne?1:0),airborne?19:20+(frame===3?-1:0));
- part(PAW,24-swing+(airborne?1:0),airborne?19:20+(frame===1?-1:0));
+ const paw=(rows,col,row,index)=>part(rows,col+(pose?Math.round(-pose.legs[index]*4):0),row-(pose?Math.round(pose.lift[index]):0));
+ paw(FAR_PAW,13-swing,airborne?17:18+(frame===1?-1:0),0);
+ paw(FAR_PAW,27+swing,airborne?17:18+(frame===3?-1:0),2);
+ paw(PAW,10+swing+(airborne?1:0),airborne?19:20+(frame===3?-1:0),1);
+ paw(PAW,24-swing+(airborne?1:0),airborne?19:20+(frame===1?-1:0),3);
  part(BODY,8,8+bob);
  // Separate head origin is also the attachment point for future hats.
  part(HEAD,25,3+bob);
+ if(pose?.blink){
+  c.fillStyle=PALETTE.W;c.fillRect(ox+35*PIXEL,oy+(11+bob)*PIXEL,PIXEL,2*PIXEL);
+  c.fillStyle=PALETTE.X;c.fillRect(ox+34*PIXEL,oy+(12+bob)*PIXEL,2*PIXEL,PIXEL);
+ }
 }

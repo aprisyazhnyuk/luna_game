@@ -1,11 +1,11 @@
 export const RULES = Object.freeze({width:390, ground:300, catX:94, gravity:1050, jumpSpeed:480, speed:132, chances:3});
 export function createRun(random = Math.random) {
-  return {phase:'ready', random, time:0, distance:0, treats:0, chances:RULES.chances, y:0, vy:0, buffer:0, invincible:0, spawnIn:2.8, obstacles:[], bites:[], particles:[], notice:'', noticeTime:0};
+  return {phase:'ready', random, time:0, jumpTime:null, landTime:null, distance:0, treats:0, chances:RULES.chances, y:0, vy:0, buffer:0, invincible:0, spawnIn:2.8, obstacles:[], bites:[], particles:[], notice:'', noticeTime:0};
 }
 export function jump(run) {
   if (run.phase !== 'running') return;
   run.buffer = .14;
-  if (run.y === 0) { run.vy = RULES.jumpSpeed; run.buffer = 0; }
+  if (run.y === 0 && run.vy === 0) { run.vy = RULES.jumpSpeed; run.buffer = 0; run.jumpTime=run.time; }
 }
 export function overlaps(a,b) {return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;}
 export function step(run,dt) {
@@ -13,9 +13,10 @@ export function step(run,dt) {
   dt = Math.min(Math.max(dt,0),1/30);
   run.time += dt; run.distance += RULES.speed*dt/22;
   run.invincible = Math.max(0,run.invincible-dt); run.noticeTime = Math.max(0,run.noticeTime-dt); run.buffer = Math.max(0,run.buffer-dt);
+  const airborne = run.y>0 || run.vy>0;
   run.y = Math.max(0,run.y + run.vy*dt - RULES.gravity*dt*dt/2);
   run.vy -= RULES.gravity*dt;
-  if(run.y === 0) {run.vy = 0; if(run.buffer > 0) jump(run);}
+  if(run.y === 0) {run.vy = 0; if(airborne)run.landTime=run.time; if(run.buffer > 0) jump(run);}
   run.spawnIn -= dt;
   if(run.spawnIn <= 0) {
     const box = run.random() > .5;
