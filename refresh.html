@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Refresh Luna</title>
+<style>body{margin:0;padding:32px;background:#f7f7f2;color:#42443f;font:16px/1.6 Arial,sans-serif}main{max-width:430px;margin:15vh auto}h1{font:22px 'Courier New',monospace}a{color:inherit}</style></head>
+<body><main><h1>Refreshing Luna…</h1><p id="status">Your outfits, rewards, and best score will stay saved.</p><a href="./">Return to the game</a></main>
+<script type="module">
+import {clearGameCache} from './src/local-cache.js';
+const scope=new URL('./',location.href).href;
+try{await clearGameCache(scope,navigator.serviceWorker,globalThis.caches);location.replace(scope);}
+catch(error){console.error(error);document.getElementById('status').textContent='Refresh failed. Close the other game tabs and try again.';}
+</script></body></html>

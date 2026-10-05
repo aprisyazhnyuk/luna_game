@@ -31,6 +31,10 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 Open http://localhost:8080. Do not open `index.html` directly as a file: modules and the offline worker require a web server. HTTPS is required outside localhost for offline installation.
 
+Localhost loads current game files directly, clearing this game's old offline workers and caches before startup. Saved outfits, unlocks, and best scores are preserved. Hosted sites continue to use the offline worker.
+
+If an older cached installation still shows a broken layout or an unresponsive Start button, open `http://127.0.0.1:8080/refresh.html` once (or `refresh.html` under your site's game directory). It refreshes only this game's offline files and returns to the game, keeping local saves.
+
 ## Publish on GitHub Pages
 
 1. Create or choose your GitHub repository and push this directory to its `main` branch.
@@ -65,7 +69,7 @@ Manual device checks before release:
 
 `src/engine.js` owns simulation, `src/pixels.js` defines the sprites, `src/draw.js` draws Luna and the playfield, and `src/app.js` handles input, interface, saving, and installation. `src/customisation.js` owns the item catalog, unlock targets, selections, and versioned wardrobe save validation; `src/store.js` builds the store and preview. `style.css` controls the page. The simulation uses a fixed time step. Tests include reward boundaries, single-run counting, saved combinations, invalid-save recovery, and offline store assets.
 
-When shipping changes, bump `VERSION` in `sw.js` and include any new offline assets in `FILES`. A new worker waits for existing game windows to close before activating. For local development, unregister the worker / clear site data in browser developer tools after asset changes to avoid testing an old cache.
+When shipping changes, bump `VERSION` in `sw.js` and include any new offline assets in `FILES`. A new worker waits for existing game windows to close before activating. Local development automatically bypasses the offline cache; `refresh.html` also provides recovery for older installed versions without clearing saved progress.
 
 ## Rights and privacy
 
