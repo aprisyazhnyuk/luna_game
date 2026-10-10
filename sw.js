@@ -1,6 +1,6 @@
 // Bump VERSION whenever a shipped file changes. Updates activate after all old
 // game windows close, avoiding mixed versions in the middle of a run.
-const VERSION='v8';
+const VERSION='v9';
 const PREFIX=`luna-${self.registration.scope}-`;
 const CACHE=PREFIX+VERSION;
 const FILES=['./','./index.html','./style.css','./src/boot.js','./src/local-cache.js','./src/app.js','./src/engine.js','./src/animation.js','./src/customisation.js','./src/cosmetics.js','./src/store.js','./src/draw.js','./src/pixels.js','./manifest.webmanifest','./assets/luna-run.png','./assets/luna-custom.png','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./PRIVACY.md','./CREDITS.md','./LICENSE'];

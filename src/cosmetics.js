@@ -9,6 +9,10 @@ const HAT=[
  'XXXXXXXXXXXXXXXX',
  '.XXXXXXXXXXXXXX.'
 ];
+// Position the centre of the bottom brim row on the forehead, below the ear
+// tips. Coordinates are pixels in assets/luna-custom.png, not screen pixels.
+// Increase y to lower the hat; change pixelSize to resize around this contact.
+const BOWLER_FIT={x:970,y:450,pixelSize:15};
 const STAR=[
  '.....GG.....',
  '.....GG.....',
@@ -32,7 +36,11 @@ function sprite(c,rows,x,y,size){
 }
 // All attachment coordinates use the same native image space as the rig.
 // The hat and mark sit on the torso; shoes are drawn inside each paw transform.
-export function drawHat(c,hat){if(hat==='bowler')sprite(c,HAT,866,288,15);}
+export function drawHat(c,hat){
+ if(hat!=='bowler')return;
+ const {x,y,pixelSize}=BOWLER_FIT;
+ sprite(c,HAT,x-HAT[0].length*pixelSize/2,y-(HAT.length-1)*pixelSize,pixelSize);
+}
 export function drawShoes(c,leg,index,shoes){
  if(shoes!=='boots')return;
  const [x,y]=leg.foot;

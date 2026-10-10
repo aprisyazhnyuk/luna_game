@@ -51,6 +51,14 @@ Launch once from the home-screen icon, then turn on airplane mode and relaunch t
 
 The [manifest enables installation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable), and the [service worker caches game files](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation). Adding to the home screen and downloading the offline cache are separate browser actions.
 
+## Editing the hat
+
+The bowler is pixel artwork in `src/cosmetics.js`, separate from Luna's PNG. Edit the `HAT` rows to change its shape: `X` is dark outline, `G` is grey, `W` is cream, and `.` is transparent. Keep every row the same length. Colours are defined in `PALETTE` in `src/pixels.js`.
+
+`BOWLER_FIT` controls how it sits on Luna: `{x:970,y:450,pixelSize:15}`. The point is the centre of the bottom brim row in the full-size `assets/luna-custom.png` coordinate system. Increase `y` to lower the brim, increase `x` to move it right, and change `pixelSize` to resize around that contact point. Try changes of 10 image pixels at a time. The hat shares Luna's body animation, so its fit follows walking, jumping, and landing automatically.
+
+Save the file, reload `http://127.0.0.1:8080`, and select the bowler in Store to preview it (it must already be unlocked). Start a new run to check its fit during movement. When publishing an adjustment, increment `VERSION` in `sw.js` so installed games receive the updated artwork.
+
 ## Development and verification
 
 With Node.js 22 or later, run `node --test tests/*.test.js` (or `npm test`). Tests cover jump height, buffering, absence of double jump, collisions, recovery, treat pickup, pause, consistent physics, object cleanup, offline asset availability at root and repository paths, and cache isolation from other apps. Cache tests simulate service worker events; they do not replace real browser or phone checks.
