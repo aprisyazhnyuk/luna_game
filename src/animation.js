@@ -84,6 +84,6 @@ export function drawImageLuna(c,image,x,y,pose,outfit=ORIGINAL) {
   c.fillStyle='#f7f7f2';c.fillRect(1015,551,49,59);
   c.fillStyle='#42443f';c.fillRect(1019,583,38,12);
  }
- drawHat(c,outfit.hat);
+ drawHat(c,outfit.hat,image);
  c.restore();
 }

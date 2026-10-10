@@ -55,7 +55,7 @@ The [manifest enables installation](https://developer.mozilla.org/en-US/docs/Web
 
 The bowler is pixel artwork in `src/cosmetics.js`, separate from Luna's PNG. Edit the `HAT` rows to change its shape: `X` is dark outline, `G` is grey, `W` is cream, and `.` is transparent. Keep every row the same length. Colours are defined in `PALETTE` in `src/pixels.js`.
 
-`BOWLER_FIT` controls how it sits on Luna: `{x:970,y:450,pixelSize:15}`. The point is the centre of the bottom brim row in the full-size `assets/luna-custom.png` coordinate system. Increase `y` to lower the brim, increase `x` to move it right, and change `pixelSize` to resize around that contact point. Try changes of 10 image pixels at a time. The hat shares Luna's body animation, so its fit follows walking, jumping, and landing automatically.
+`BOWLER_FIT` controls how it sits on Luna: `{x:970,y:480,pixelSize:15}`. The point is the centre of the bottom brim row in the full-size `assets/luna-custom.png` coordinate system. Increase `y` to lower the brim, increase `x` to move it right, and change `pixelSize` to resize around that contact point. Try changes of 10 image pixels at a time. After drawing the hat, `HAT_EARS` redraws Luna's two ears from the PNG over it so they poke through. If you move the ears in the source image, update these rectangles too. The hat and ears share Luna's body animation, so their fit follows walking, jumping, and landing automatically.
 
 Save the file, reload `http://127.0.0.1:8080`, and select the bowler in Store to preview it (it must already be unlocked). Start a new run to check its fit during movement. When publishing an adjustment, increment `VERSION` in `sw.js` so installed games receive the updated artwork.
 
