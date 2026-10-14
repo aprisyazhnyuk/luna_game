@@ -4,7 +4,7 @@ Implemented in Task 1 on the approved development plan. The catalog at
 `assets/cosmetics/catalog.json` is validated by the pure `src/cosmetic-model.js`.
 Task 3 connects it to shared asset loading, game/Store metadata and studio
 defaults. Existing approved artwork and owner review evidence remain unchanged.
-The current grid renderer and attachment policies switch over in Task 4; approved
+Task 4 consumes catalog grids and attachment policies; approved
 review application is Task 6. See [loader compatibility](cosmetic-loader.md).
 
 ## Data and APIs
@@ -53,8 +53,7 @@ Nonempty attachment objects contain only the relevant category parameter:
 | shoes | `pawClip`: 0–4096 | depth removed above each paw's bottom before shoe drawing; current heels use 24, others 0 |
 | mark | `counterStretch`: true | retain emblem proportions through torso stretch, using the existing flank mask |
 
-These fields describe current rendering behavior. Task 4 will consume them;
-Task 1 does not change the rig. New PNG entries can use these same behaviors
+These fields describe current rendering behavior. Task 4 consumes them without changing the rig or current pixels. New PNG entries can use these same behaviors
 without new ID branches. Concept reference metadata is deferred to Task 5 and
 must be introduced with explicit schema compatibility handling, rather than
 silently accepting unknown fields now.

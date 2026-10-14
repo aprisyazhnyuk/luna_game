@@ -55,22 +55,46 @@ try{
   console.log(`Shared catalog, nine Studio items/import/reset/export and save isolation passed at ${path}`);
  }
  {
-  const context=await browser.newContext();const page=await context.newPage(),data=structuredClone(catalog);
+  const context=await browser.newContext({reducedMotion:'reduce'});const page=await context.newPage(),data=structuredClone(catalog);
   data.items.find(item=>item.id==='bowler').name='Catalog bowler label';
   for(const category of ['hat','shoes','mark']){
    const base=data.items.find(item=>item.category===category&&item.fit);
    data.items.push({...structuredClone(base),id:`new-${category}`,name:`New ${category}`,art:{kind:'png',asset:'assets/cosmetics/bowler.png'}});
   }
+  await page.addInitScript(()=>localStorage.setItem('luna.wardrobe.v2',JSON.stringify({version:2,bestTreats:135,unlocked:[],equipped:{hat:'none',mark:'original',shoes:'bare'}})));
   await context.route('**/assets/cosmetics/catalog.json',route=>route.fulfill({json:data}));
   await page.goto(origin+'/');await page.waitForFunction(()=>document.querySelector('#offline-status').textContent.includes('Local development'));
   await page.click('#open-store');assert.equal(await page.locator('.cosmetic-option').count(),14);
   assert.match(await page.textContent('[data-item="bowler"]'),/Catalog bowler label/);
-  for(const category of ['hat','shoes','mark'])assert.equal(await page.locator(`[data-item="new-${category}"]`).count(),1);
+  const tabs={hat:'Hats',shoes:'Shoes',mark:'Body marks'};
+  let previous=await page.evaluate(()=>document.querySelector('#scene').toDataURL());
+  for(const category of ['hat','shoes','mark']){
+   assert.equal(await page.locator(`[data-item="new-${category}"]`).count(),1);
+   await page.getByRole('tab',{name:tabs[category],exact:true}).click();
+   await page.click(`[data-item="new-${category}"]`);
+   const rendered=await page.evaluate(()=>document.querySelector('#scene').toDataURL());
+   assert.notEqual(rendered,previous,`${category} PNG must be visible in the game`);previous=rendered;
+  }
+  await page.click('#done-store');
   await page.goto(origin+'/tools/wardrobe-preview/');await page.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Every hat'));
   for(const category of ['hat','shoes','mark'])await page.selectOption(`#outfit-${category}`,`new-${category}`);
   assert.match(await page.textContent('#source-label'),/No concept reference/);
   const count=await page.evaluate(async()=>{const {getCosmeticSnapshot}=await import('../../src/cosmetic-assets.js');return Object.values(getCosmeticSnapshot().items).filter(item=>item.image).length;});
-  assert.equal(count,4);await context.close();console.log('Catalog-only PNG entries populate loader, Store and Studio in all categories');
+  assert.equal(count,4);
+  await page.click('[data-motion="ready"]');await page.click('#pause');
+  const actual=await page.evaluate(()=>document.querySelector('#native').toDataURL());
+  const expected=await page.evaluate(async()=>{
+   const {drawImageLuna,lunaPose}=await import('../../src/animation.js');
+   const {createRun}=await import('../../src/engine.js');
+   const image=new Image();image.src='../../assets/luna-custom.png';await image.decode();
+   const canvas=document.createElement('canvas');canvas.width=150;canvas.height=110;
+   const c=canvas.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#f7f7f2';c.fillRect(0,0,150,110);
+   c.fillStyle='#d7dacf';c.fillRect(8,97,134,.5);
+   drawImageLuna(c,image,73,96,lunaPose(createRun(),0),{hat:'new-hat',shoes:'new-shoes',mark:'new-mark'});
+   return canvas.toDataURL();
+  });
+  assert.ok(actual===expected,'Studio overrides must match the applied renderer for new PNG categories');
+  await context.close();console.log('Catalog-only PNG items visibly render in every game category and match Studio at a fixed pose');
  }
  {
   const context=await browser.newContext();const page=await context.newPage();

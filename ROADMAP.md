@@ -50,8 +50,9 @@ release publication without the owner's instruction. Task 1 (shared catalog and
 validation) is complete with baseline fixtures and verification evidence; active
 consumers remain unchanged. Task 2 adds earned-ID save migration, preserving
 legacy saves and current reward targets. Task 3 connects shared catalog consumers
-and generic asset loading, with unchanged visuals/saves. Next engineering task:
-declarative attachment rendering.
+and generic asset loading, with unchanged visuals/saves. Task 4 makes grid/PNG
+attachments declarative with exact outfit parity. Next engineering task: complete
+the shared studio/review model.
 
 ## Next iteration: destinations and increasing challenge
 

@@ -1,0 +1,564 @@
+{
+  "browser": "155.0.8059.40",
+  "deviceScaleFactor": 1,
+  "poses": "3026d576e1de5621df814cf63795e5317691a09a2ec3ee44348ef40b503bdceb",
+  "jobs": [
+    {
+      "id": "all48-stand",
+      "pose": {
+        "bob": 0,
+        "stretch": 1,
+        "grounded": true,
+        "blink": false,
+        "legs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "lift": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "none",
+          "shoes": "bare",
+          "mark": "original"
+        },
+        {
+          "hat": "none",
+          "shoes": "bare",
+          "mark": "star"
+        },
+        {
+          "hat": "none",
+          "shoes": "bare",
+          "mark": "skull"
+        },
+        {
+          "hat": "none",
+          "shoes": "heels",
+          "mark": "original"
+        },
+        {
+          "hat": "none",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "none",
+          "shoes": "heels",
+          "mark": "skull"
+        },
+        {
+          "hat": "none",
+          "shoes": "runners",
+          "mark": "original"
+        },
+        {
+          "hat": "none",
+          "shoes": "runners",
+          "mark": "star"
+        },
+        {
+          "hat": "none",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "none",
+          "shoes": "sandals",
+          "mark": "original"
+        },
+        {
+          "hat": "none",
+          "shoes": "sandals",
+          "mark": "star"
+        },
+        {
+          "hat": "none",
+          "shoes": "sandals",
+          "mark": "skull"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "bare",
+          "mark": "original"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "bare",
+          "mark": "star"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "bare",
+          "mark": "skull"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "original"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "skull"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "runners",
+          "mark": "original"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "runners",
+          "mark": "star"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "sandals",
+          "mark": "original"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "sandals",
+          "mark": "star"
+        },
+        {
+          "hat": "bowler",
+          "shoes": "sandals",
+          "mark": "skull"
+        },
+        {
+          "hat": "witch",
+          "shoes": "bare",
+          "mark": "original"
+        },
+        {
+          "hat": "witch",
+          "shoes": "bare",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "bare",
+          "mark": "skull"
+        },
+        {
+          "hat": "witch",
+          "shoes": "heels",
+          "mark": "original"
+        },
+        {
+          "hat": "witch",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "heels",
+          "mark": "skull"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "original"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "witch",
+          "shoes": "sandals",
+          "mark": "original"
+        },
+        {
+          "hat": "witch",
+          "shoes": "sandals",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "sandals",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "bare",
+          "mark": "original"
+        },
+        {
+          "hat": "crown",
+          "shoes": "bare",
+          "mark": "star"
+        },
+        {
+          "hat": "crown",
+          "shoes": "bare",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "heels",
+          "mark": "original"
+        },
+        {
+          "hat": "crown",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "crown",
+          "shoes": "heels",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "runners",
+          "mark": "original"
+        },
+        {
+          "hat": "crown",
+          "shoes": "runners",
+          "mark": "star"
+        },
+        {
+          "hat": "crown",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "star"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "skull"
+        }
+      ]
+    },
+    {
+      "id": "combined-stand",
+      "pose": {
+        "bob": 0,
+        "stretch": 1,
+        "grounded": true,
+        "blink": false,
+        "legs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "lift": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-walk",
+      "pose": {
+        "bob": -1.1995649580132253,
+        "stretch": 1,
+        "grounded": true,
+        "blink": false,
+        "legs": [
+          -0.05790476190476196,
+          0.12801679300291557,
+          0.12801679300291557,
+          -0.05790476190476196
+        ],
+        "lift": [
+          0,
+          2.8087046119192114,
+          2.8087046119192114,
+          0
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-takeoff",
+      "pose": {
+        "bob": 0,
+        "stretch": 1.00546875,
+        "grounded": false,
+        "blink": false,
+        "legs": [
+          0,
+          0,
+          0.140625,
+          0.1171875
+        ],
+        "lift": [
+          0,
+          0,
+          0.46875,
+          0.3125
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-apex",
+      "pose": {
+        "bob": 0,
+        "stretch": 1.035,
+        "grounded": false,
+        "blink": false,
+        "legs": [
+          -0.75,
+          -0.9,
+          0.9,
+          0.75
+        ],
+        "lift": [
+          2,
+          3,
+          3,
+          2
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-reach",
+      "pose": {
+        "bob": 0,
+        "stretch": 1.0046476611000275,
+        "grounded": false,
+        "blink": false,
+        "legs": [
+          0.03795415818352521,
+          -0.17544445224503424,
+          -0.07127484479911861,
+          0.012871769572097569
+        ],
+        "lift": [
+          0.18861113061258572,
+          1.1886111306125857,
+          0.3983709514309326,
+          0.2655806342872884
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-landing",
+      "pose": {
+        "bob": -0.3451191929184303,
+        "stretch": 0.9208165964798618,
+        "grounded": true,
+        "blink": false,
+        "legs": [
+          -0.3516594729409608,
+          0.1945238095238081,
+          0.1945238095238081,
+          -0.3516594729409608
+        ],
+        "lift": [
+          1.0698645979869648,
+          0,
+          0,
+          1.0698645979869648
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    },
+    {
+      "id": "combined-blink",
+      "pose": {
+        "bob": 0,
+        "stretch": 1,
+        "grounded": true,
+        "blink": true,
+        "legs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "lift": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "outfits": [
+        {
+          "hat": "bowler",
+          "shoes": "heels",
+          "mark": "star"
+        },
+        {
+          "hat": "witch",
+          "shoes": "runners",
+          "mark": "skull"
+        },
+        {
+          "hat": "crown",
+          "shoes": "sandals",
+          "mark": "original"
+        }
+      ]
+    }
+  ],
+  "inputs": {
+    "src/animation.js": "2e962c7eb9c2c390700f9ae4e86da4ec9d8922c8708876f3bd450b2f30cd1585",
+    "src/cosmetics.js": "dad7dd020bc1318eae59d35bb28c114621c881ddb07c037c3461768a798fdb46",
+    "src/cosmetic-art.js": "6e2c9d99c14b8ee6d2e4213e4018ba3647f98203704bc65f6fcdc3407d36849a",
+    "src/cosmetic-assets.js": "0b6f02d146780d8e45caeb0bd946af1abe0da1418b06b45d5118d7a0805f5798",
+    "src/pixels.js": "9cc9c386044d0298cb9b7a47b7c7675b369f52c1599cf2deeea3214190eca3df",
+    "assets/luna-custom.png": "be2bad83b61aabebd6d2fa1f4f69934611c75d646817df4b7fe83d7eae7cad6a",
+    "assets/cosmetics/bowler.png": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876",
+    "assets/cosmetics/bowler.json": "35ea052d08d55ce7acfe6fb46b6c23ab2c5538afbd1dad2e9d34a6ddaab20d10"
+  },
+  "images": {
+    "all48-stand-native.png": "c833314c757388c6da1209f3c21f3163035cab8991312dbc6cfc04715b7ee72e",
+    "all48-stand-enlarged.png": "3a5bd3a935fcf4d54f888520092365a37e89e2725a78e02d5ea84e91c3d59e09",
+    "combined-stand-native.png": "252705f9dfd5f142955129a275d397a84b818a8e7ea6e163766e2f87e00c71fb",
+    "combined-stand-enlarged.png": "3b63183941de260677a9ae0e2efa859d8b3324a3badd9d99b25189286f84e4dd",
+    "combined-walk-native.png": "533e25db28bd1e6c1506a14fb45a32552ff9a546eacb5f1858589bb3d09dea42",
+    "combined-walk-enlarged.png": "5c9ad296281885f9d690de2d4305c9235d9a498afae8dce463bb099fd0c91859",
+    "combined-takeoff-native.png": "f323cc699d1c4e0bf49ea28859f428c90a080c2ee4b1233f69b949c78a87d7a1",
+    "combined-takeoff-enlarged.png": "179a9c7e630b9b8ea0c4d3cbbffe7905204aad8613f08850ea1d765289c6150a",
+    "combined-apex-native.png": "86b95384d5c8437cab7c89fa19796b54e156455ed6251fdc1eda158ef028d3de",
+    "combined-apex-enlarged.png": "31d01641f8bbaee13e995705926407249a1437bc69f13b1e4a42ba49a831db9c",
+    "combined-reach-native.png": "36ad76a9077fb1a153b54e8d6af480f6366a1abf20ec995e0118bf06e5ce2f22",
+    "combined-reach-enlarged.png": "9bd0e418719e3545eeca8720da76366e22d9ae57e01b5b3e248161e39514aefd",
+    "combined-landing-native.png": "0237f6a58a09e6b37a7e5f07ee1f38356a187029b4ac60e9c24b46935496b424",
+    "combined-landing-enlarged.png": "34e713eed6aed2416c9d9e0dbd566f7a3e28f33dda409b997c5f5165aefc4d4b",
+    "combined-blink-native.png": "51d5eefc7a4f426d8f9cc0a1d9d8032838f16926369eaf324cf430a992392c82",
+    "combined-blink-enlarged.png": "201cbd9ab6302270d027e0987c9cea3da586aa8617e15b4b8ba42be91ef1d54c"
+  }
+}

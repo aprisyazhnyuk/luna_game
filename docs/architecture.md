@@ -200,3 +200,12 @@ The previous named bowler loader is replaced; its rendering API remains a generi
 compatibility adapter. Worker v17 includes catalog/model resources. Existing grid
 and attachment rendering remains for Task 4, and application remains Task 6.
 See [loader lifecycle](cosmetic-loader.md) for startup and Node setup contracts.
+
+## Task 4 implementation status
+
+The shared renderer now consumes catalog grid/PNG art, fits, palettes, ears and
+attachment parameters. Named hat/heel conditions and legacy-grid prerequisites
+are removed from normal drawing. All character rig transforms/masks and current
+item data remain unchanged, with exact 48-outfit and animation-pose parity.
+Legacy art JS stays untouched as an independent historical test reference, with
+no runtime/studio imports. See [rendering contract](cosmetic-rendering.md).

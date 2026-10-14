@@ -47,3 +47,8 @@ test('imports reject outside asset paths and malformed animation poses',()=>{
   const source=review();corrupt(source);assert.throws(()=>parseReview(source,defaults));
  }
 });
+
+test('a grid review cannot substitute unavailable grid art for an applied PNG',()=>{
+ const source=review();source.fits.hat.bowler={kind:'grid',x:817,y:373,scale:1.91};
+ assert.throws(()=>parseReview(source,defaults),/grid artwork/i);
+});
