@@ -2,9 +2,10 @@
 
 Implemented in Task 1 on the approved development plan. The catalog at
 `assets/cosmetics/catalog.json` is validated by the pure `src/cosmetic-model.js`.
-It is not yet used by the game, Store or studio; consumer integration is Task 3.
-Do not edit it expecting the live game to change yet. Existing runtime files,
-artwork and owner review evidence remain unchanged.
+Task 3 connects it to shared asset loading, game/Store metadata and studio
+defaults. Existing approved artwork and owner review evidence remain unchanged.
+The current grid renderer and attachment policies switch over in Task 4; approved
+review application is Task 6. See [loader compatibility](cosmetic-loader.md).
 
 ## Data and APIs
 
@@ -62,7 +63,7 @@ silently accepting unknown fields now.
 `validateAssetPath(path)` accepts project-relative PNGs under `assets/`, with
 portable ASCII components; rejects traversal, absolute paths, external/data URLs,
 query/fragment strings, percent encoding, backslashes, empty components, and
-trailing spaces/dots. Runtime and CLI still must resolve paths within the project
+trailing spaces/dots. The runtime resolves paths relative to the module project root. The application CLI must resolve paths within the project
 and reject escaping symlinks; lexical validation alone cannot check filesystem
 containment. Review adapters may separately permit `concepts/` and embedded PNGs;
 the active catalog must never contain candidate paths/data URLs.

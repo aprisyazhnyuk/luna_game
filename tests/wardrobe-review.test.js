@@ -1,3 +1,4 @@
+import {initializeCatalog} from './helpers/catalog.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -5,6 +6,7 @@ import {defaultFits,clone,parseReview} from '../tools/wardrobe-preview/review-mo
 import {lunaPose} from '../src/animation.js';
 import {createRun} from '../src/engine.js';
 
+await initializeCatalog();
 const bowler=JSON.parse(await readFile(new URL('../assets/cosmetics/bowler.json',import.meta.url),'utf8'));
 const defaults=defaultFits(bowler);
 const bowlerPng=await readFile(new URL('../assets/cosmetics/bowler.png',import.meta.url));

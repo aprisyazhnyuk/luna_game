@@ -1,26 +1,21 @@
+import {validateCatalog} from './cosmetic-model.js';
 export const SAVE_KEY='luna.wardrobe.v2';
 export const LEGACY_SAVE_KEY='luna.wardrobe.v1';
 export const CATEGORIES=Object.freeze({hat:'Hats',mark:'Body marks',shoes:'Shoes'});
-export const ITEMS=Object.freeze([
- {id:'none',category:'hat',name:'No hat',target:0},
- {id:'bowler',category:'hat',name:'Little bowler',target:30},
- {id:'witch',category:'hat',name:'Witch hat',target:75},
- {id:'crown',category:'hat',name:'Crown',target:90},
- {id:'original',category:'mark',name:'Mickey',target:0},
- {id:'star',category:'mark',name:'Lucky star',target:45},
- {id:'skull',category:'mark',name:'Skull and bones',target:135},
- {id:'bare',category:'shoes',name:'Bare paws',target:0},
- {id:'heels',category:'shoes',name:'High heels',target:105},
- {id:'runners',category:'shoes',name:'Runners',target:60},
- {id:'sandals',category:'shoes',name:'Sandals',target:120}
-]);
-export const ORIGINAL=Object.freeze({hat:'none',mark:'original',shoes:'bare'});
+// Populated only after the shared loader completes its validated transaction.
+export let ITEMS=Object.freeze([]);
+export let ORIGINAL=Object.freeze({});
+export function configureWardrobe(catalog){
+ const validated=validateCatalog(catalog);
+ ITEMS=validated.items;ORIGINAL=validated.defaults;
+}
 // Historical compatibility data must not follow future catalog reward changes.
 export const LEGACY_TARGETS=Object.freeze({none:0,bowler:30,witch:75,crown:90,original:0,star:45,skull:135,bare:0,heels:105,runners:60,sandals:120});
 const LEGACY_ALIASES=Object.freeze({boots:'runners'});
 const canonicalID=id=>typeof id==='string'&&Object.hasOwn(LEGACY_ALIASES,id)?LEGACY_ALIASES[id]:id;
 const validID=id=>typeof id==='string'&&/^[a-z][a-z0-9-]{0,63}$/.test(id)&&!['constructor','prototype'].includes(id);
 export function createWardrobe(items=ITEMS){
+ if(!Object.hasOwn(ORIGINAL,'hat'))throw new Error('Cosmetic catalog is not loaded');
  return {version:2,bestTreats:0,unlocked:items.filter(item=>item.target===0).map(item=>item.id),equipped:{...ORIGINAL}};
 }
 export function isUnlocked(wardrobe,item){return item.target===0||wardrobe.unlocked.includes(item.id);}

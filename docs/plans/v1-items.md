@@ -2,6 +2,7 @@
 
 Status: approved by the owner on 2026-10-14. Task 1 is complete on its separate
 branch; see [verification evidence](../verification/v1-task1.md). Task 2 is complete on its separate branch with [save verification evidence](../verification/v1-task2.md).
+Task 3 is complete on its separate branch with [loader verification evidence](../verification/v1-task3.md).
 Later tasks remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
@@ -245,8 +246,8 @@ Owner decides merging/publishing only after this evidence is presented.
 
 ## Recommended next task
 
-Approve task 1 first: a validated declarative catalog and reproducible baseline
-fixtures. It establishes the contract needed by loader, renderer, studio and
-application tooling while leaving active appearance and gameplay unchanged.
+Tasks 1–3 establish the catalog contract, save compatibility and asset loading.
+Next is Task 4: declarative attachment rendering, preserving the fixed-pose
+baselines while removing named-item masking and legacy grid prerequisites.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?

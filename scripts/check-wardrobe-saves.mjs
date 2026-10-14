@@ -1,7 +1,8 @@
 // Optional desktop Chrome integration checks in an isolated browser profile.
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {readFile} from 'node:fs/promises';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import {resolve,relative,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
@@ -23,10 +24,11 @@ const legacy=JSON.stringify({version:1,bestTreats:60,equipped:{hat:'bowler',mark
 try{
  browser=await chromium.launch({headless:true,channel:'chrome'});
  const origin=`http://127.0.0.1:${server.address().port}`;
- async function pageFor(path='/',values={},deny=null){
-  const context=await browser.newContext();const page=await context.newPage();
+ async function pageFor(path='/',values={},deny=null,reducedMotion='no-preference'){
+  const context=await browser.newContext({reducedMotion});const page=await context.newPage();
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(({values,deny})=>{
+   let seed=12345;Math.random=()=>{seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/2**32;};
    if(!sessionStorage.getItem('luna-test-seeded')){
     for(const [key,value] of Object.entries(values))localStorage.setItem(key,value);
     sessionStorage.setItem('luna-test-seeded','1');
@@ -89,8 +91,8 @@ try{
  }
  {
   const all=JSON.stringify({version:1,bestTreats:135,equipped:{hat:'bowler',mark:'star',shoes:'runners'}});
-  const {page,context,errors}=await pageFor('/',{'luna.wardrobe.v1':all});
-  await page.clock.install();await page.click('#jump');await page.clock.runFor(500);await page.keyboard.press('p');
+  const {page,context,errors}=await pageFor('/',{'luna.wardrobe.v1':all},null,'reduce');
+  await page.clock.install({time:0});await page.clock.pauseAt(0);await page.click('#jump');await page.clock.runFor(500);await page.keyboard.press('p');
   const before=await page.evaluate(()=>document.querySelector('#scene').toDataURL());
   await page.click('#open-store');await page.click('[data-item="crown"]');
   assert.equal(await page.evaluate(()=>document.querySelector('#scene').toDataURL()),before);
@@ -106,7 +108,12 @@ try{
    draw(canvas.getContext('2d'),run,matchMedia('(prefers-reduced-motion: reduce)').matches,image,0);
    return canvas.toDataURL();
   });
-  assert.equal(await page.evaluate(()=>document.querySelector('#scene').toDataURL()),expected);
+  const actual=await page.evaluate(()=>document.querySelector('#scene').toDataURL());
+  if(actual!==expected&&process.env.LUNA_BROWSER_DEBUG_DIR){
+   for(const [name,data] of Object.entries({actual,expected}))await writeFile(resolve(process.env.LUNA_BROWSER_DEBUG_DIR,name+'.png'),Buffer.from(data.split(',')[1],'base64'));
+  }
+  const hash=value=>createHash('sha256').update(value).digest('hex');
+  assert.equal(hash(actual),hash(expected),'Next run must use the saved outfit');
   assert.deepEqual(errors,[]);await context.close();console.log('Store keeps current run outfit; next run equips saved choice');
  }
  console.log(`Desktop integration checks passed in Chrome ${browser.version()}`);

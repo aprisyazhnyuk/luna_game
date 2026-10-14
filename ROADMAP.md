@@ -49,8 +49,9 @@ Each complete implementation task uses a separate branch and PR. No merging or
 release publication without the owner's instruction. Task 1 (shared catalog and
 validation) is complete with baseline fixtures and verification evidence; active
 consumers remain unchanged. Task 2 adds earned-ID save migration, preserving
-legacy saves and current reward targets. Next engineering task: shared catalog
-consumers and generic asset loading.
+legacy saves and current reward targets. Task 3 connects shared catalog consumers
+and generic asset loading, with unchanged visuals/saves. Next engineering task:
+declarative attachment rendering.
 
 ## Next iteration: destinations and increasing challenge
 

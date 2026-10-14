@@ -84,7 +84,7 @@ Neither preview controls nor imports change equipped items, unlocks, best scores
 
 ### Applied bowler
 
-The owner's saved pair is `concepts/luna/bowler-review/luna-bowler-fit.json` and `luna-bowler-preview.png`. The saved placement is **x 817, y 373, scale 1.91**. The approved hat and ears were extracted from `concepts/luna/04-approved-wardrobe.png`, preserving source RGB pixels. The live files are `assets/cosmetics/bowler.png` and `bowler.json`; both game and studio load them through `src/cosmetic-assets.js`. The live renderer matches the owner-saved preview PNG pixel for pixel.
+The owner's saved pair is `concepts/luna/bowler-review/luna-bowler-fit.json` and `luna-bowler-preview.png`. The saved placement is **x 817, y 373, scale 1.91**. The approved hat and ears were extracted from `concepts/luna/04-approved-wardrobe.png`, preserving source RGB pixels. The live PNG is `assets/cosmetics/bowler.png`; its active fit is the bowler entry in `assets/cosmetics/catalog.json`. The unchanged `bowler.json` remains a compatibility/provenance record. Both game and studio load the catalog and PNG through `src/cosmetic-assets.js`. The live renderer matches the owner-saved preview PNG pixel for pixel.
 
 The studio starts at the applied fit. Position uses full-size `assets/luna-custom.png` coordinates; increasing y lowers the hat. Scale is uniform. The renderer masks the original ear area above y=476 and draws the hat plus tailored ears together, leaving the face and blink intact. The PNG saved from the studio is evidence of the complete reviewed look, not a replacement for the transparent accessory PNG.
 
@@ -123,10 +123,10 @@ See [LICENSE](LICENSE), [CREDITS.md](CREDITS.md), and [PRIVACY.md](PRIVACY.md). 
 ### Shared catalog development
 
 The approved development plan is in [docs/plans/v1-items.md](docs/plans/v1-items.md).
-Task 1 adds a validated declarative catalog and reproducible baseline fixtures;
-the current game/studio still use their existing sources until the later integration
-tasks. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
-Do not modify the new catalog expecting live changes yet. All visual candidates
+Task 1 adds a validated declarative catalog and reproducible baseline fixtures.
+Task 3 connects catalog metadata and asset loading to the game and studio;
+declarative attachment rendering and approved-review application follow in later tasks. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
+Metadata and raster assets now load from the catalog; grid drawing and attachment policies still use the existing renderer until Task 4. Apply visual edits only through the owner review workflow. All visual candidates
 continue through the permanent owner review workflow above.
 
 ### Permanent earned rewards
@@ -136,3 +136,13 @@ relock rewards. Existing saves migrate using historical targets; the original
 `luna.wardrobe.v1` value remains intact, and best distance keeps its existing key.
 See [save compatibility and rollback behavior](docs/wardrobe-saves.md), including
 how older game versions handle post-migration progress.
+
+
+### Catalog loader verification
+
+The shared loader prepares the entire validated catalog/PNG snapshot before
+publishing it. See [loader lifecycle and compatibility](docs/cosmetic-loader.md).
+With Playwright available to Node and Google Chrome installed, run
+`node scripts/check-catalog-integration.mjs` to verify root/subpath startup, studio
+controls and save isolation in temporary profiles. It does not modify owner art
+or browser progress.

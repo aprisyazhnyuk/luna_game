@@ -1,4 +1,4 @@
-// Pure, versioned cosmetic contract. Runtime consumers switch over in Task 3.
+// Pure, versioned cosmetic contract shared by runtime, studio and Node tools.
 const freeze=value=>{
  if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}
  return value;

@@ -33,6 +33,10 @@ for(const path of ['/', '/luna_game/'])test(`all assets are present and availabl
  assert.match(await(await w.fetchEvent('./src/cosmetics.js')).text(),/drawShoes/);
  assert.match(await(await w.fetchEvent('./src/cosmetic-art.js')).text(),/HATS/);
  assert.match(await(await w.fetchEvent('./src/cosmetic-assets.js')).text(),/loadCosmeticAssets/);
+ const catalog=await(await w.fetchEvent('./assets/cosmetics/catalog.json')).json();
+ assert.equal(catalog.version,1);
+ assert.match(await(await w.fetchEvent('./src/cosmetic-model.js')).text(),/validateCatalog/);
+ for(const item of catalog.items.filter(item=>item.art.kind==='png'))assert.equal((await w.fetchEvent('./'+item.art.asset)).status,200);
  const bowler=await(await w.fetchEvent('./assets/cosmetics/bowler.json')).json();
  assert.deepEqual([bowler.x,bowler.y,bowler.scale],[817,373,1.91]);
  assert.equal((await w.fetchEvent('./'+bowler.asset)).status,200);

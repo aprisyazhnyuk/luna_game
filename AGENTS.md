@@ -23,8 +23,9 @@ equipped items. Downloading files does not automatically modify the repository;
 the owner places the pair in the review folder or supplies its location.
 
 Current approved bowler: `concepts/luna/bowler-review/luna-bowler-fit.json` and
-`luna-bowler-preview.png`. Live PNG/fit: `assets/cosmetics/bowler.png` and
-`bowler.json`. Keep the permanent preview easy to access; do not replace it with
+`luna-bowler-preview.png`. Live PNG: `assets/cosmetics/bowler.png`; its active
+fit is the bowler entry in `assets/cosmetics/catalog.json`. Keep the unchanged
+`assets/cosmetics/bowler.json` as a compatibility/provenance record. Keep the permanent preview easy to access; do not replace it with
 static concept images as the only review surface.
 
 The studio now edits all nine current items independently. Generic review pairs

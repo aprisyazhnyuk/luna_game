@@ -1,6 +1,7 @@
 # Luna architecture audit and proposal
 
-Status: proposed; no runtime changes in this branch. Audited 2026-10-14 at
+Original audit/proposal: approved by the owner on 2026-10-14. Implementation
+updates are recorded below. Audited 2026-10-14 at
 `50ce765245d1d118883859dde7d67443c11b19f0` on a clean `main` checkout. Local
 `main` and stored `origin/main` matched; the remote was not fetched.
 
@@ -189,3 +190,13 @@ boots aliases into `luna.wardrobe.v2` while retaining `luna.wardrobe.v1`. Startu
 persists the migrated state; best distance remains separate. Current reward targets,
 artwork, Store/input behavior and simulation remain unchanged. Worker version v16
 ships the changed modules. See [save compatibility](wardrobe-saves.md).
+
+## Task 3 implementation status
+
+Game/Store metadata and studio applied defaults now come from the shared catalog
+loader. It stages and decodes all category PNGs before publishing a complete
+snapshot, with path-specific errors, shared-path deduplication and failure retry.
+The previous named bowler loader is replaced; its rendering API remains a generic
+compatibility adapter. Worker v17 includes catalog/model resources. Existing grid
+and attachment rendering remains for Task 4, and application remains Task 6.
+See [loader lifecycle](cosmetic-loader.md) for startup and Node setup contracts.

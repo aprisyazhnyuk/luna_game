@@ -1,9 +1,11 @@
+import {initializeCatalog} from './helpers/catalog.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createWardrobe,recordTreats,restoreWardrobe,selectItem,ORIGINAL,ITEMS,CATEGORIES,LEGACY_TARGETS} from '../src/customisation.js';
 import {createRun,step} from '../src/engine.js';
 
+await initializeCatalog();
 test('each reward unlocks at its own single-run milestone, exactly once',()=>{
  const wardrobe=createWardrobe();
  const milestones=[[30,'bowler'],[45,'star'],[60,'runners'],[75,'witch'],[90,'crown'],[105,'heels'],[120,'sandals'],[135,'skull']];
