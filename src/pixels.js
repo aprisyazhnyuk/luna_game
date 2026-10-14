@@ -2,9 +2,9 @@
 // stays square. Animation swaps small leg/tail poses rather than rotating art.
 export const PALETTE = Object.freeze({ X:'#42443f', G:'#96998f', L:'#d7d9d0', W:'#f7f7f2' });
 export const PIXEL = 2;
-export function stamp(c,rows,x,y,size=PIXEL) {
+export function stamp(c,rows,x,y,size=PIXEL,palette=PALETTE) {
  for(let row=0;row<rows.length;row++)for(let col=0;col<rows[row].length;col++){
-  const color=PALETTE[rows[row][col]];
+  const color=palette[rows[row][col]];
   if(color){c.fillStyle=color;c.fillRect(x+col*size,y+row*size,size,size);}
  }
 }

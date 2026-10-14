@@ -2,7 +2,6 @@ import {drawImageLuna,lunaPose} from '../../src/animation.js';
 import {createRun,jump,step} from '../../src/engine.js';
 import {loadCosmeticAssets} from '../../src/cosmetic-assets.js';
 import {drawHat,drawShoes,drawMark} from '../../src/cosmetics.js';
-import {HATS,SHOES,MARKS} from '../../src/cosmetic-art.js';
 import {stamp} from '../../src/pixels.js';
 import {ITEMS,ORIGINAL} from '../../src/customisation.js';
 import {LIMITS,clone,defaultFits,itemName,parseReview} from './review-model.js';
@@ -48,8 +47,8 @@ try {
  // Isolated artwork thumbnails; no torso mask, foot, or background baked in.
  function gridArtwork(category,id){
   if(category!=='hat'){
-   const art=(category==='shoes'?SHOES:MARKS)[id],canvas=document.createElement('canvas');
-   canvas.width=art.rows[0].length;canvas.height=art.rows.length;stamp(canvas.getContext('2d'),art.rows,0,0,1);return canvas;
+   const art=snapshot.items[id].art,canvas=document.createElement('canvas');
+   canvas.width=art.rows[0].length;canvas.height=art.rows.length;stamp(canvas.getContext('2d'),art.rows,0,0,1,snapshot.catalog.palette);return canvas;
   }
   const canvas=document.createElement('canvas');canvas.width=1536;canvas.height=1200;
   const c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
@@ -165,7 +164,7 @@ try {
    const asset=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
    const image=await load(asset);if(request!==revision)return;
    const oldImage=images.get(key(category,id));
-   const design=(category==='hat'?HATS:category==='shoes'?SHOES:MARKS)[id];
+   const design=snapshot.items[id].art;
    const width=(fit.kind==='raster'?oldImage.width:design.rows[0].length*design.size)*fit.scale;
    fits[category][id]={kind:'raster',asset,x:fit.x,y:fit.y,scale:Math.max(.01,Math.min(LIMITS[category].scale[1],Math.round(width/image.width*100)/100))};
    images.set(key(category,id),image);selectedCategory=category;sync(true);

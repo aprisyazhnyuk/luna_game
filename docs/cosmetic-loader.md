@@ -68,12 +68,10 @@ preserved. The optional old `defaultFits(bowler)` argument remains a compatibili
 adapter; normal startup calls it without a named bowler fit. Studio controls,
 PNG imports, resets and exports do not write player localStorage or active files.
 
-Task 3 deliberately retains existing drawing APIs and grid/attachment code.
-The active bowler raster uses its catalog fit; current grid fits/data match the
-old renderer exactly but full declarative grid/attachment consumption is Task 4.
-Loading/listing a new PNG in a category does not yet guarantee correct attachment
-rendering for that new item. Task 4 removes the remaining named masking conditions
-and grid prerequisites; Task 5 completes generic studio handling; Task 6 applies
+Task 3 retained existing drawing APIs and grid/attachment code; Task 4 now consumes the shared entries.
+The active bowler and every grid/PNG item now use their catalog fits/art/policies.
+Task 4 removes named masking conditions and grid prerequisites; new PNG items
+render through the same category paths as current ones. Task 5 completes generic studio handling; Task 6 applies
 approved reviews. No new cosmetic is shipped or approved by synthetic tests.
 
 The approved bowler PNG and both owner review files are unchanged.

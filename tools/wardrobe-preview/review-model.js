@@ -53,7 +53,12 @@ export function parseReview(data,defaults){
  const fits={};
  for(const [category,items] of Object.entries(defaults)){
   fits[category]={};
-  for(const id of Object.keys(items))fits[category][id]=validateFit(category,data.fits?.[category]?.[id]);
+  for(const id of Object.keys(items)){
+   const fit=validateFit(category,data.fits?.[category]?.[id]);
+   const item=ITEMS.find(item=>item.category===category&&item.id===id);
+   if(fit.kind==='grid'&&item?.art.kind!=='grid')throw new Error(`Grid artwork unavailable for ${id}`);
+   fits[category][id]=fit;
+  }
  }
  const outfit={};
  for(const category of ['hat','mark','shoes']){

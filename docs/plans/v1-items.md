@@ -3,6 +3,7 @@
 Status: approved by the owner on 2026-10-14. Task 1 is complete on its separate
 branch; see [verification evidence](../verification/v1-task1.md). Task 2 is complete on its separate branch with [save verification evidence](../verification/v1-task2.md).
 Task 3 is complete on its separate branch with [loader verification evidence](../verification/v1-task3.md).
+Task 4 is complete on its separate branch with [rendering verification evidence](../verification/v1-task4.md).
 Later tasks remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
@@ -246,8 +247,8 @@ Owner decides merging/publishing only after this evidence is presented.
 
 ## Recommended next task
 
-Tasks 1–3 establish the catalog contract, save compatibility and asset loading.
-Next is Task 4: declarative attachment rendering, preserving the fixed-pose
-baselines while removing named-item masking and legacy grid prerequisites.
+Tasks 1–4 establish catalog data, save compatibility, loading and declarative
+rendering. Next is Task 5: complete the shared studio/review model and backward
+compatibility before building the approved-review application command.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?

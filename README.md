@@ -84,7 +84,7 @@ Neither preview controls nor imports change equipped items, unlocks, best scores
 
 ### Applied bowler
 
-The owner's saved pair is `concepts/luna/bowler-review/luna-bowler-fit.json` and `luna-bowler-preview.png`. The saved placement is **x 817, y 373, scale 1.91**. The approved hat and ears were extracted from `concepts/luna/04-approved-wardrobe.png`, preserving source RGB pixels. The live PNG is `assets/cosmetics/bowler.png`; its active fit is the bowler entry in `assets/cosmetics/catalog.json`. The unchanged `bowler.json` remains a compatibility/provenance record. Both game and studio load the catalog and PNG through `src/cosmetic-assets.js`. The live renderer matches the owner-saved preview PNG pixel for pixel.
+The owner's saved pair is `concepts/luna/bowler-review/luna-bowler-fit.json` and `luna-bowler-preview.png`. The saved placement is **x 817, y 373, scale 1.91**. The approved hat and ears were extracted from `concepts/luna/04-approved-wardrobe.png`, preserving source RGB pixels. The live PNG is `assets/cosmetics/bowler.png`; its active fit is the bowler entry in `assets/cosmetics/catalog.json`. The unchanged `bowler.json` remains a compatibility/provenance record. Both game and studio load the catalog and PNG through `src/cosmetic-assets.js`. The bowler character pixels match the owner-saved preview at its original camera; the older studio’s decorative ground line is checked separately. Current game/studio rendering also matches the fixed-pose baselines.
 
 The studio starts at the applied fit. Position uses full-size `assets/luna-custom.png` coordinates; increasing y lowers the hat. Scale is uniform. The renderer masks the original ear area above y=476 and draws the hat plus tailored ears together, leaving the face and blink intact. The PNG saved from the studio is evidence of the complete reviewed look, not a replacement for the transparent accessory PNG.
 
@@ -92,7 +92,7 @@ The studio starts at the applied fit. Position uses full-size `assets/luna-custo
 
 ### Other artwork
 
-The remaining hats, shoes, and marks use `HATS`, `SHOES`, and `MARKS` in `src/cosmetic-art.js`. Pixel rows use X (charcoal), G (grey), L (light grey), W (cream), and . (transparent); colors are in `src/pixels.js`. The old `HATS.bowler` grid is a fallback; editing it does not change the approved raster bowler. To avoid further concept-to-game differences, future approved raster accessories should retain their exact PNG and placement.
+All hats, shoes, and marks now use grid rows or PNG references in `assets/cosmetics/catalog.json`. The unchanged `src/cosmetic-art.js` is retained as a historical parity reference and is no longer imported by the game or studio. Pixel rows use X (charcoal), G (grey), L (light grey), W (cream), and . (transparent); colors are in `src/pixels.js`. The old `HATS.bowler` grid is historical artwork; editing it does not change the approved raster bowler. To avoid further concept-to-game differences, future approved raster accessories should retain their exact PNG and placement.
 
 `src/cosmetics.js` draws hats on the torso and shoes within each paw's transform. High heels replace the paw bottom to leave the gap between heel and toe empty; marks counter torso squash to retain their proportions. After applying reviewed files, reload the local game, select the unlocked item in Store, and start a new run. Include new runtime PNG/JSON/modules in `sw.js` and increment its version for offline updates. The studio itself is a development tool and is not bundled into the offline game.
 
@@ -125,8 +125,8 @@ See [LICENSE](LICENSE), [CREDITS.md](CREDITS.md), and [PRIVACY.md](PRIVACY.md). 
 The approved development plan is in [docs/plans/v1-items.md](docs/plans/v1-items.md).
 Task 1 adds a validated declarative catalog and reproducible baseline fixtures.
 Task 3 connects catalog metadata and asset loading to the game and studio;
-declarative attachment rendering and approved-review application follow in later tasks. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
-Metadata and raster assets now load from the catalog; grid drawing and attachment policies still use the existing renderer until Task 4. Apply visual edits only through the owner review workflow. All visual candidates
+Task 4 makes attachment rendering declarative; approved-review application follows in Task 6. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
+Metadata, grid/PNG drawing, fits and attachment policies now come from the shared catalog. Apply visual edits only through the owner review workflow. All visual candidates
 continue through the permanent owner review workflow above.
 
 ### Permanent earned rewards
