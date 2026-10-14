@@ -1,0 +1,97 @@
+{
+  "version": 2,
+  "type": "luna-wardrobe-review",
+  "status": "fixture-not-owner-approval",
+  "fits": {
+    "hat": {
+      "bowler": {
+        "kind": "raster",
+        "asset": "assets/cosmetics/bowler.png",
+        "x": 817,
+        "y": 373,
+        "scale": 1.91
+      },
+      "witch": {
+        "kind": "grid",
+        "x": 806,
+        "y": 156,
+        "scale": 1
+      },
+      "crown": {
+        "kind": "grid",
+        "x": 892,
+        "y": 306,
+        "scale": 1
+      }
+    },
+    "shoes": {
+      "heels": {
+        "kind": "grid",
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      },
+      "runners": {
+        "kind": "grid",
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      },
+      "sandals": {
+        "kind": "grid",
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      }
+    },
+    "mark": {
+      "original": {
+        "kind": "grid",
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      },
+      "star": {
+        "kind": "grid",
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      },
+      "skull": {
+        "kind": "grid",
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      }
+    }
+  },
+  "outfit": {
+    "hat": "bowler",
+    "mark": "original",
+    "shoes": "bare"
+  },
+  "selectedCategory": "hat",
+  "review": {
+    "motion": "walk",
+    "playbackSpeed": 1,
+    "height": 0,
+    "pose": {
+      "bob": -1.1995649580132253,
+      "stretch": 1,
+      "grounded": true,
+      "blink": false,
+      "legs": [
+        -0.05790476190476196,
+        0.12801679300291557,
+        0.12801679300291557,
+        -0.05790476190476196
+      ],
+      "lift": [
+        0,
+        2.8087046119192114,
+        2.8087046119192114,
+        0
+      ]
+    }
+  }
+}

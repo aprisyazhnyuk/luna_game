@@ -1,0 +1,212 @@
+[
+  {
+    "id": "stand",
+    "run": {
+      "phase": "ready",
+      "y": 0,
+      "vy": 0,
+      "time": 0,
+      "jumpTime": null,
+      "landTime": null
+    },
+    "animationTime": 0,
+    "pose": {
+      "bob": 0,
+      "stretch": 1,
+      "grounded": true,
+      "blink": false,
+      "legs": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "lift": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "id": "walk",
+    "run": {
+      "phase": "running",
+      "y": 0,
+      "vy": 0,
+      "time": 0.48,
+      "jumpTime": null,
+      "landTime": null
+    },
+    "animationTime": 0.48,
+    "pose": {
+      "bob": -1.1995649580132253,
+      "stretch": 1,
+      "grounded": true,
+      "blink": false,
+      "legs": [
+        -0.05790476190476196,
+        0.12801679300291557,
+        0.12801679300291557,
+        -0.05790476190476196
+      ],
+      "lift": [
+        0,
+        2.8087046119192114,
+        2.8087046119192114,
+        0
+      ]
+    }
+  },
+  {
+    "id": "takeoff",
+    "run": {
+      "phase": "running",
+      "y": 11.671875,
+      "vy": 453.75,
+      "time": 0.025,
+      "jumpTime": 0,
+      "landTime": null
+    },
+    "animationTime": 0.025,
+    "pose": {
+      "bob": 0,
+      "stretch": 1.00546875,
+      "grounded": false,
+      "blink": false,
+      "legs": [
+        0,
+        0,
+        0.140625,
+        0.1171875
+      ],
+      "lift": [
+        0,
+        0,
+        0.46875,
+        0.3125
+      ]
+    }
+  },
+  {
+    "id": "apex",
+    "run": {
+      "phase": "running",
+      "y": 105.41666666666676,
+      "vy": 95,
+      "time": 0.366666666666667,
+      "jumpTime": 0,
+      "landTime": null
+    },
+    "animationTime": 0.366666666666667,
+    "pose": {
+      "bob": 0,
+      "stretch": 1.035,
+      "grounded": false,
+      "blink": false,
+      "legs": [
+        -0.75,
+        -0.9,
+        0.9,
+        0.75
+      ],
+      "lift": [
+        2,
+        3,
+        3,
+        2
+      ]
+    }
+  },
+  {
+    "id": "reach",
+    "run": {
+      "phase": "running",
+      "y": 18.046875000000295,
+      "vy": -438.75,
+      "time": 0.8749999999999993,
+      "jumpTime": 0,
+      "landTime": null
+    },
+    "animationTime": 0.8749999999999993,
+    "pose": {
+      "bob": 0,
+      "stretch": 1.0046476611000275,
+      "grounded": false,
+      "blink": false,
+      "legs": [
+        0.03795415818352521,
+        -0.17544445224503424,
+        -0.07127484479911861,
+        0.012871769572097569
+      ],
+      "lift": [
+        0.18861113061258572,
+        1.1886111306125857,
+        0.3983709514309326,
+        0.2655806342872884
+      ]
+    }
+  },
+  {
+    "id": "landing",
+    "run": {
+      "phase": "running",
+      "y": 0,
+      "vy": 0,
+      "time": 0.9249999999999992,
+      "jumpTime": 0,
+      "landTime": 0.9166666666666659
+    },
+    "animationTime": 0.9249999999999992,
+    "pose": {
+      "bob": -0.3451191929184303,
+      "stretch": 0.9208165964798618,
+      "grounded": true,
+      "blink": false,
+      "legs": [
+        -0.3516594729409608,
+        0.1945238095238081,
+        0.1945238095238081,
+        -0.3516594729409608
+      ],
+      "lift": [
+        1.0698645979869648,
+        0,
+        0,
+        1.0698645979869648
+      ]
+    }
+  },
+  {
+    "id": "blink",
+    "run": {
+      "phase": "ready",
+      "y": 0,
+      "vy": 0,
+      "time": 0,
+      "jumpTime": null,
+      "landTime": null
+    },
+    "animationTime": 2.8299999999999836,
+    "pose": {
+      "bob": 0,
+      "stretch": 1,
+      "grounded": true,
+      "blink": true,
+      "legs": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "lift": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+]

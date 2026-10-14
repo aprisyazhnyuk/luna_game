@@ -1,0 +1,67 @@
+[
+  {
+    "id": "new",
+    "saved": null,
+    "expected": {
+      "version": 1,
+      "bestTreats": 0,
+      "equipped": {
+        "hat": "none",
+        "mark": "original",
+        "shoes": "bare"
+      }
+    }
+  },
+  {
+    "id": "all-unlocked",
+    "saved": "{\"version\":1,\"bestTreats\":135,\"equipped\":{\"hat\":\"crown\",\"mark\":\"skull\",\"shoes\":\"sandals\"}}",
+    "expected": {
+      "version": 1,
+      "bestTreats": 135,
+      "equipped": {
+        "hat": "crown",
+        "mark": "skull",
+        "shoes": "sandals"
+      }
+    }
+  },
+  {
+    "id": "boots-alias",
+    "saved": "{\"version\":1,\"bestTreats\":60,\"equipped\":{\"hat\":\"bowler\",\"mark\":\"star\",\"shoes\":\"boots\"}}",
+    "expected": {
+      "version": 1,
+      "bestTreats": 60,
+      "equipped": {
+        "hat": "bowler",
+        "mark": "star",
+        "shoes": "runners"
+      }
+    }
+  },
+  {
+    "id": "partial-invalid",
+    "saved": "{\"version\":1,\"bestTreats\":30,\"equipped\":{\"hat\":\"bowler\",\"mark\":\"star\",\"shoes\":\"unknown\"}}",
+    "expected": {
+      "version": 1,
+      "bestTreats": 30,
+      "equipped": {
+        "hat": "bowler",
+        "mark": "original",
+        "shoes": "bare"
+      }
+    }
+  },
+  {
+    "id": "corrupt",
+    "saved": "broken",
+    "expected": {
+      "version": 1,
+      "bestTreats": 0,
+      "equipped": {
+        "hat": "none",
+        "mark": "original",
+        "shoes": "bare"
+      }
+    }
+  }
+]

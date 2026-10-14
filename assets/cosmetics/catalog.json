@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "palette": {
+    "X": "#42443f",
+    "G": "#96998f",
+    "L": "#d7d9d0",
+    "W": "#f7f7f2"
+  },
+  "earRows": [
+    "..XX...",
+    ".XGGX..",
+    ".XWGX..",
+    "XWWWGX.",
+    "XWWWGX.",
+    "XWWGGX.",
+    "XGGGGX.",
+    ".XXXX.."
+  ],
+  "defaults": {
+    "hat": "none",
+    "mark": "original",
+    "shoes": "bare"
+  },
+  "items": [
+    {
+      "id": "none",
+      "category": "hat",
+      "name": "No hat",
+      "target": 0,
+      "art": {
+        "kind": "none"
+      },
+      "fit": null,
+      "attachment": {}
+    },
+    {
+      "id": "bowler",
+      "category": "hat",
+      "name": "Little bowler",
+      "target": 30,
+      "art": {
+        "kind": "png",
+        "asset": "assets/cosmetics/bowler.png"
+      },
+      "fit": {
+        "x": 817,
+        "y": 373,
+        "scale": 1.91
+      },
+      "attachment": {
+        "earMaskY": 476
+      }
+    },
+    {
+      "id": "witch",
+      "category": "hat",
+      "name": "Witch hat",
+      "target": 75,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          "..............XXXXXXX.......",
+          "...........XXXXXXXXXXX......",
+          "..........XXXXXXGGGGXXX.....",
+          ".........XXXXXXXGXXXXXX.....",
+          "........XXXXXXXXXX...XXX....",
+          "........XXX.XXXXX.....X.....",
+          "........XX...XXXX...........",
+          ".............XXXX...........",
+          ".............XXGXX..........",
+          "............XXXGXX..........",
+          "............XXGGXXX.........",
+          "............XXGGGXXX........",
+          "...........XXXGGGGXX........",
+          "...........XXXGGGGXXX.......",
+          "...........XXXGGGGGXX.......",
+          "..........XXXXGGGGGXXX......",
+          "..........XXXXGGGGGGXX......",
+          ".........XXXXXXGGGGGXXX.....",
+          ".........XXXXXXGGGGGXXX.....",
+          "........XXXXXXXXGGGGGXX.....",
+          ".......XXXXXXXXLLLLLLLLX....",
+          "......XLLLLLLLLLXWXLLLLLX...",
+          "....XXLLLLLLLLLLXXXLLLLLLX..",
+          "..XXXXLLLLLLLLLLLLLLXXXXXXX.",
+          ".XXXXLLLLLXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "XXXXXXXXXXXXXXXXXXXXXXXXXXX.",
+          ".XXXXXXXXXXXXX.............."
+        ],
+        "size": 12,
+        "ears": [
+          [
+            36,
+            212,
+            11
+          ],
+          [
+            246,
+            186,
+            9
+          ]
+        ]
+      },
+      "fit": {
+        "x": 806,
+        "y": 156,
+        "scale": 1
+      },
+      "attachment": {
+        "earMaskY": 476
+      }
+    },
+    {
+      "id": "crown",
+      "category": "hat",
+      "name": "Crown",
+      "target": 90,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          "..........X..........",
+          ".........XWX.........",
+          "..X......XWX......X..",
+          ".XWX....XXXXX....XWX.",
+          ".XWX....XXXXX....XWX.",
+          ".XXXX...XXLXX...XXXX.",
+          "..XXXX.XXLLXXX.XXXX..",
+          "..XXLXXXXLLXXXXXXXX..",
+          "..XXXLXXXLLLXXXLXXX..",
+          "..XXXLLXLLLLXXLLXXX..",
+          "...XXLLLLLLLLLLXXX...",
+          "...XXXLLLLLLLLLXXX...",
+          "...XXGGWWWWWWWGGG....",
+          "....XGGGGGGGGGGGG....",
+          "....................."
+        ],
+        "size": 12,
+        "ears": [
+          [
+            -40,
+            74,
+            11
+          ],
+          [
+            166,
+            60,
+            9
+          ]
+        ]
+      },
+      "fit": {
+        "x": 892,
+        "y": 306,
+        "scale": 1
+      },
+      "attachment": {
+        "earMaskY": 476
+      }
+    },
+    {
+      "id": "original",
+      "category": "mark",
+      "name": "Mickey",
+      "target": 0,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          "...G.......G...",
+          ".GGGGG...GGGGG.",
+          ".GGGGG...GGGGG.",
+          "GGGGGGGGGGGGGGG",
+          ".GGGGGGGGGGGGG.",
+          ".GGGGGGGGGGGGG.",
+          "...GGGGGGGGG...",
+          "...GGGGGGGGG...",
+          "...GGGGGGGGG...",
+          "...GGGGGGGGG...",
+          "....GGGGGGG....",
+          ".....GGGGG.....",
+          ".......G......."
+        ],
+        "size": 11
+      },
+      "fit": {
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      },
+      "attachment": {
+        "counterStretch": true
+      }
+    },
+    {
+      "id": "star",
+      "category": "mark",
+      "name": "Lucky star",
+      "target": 45,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          ".......G.......",
+          ".......G.......",
+          ".......G.......",
+          "......GGG......",
+          "......GGG......",
+          ".GGGGGGGGGGGGG.",
+          "..GGGGGGGGGGG..",
+          "...GGGGGGGGG...",
+          "....GGGGGGG....",
+          "....GGGGGGG....",
+          "....GGGGGGG....",
+          "....GG...GG....",
+          "...GG.....GG...",
+          "...............",
+          "..............."
+        ],
+        "size": 10
+      },
+      "fit": {
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      },
+      "attachment": {
+        "counterStretch": true
+      }
+    },
+    {
+      "id": "skull",
+      "category": "mark",
+      "name": "Skull and bones",
+      "target": 135,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          "......GGGGG......",
+          ".....GGGGGGG.....",
+          "....GGGGGGGGG....",
+          "....GWWGGGWWG....",
+          "....GWWGGGWWG....",
+          "....GWWGGGWWG....",
+          "....GGGGWGGGG....",
+          "....GGGGGGGGG....",
+          ".....GGGGGGG.....",
+          ".....GWGGWGG.....",
+          ".GG..........GG..",
+          ".GGG........GGG..",
+          "..GGGG.....GGGG..",
+          "...GGGGGGGGGGG...",
+          ".....GGGGGGG.....",
+          "..GGGGGGGGGGGG...",
+          "..GGGGG...GGGGG..",
+          "...GG.......GGG.."
+        ],
+        "size": 8
+      },
+      "fit": {
+        "x": 604,
+        "y": 730,
+        "scale": 1
+      },
+      "attachment": {
+        "counterStretch": true
+      }
+    },
+    {
+      "id": "bare",
+      "category": "shoes",
+      "name": "Bare paws",
+      "target": 0,
+      "art": {
+        "kind": "none"
+      },
+      "fit": null,
+      "attachment": {}
+    },
+    {
+      "id": "heels",
+      "category": "shoes",
+      "name": "High heels",
+      "target": 105,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          ".XX........",
+          "XGGX.......",
+          "XGGGX......",
+          "XGGGGXXXXX.",
+          "XXXXXXXXXXX",
+          "XX....XXXXX",
+          "XX......XXX"
+        ],
+        "size": 10
+      },
+      "fit": {
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      },
+      "attachment": {
+        "pawClip": 24
+      }
+    },
+    {
+      "id": "runners",
+      "category": "shoes",
+      "name": "Runners",
+      "target": 60,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          "..XXXX.....",
+          ".XGGGGX....",
+          "XGGWGGGX...",
+          "XGGGWGGGXX.",
+          "XGGWGGGGGGX",
+          "XWWWWWWWWWX",
+          ".XXXXXXXXX."
+        ],
+        "size": 9
+      },
+      "fit": {
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      },
+      "attachment": {
+        "pawClip": 0
+      }
+    },
+    {
+      "id": "sandals",
+      "category": "shoes",
+      "name": "Sandals",
+      "target": 120,
+      "art": {
+        "kind": "grid",
+        "rows": [
+          ".XX...XX...",
+          ".XGX..XGX..",
+          "XWWGGWWGGWX",
+          "XWWGGWWGGWX",
+          "XXXXXXXXXXX"
+        ],
+        "size": 9
+      },
+      "fit": {
+        "x": 0,
+        "y": 0,
+        "scale": 1
+      },
+      "attachment": {
+        "pawClip": 0
+      }
+    }
+  ]
+}
