@@ -9,6 +9,16 @@ import {PALETTE} from '../src/pixels.js';
 const catalog=JSON.parse(await readFile(new URL('../assets/cosmetics/catalog.json',import.meta.url)));
 const copy=()=>structuredClone(catalog);
 
+test('tailored grid ears require their underlay color, but other art permits renamed palettes',()=>{
+ const source=copy();
+ source.palette.Z=source.palette.X;delete source.palette.X;
+ source.earRows=source.earRows.map(row=>row.replaceAll('X','Z'));
+ for(const item of source.items)if(item.art.rows)item.art.rows=item.art.rows.map(row=>row.replaceAll('X','Z'));
+ assert.throws(()=>validateCatalog(source),/ear underlay color/);
+ for(const item of source.items)if(item.art.ears)item.art.ears=[];
+ assert.doesNotThrow(()=>validateCatalog(source));
+});
+
 test('catalog preserves the current metadata, grids, ears, applied fits and attachment behavior',()=>{
  const valid=validateCatalog(catalog);
  assert.deepEqual(valid.defaults,ORIGINAL);assert.deepEqual(valid.palette,PALETTE);assert.deepEqual(valid.earRows,EAR);

@@ -53,6 +53,7 @@ function validateArt(art,category,palette){
  grid(art.rows,palette,'art');number(art.size,.01,256,'grid size');
  if(art.ears!==undefined){
   if(!Array.isArray(art.ears)||art.ears.length>16)fail('Invalid ears');
+  if(art.ears.length&&!Object.hasOwn(palette,'X'))fail('Missing ear underlay color X');
   for(const ear of art.ears){
    if(!Array.isArray(ear)||ear.length!==3)fail('Invalid ear tuple');
    number(ear[0],-4096,4096,'ear x');number(ear[1],-4096,4096,'ear y');number(ear[2],.01,256,'ear size');

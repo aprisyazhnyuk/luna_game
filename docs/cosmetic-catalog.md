@@ -32,6 +32,7 @@ Each item contains exactly `id`, `category`, `name`, `target`, `art`, `fit`, and
 - `{ "kind": "grid", "rows": [...], "size": 12 }`: exact palette pixels,
   optionally `ears` for hats only. Each ear is `[dx, dy, size]`; offsets are in
   the historical hat grid's size-12 coordinate system, scaled by art.size/12.
+  Nonempty `ears` require palette key `X` for their underlay color.
 
 `fit` contains exactly finite numeric `x`, `y`, and uniform `scale`:
 

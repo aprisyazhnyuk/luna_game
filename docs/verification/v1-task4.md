@@ -13,7 +13,7 @@ Verification:
 
 - New-shoe and arbitrary-ID attachment tests failed against the old renderer;
   custom-palette stamping and invalid PNG-as-grid review tests also failed before
-  their changes. Final full Node suite: 118 pass, zero failures/skips/cancellations
+  their changes. Final full Node suite: 119 pass, zero failures/skips/cancellations
   on bundled Node v24.19.0. Source rig/RNG/physics and save scenarios remain intact.
 - Chrome 155.0.8059.40: all 14 original sheets and all 16 additional sheets match
   exactly after refactoring, using the same browser/version/camera/pose inputs.
@@ -41,3 +41,11 @@ assigned rather than approximated with retired artwork. Existing actually export
 legacy bowler/v2 files still pass. Broader studio/review compatibility remains
 Task 5; exact-byte application is Task 6. Real Android and installed-worker upgrade
 verification remain later release tasks. User item adjustments remain deferred.
+
+Independent read-only review found one minor contract gap: tailored-ear underlays
+used palette `X` without requiring it. A regression renamed that key throughout
+the catalog and failed before the fix. Validation now requires `X` only for
+nonempty tailored-ear data, permitting other palettes otherwise. The reviewer
+confirmed the fix and independently passed all 39 catalog-model tests; no findings
+remain. The reviewer also independently passed the earlier 118-test suite and
+inspected browser scripts/evidence, without rerunning Chrome comparisons.
