@@ -3,6 +3,9 @@ import {draw} from './draw.js';
 import {SAVE_KEY,restoreWardrobe,recordTreats} from './customisation.js';
 import {createStore} from './store.js';
 import {isLocalhost} from './local-cache.js';
+import {loadCosmeticAssets} from './cosmetic-assets.js';
+// Complete accessory loading before the first game/store render.
+await loadCosmeticAssets();
 const $=id=>document.getElementById(id);
 const canvas=$('scene'),ctx=canvas.getContext('2d');
 let run=createRun(),lastTime=0,accumulator=0,best=0,installPrompt=null,endedAt=0,displayedPhase='',animationTime=0;
@@ -95,6 +98,7 @@ function pause(){if(run.phase==='running'){run.phase='paused';saveBest();}else i
  $('install').addEventListener('click',async()=>{if(!installPrompt)return;await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('install').hidden=true;});
  window.addEventListener('appinstalled',()=>{$('install').hidden=true;installPrompt=null;});
  if(isLocalhost(location.hostname)){
+  $('studio-link').hidden=false;
   $('offline-status').textContent='Local development · using current game files';
  }else if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{$('offline-status').textContent='Ready for offline adventures';}).catch(()=>{$('offline-status').textContent='Online play · offline setup unavailable';});

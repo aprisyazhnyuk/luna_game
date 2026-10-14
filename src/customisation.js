@@ -3,10 +3,15 @@ export const CATEGORIES=Object.freeze({hat:'Hats',mark:'Body marks',shoes:'Shoes
 export const ITEMS=Object.freeze([
  {id:'none',category:'hat',name:'No hat',target:0},
  {id:'bowler',category:'hat',name:'Little bowler',target:30},
- {id:'original',category:'mark',name:'Luna’s mark',target:0},
+ {id:'witch',category:'hat',name:'Witch hat',target:75},
+ {id:'crown',category:'hat',name:'Crown',target:90},
+ {id:'original',category:'mark',name:'Mickey',target:0},
  {id:'star',category:'mark',name:'Lucky star',target:45},
+ {id:'skull',category:'mark',name:'Skull and bones',target:135},
  {id:'bare',category:'shoes',name:'Bare paws',target:0},
- {id:'boots',category:'shoes',name:'Adventure boots',target:60}
+ {id:'heels',category:'shoes',name:'High heels',target:105},
+ {id:'runners',category:'shoes',name:'Runners',target:60},
+ {id:'sandals',category:'shoes',name:'Sandals',target:120}
 ]);
 export const ORIGINAL=Object.freeze({hat:'none',mark:'original',shoes:'bare'});
 export function createWardrobe(){return {version:1,bestTreats:0,equipped:{...ORIGINAL}};}
@@ -22,7 +27,12 @@ export function restoreWardrobe(saved){
   const data=JSON.parse(saved);
   if(data?.version!==1)return wardrobe;
   if(Number.isSafeInteger(data.bestTreats)&&data.bestTreats>=0)wardrobe.bestTreats=data.bestTreats;
-  for(const category of Object.keys(CATEGORIES))selectItem(wardrobe,category,data.equipped?.[category]);
+  for(const category of Object.keys(CATEGORIES)){
+   let id=data.equipped?.[category];
+   // Runners replace the old boots at the same milestone; keep old saves worn.
+   if(category==='shoes'&&id==='boots')id='runners';
+   selectItem(wardrobe,category,id);
+  }
  } catch {}
  return wardrobe;
 }
@@ -30,6 +40,6 @@ export function restoreWardrobe(saved){
 // the maximum makes unlocks permanent even after a shorter run or restart.
 export function recordTreats(wardrobe,treats){
  if(!Number.isSafeInteger(treats)||treats<=wardrobe.bestTreats)return [];
- const earned=ITEMS.filter(item=>item.target>wardrobe.bestTreats&&item.target<=treats);
+ const earned=ITEMS.filter(item=>item.target>wardrobe.bestTreats&&item.target<=treats).sort((a,b)=>a.target-b.target);
  wardrobe.bestTreats=treats;return earned;
 }

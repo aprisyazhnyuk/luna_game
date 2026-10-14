@@ -36,12 +36,15 @@
     <button id="close-store" class="icon-button close" aria-label="Close store">×</button>
     <h2 id="store-title">Luna’s little store</h2>
     <p class="store-intro">Collect treats in one run. Keep your rewards forever.</p>
+    <div class="store-overview">
     <canvas id="outfit-preview" width="240" height="170" role="img" aria-label="Luna wearing your selected outfit"></canvas>
-    <p id="outfit-summary" class="outfit-summary"></p>
     <div class="reward-progress"><label for="unlock-progress" id="next-reward"></label><progress id="unlock-progress" max="30" value="0"></progress><p id="treat-record"></p></div>
+    </div>
+    <p id="outfit-summary" class="outfit-summary"></p>
+    <div id="store-categories" role="tablist" aria-label="Outfit categories"></div>
     <div id="store-items"></div>
     <p id="store-saving" class="fine-print" hidden>Saving is unavailable. Your choices will last while this page is open.</p>
-    <p class="fine-print">Outfit changes apply to your next run. Treats unlock items automatically; there’s nothing to spend.</p>
+    <p class="fine-print store-hint">Outfit changes apply to your next run.</p>
     <div class="store-actions"><button id="original-look" class="secondary-button">Original look</button><button id="done-store" class="primary-button">Done</button></div>
   </dialog>
   <dialog id="help">
@@ -49,9 +52,10 @@
     <h2>How to play</h2>
     <p>Tap to jump. Avoid boxes and yarn. Collect the dots. You get three chances.</p>
     <p>Keyboard: Space or ↑ to jump; P or Escape to pause.</p>
-    <p>Visit the store to dress Luna. In one run, collect 30 treats for a hat, 45 for a new mark, or 60 for shoes. Mix your unlocked items for your next run.</p>
+    <p>Visit the store to dress Luna. Rewards start at 30 treats in one run, with a new item every 15 treats up to 135. Mix hats, shoes, and body marks for your next run.</p>
     <p>On Android, use Chrome’s <b>Install app / Add to Home screen</b> menu. Wait for the offline status below before disconnecting.</p>
     <p id="offline-status" role="status">Preparing offline play…</p>
+    <p id="studio-link" hidden><a href="./tools/wardrobe-preview/">Open Luna review studio</a></p>
     <button id="install" hidden>Install game ↗</button>
     <p class="fine-print">Best distance is saved on this device. <a href="./PRIVACY.md">Privacy</a> · <a href="./CREDITS.md">Credits</a></p>
   </dialog>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Luna · Review studio</title>
+ <link rel="stylesheet" href="./preview.css">
+ <script type="module" src="./preview.js"></script>
+</head>
+<body>
+ <main>
+  <header><p class="eyebrow">LUNA / PERMANENT REVIEW STUDIO</p><h1>Review Luna.</h1><p>Inspect looks, outfits, and movement with the actual game renderer. Adjust a proposed fit, save the JSON and preview PNG, then apply the reviewed files to the game.</p></header>
+  <section class="outfit-controls" aria-label="Preview outfit">
+   <label>Hat <select id="outfit-hat"></select></label>
+   <label>Body mark <select id="outfit-mark"></select></label>
+   <label>Shoes <select id="outfit-shoes"></select></label>
+   <button type="button" id="original">Original Luna</button>
+  </section>
+  <section class="references" aria-label="Reference and selected item">
+   <figure><canvas id="source" width="346" height="192"></canvas><figcaption id="source-label">Approved concept</figcaption></figure>
+   <figure><canvas id="accessory" width="346" height="192"></canvas><figcaption id="accessory-label">Selected item</figcaption></figure>
+  </section>
+  <div class="workspace">
+   <section class="stage" aria-label="Animated game renderer preview">
+    <div class="stage-heading"><h2>On Luna</h2><span>Enlarged · camera follows jumps</span></div>
+    <canvas id="luna" width="640" height="480" aria-label="Animated Luna outfit preview"></canvas>
+    <div class="playback" role="group" aria-label="Preview animation">
+     <button type="button" data-motion="ready">Stand</button><button type="button" data-motion="walk" aria-pressed="true">Walk</button><button type="button" data-motion="jump">Jump</button><button type="button" id="blink">Blink</button><button type="button" id="pause">Pause</button><button type="button" id="step">Step frame</button>
+    </div>
+    <label class="speed-control">Playback speed <select id="speed"><option value="0.25">¼ speed</option><option value="0.5">½ speed</option><option value="1" selected>Normal</option></select></label>
+    <div class="native"><span>Actual game size</span><canvas id="native" width="150" height="110" aria-label="Preview at actual game size"></canvas></div>
+   </section>
+   <section class="controls" aria-labelledby="fit-title"><p class="eyebrow">PREVIEW ONLY</p>
+    <label for="edit-category">Adjust <select id="edit-category"><option value="hat">Hat</option><option value="shoes">Shoes</option><option value="mark">Body mark</option></select></label>
+    <h2 id="fit-title">Item fit</h2>
+    <p id="fit-hint">Select an item to adjust its fit.</p>
+    <fieldset id="fit-controls"><legend class="sr-only">Item placement</legend>
+    <label for="x">Across <output id="x-value"></output></label><input id="x" type="range" step="1">
+    <label for="y">Down <output id="y-value"></output></label><input id="y" type="range" step="1">
+    <label for="scale">Size <output id="scale-value"></output></label><input id="scale" type="range" step="0.01">
+    </fieldset>
+    <div class="actions item-actions"><button type="button" id="load-art">Load item PNG</button><input id="art-file" type="file" accept=".png,image/png" hidden><button type="button" id="reset">Reset item</button><button type="button" id="reset-all">Reset all items</button></div>
+    <div class="actions"><button type="button" id="import">Load fit JSON</button><input id="fit-file" type="file" accept=".json,application/json" hidden><button type="button" id="export">Save fit JSON</button><button type="button" id="snapshot">Save preview PNG</button></div>
+    <p id="status" role="status">Loading current artwork…</p>
+    <p>Save the JSON and PNG in <code>concepts/luna/wardrobe-review/</code>, then tell me they are ready to apply. The JSON includes every item’s fit and any replacement PNGs. Preview adjustments do not change the game.</p>
+   </section>
+  </div>
+  <footer><a href="../../">Back to game</a><span>Preview → approve → apply the same asset</span></footer>
+ </main>
+</body>
+</html>

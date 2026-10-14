@@ -10,16 +10,30 @@ A cozy, portrait, one-tap runner starring Luna: white chest and paws, a tabby ca
 - Jump over yarn and boxes and collect little dark crispy bites.
 - Three chances per run, forgiving collision bounds, brief recovery after a bump, and a small input buffer before landing.
 - Best distance saved on this device. Automatic pause when switching away.
-- A customisation store with permanent rewards: 30 treats in one run unlock a bowler hat, 45 unlock a star mark, and 60 unlock adventure boots. Mix the three categories independently or choose the original look.
+- A customisation store with three hats, three shoe styles, and three body marks. Single-run milestones from 30 to 135 treats unlock permanent rewards. Mix the three categories independently or choose the original look.
 - Installable web app with all game assets cached for offline play.
 
 Levels, double jump, increasing difficulty, and additional cosmetic items are **planned**. See [ROADMAP.md](ROADMAP.md).
 
 ## Luna’s little store
 
-Use **Store** to preview and choose outfits. Rewards unlock immediately upon reaching a treat target within a single run. Multiple short runs do not add up to a target. Unlocks and outfit choices are saved on this device, alongside the existing best distance, and work offline. There is no currency to spend; unlocked items stay available after selecting another outfit or restarting.
+Use **Store** to preview and choose outfits. Switch between the visible **Hats**, **Body marks**, and **Shoes** tabs to see every option; the action buttons stay in view on short screens. Use Left/Right arrows, Home, or End to navigate the category tabs with a keyboard. Rewards unlock immediately upon reaching a treat target within a single run. Multiple short runs do not add up to a target. Unlocks and outfit choices are saved on this device, alongside the existing best distance, and work offline. There is no currency to spend; unlocked items stay available after selecting another outfit or restarting.
 
 Hat, body mark, and shoes have independent selections. **Original look** restores no hat, Luna’s original Mickey-shaped mark, and bare paws while keeping every reward unlocked. Changes apply to the next run; opening the store during a run pauses it, and closing the store leaves it paused until the player resumes. Outfit items do not change physics or collision bounds. Clearing browser data removes locally saved progress.
+
+| Item | Treats in one run |
+| --- | ---: |
+| Mickey body mark | Available from the start |
+| Bowler hat | 30 |
+| Star body mark | 45 |
+| Runners | 60 |
+| Witch hat | 75 |
+| Crown | 90 |
+| High heels | 105 |
+| Sandals | 120 |
+| Skull and bones body mark | 135 |
+
+The three accessory choices plus no hat / bare paws allow 48 independent outfits. Older saves keep their progress: adventure boots become runners at the same 60-treat milestone. The store always shows the next reward in treat-target order.
 
 ## Run locally
 
@@ -51,13 +65,36 @@ Launch once from the home-screen icon, then turn on airplane mode and relaunch t
 
 The [manifest enables installation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable), and the [service worker caches game files](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation). Adding to the home screen and downloading the offline cache are separate browser actions.
 
-## Editing the hat
+## Permanent Luna review studio
 
-The bowler is pixel artwork in `src/cosmetics.js`, separate from Luna's PNG. Edit the `HAT` rows to change its shape: `X` is dark outline, `G` is grey, `W` is cream, and `.` is transparent. Keep every row the same length. Colours are defined in `PALETTE` in `src/pixels.js`.
+Open **http://127.0.0.1:8080/tools/wardrobe-preview/** with the local server running, or use **? → Open Luna review studio** in the local game. This is the permanent review surface for every change to Luna's looks, movement, and items. The process is recorded in `AGENTS.md` for future development sessions.
 
-`BOWLER_FIT` controls how it sits on Luna: `{x:970,y:480,pixelSize:15}`. The point is the centre of the bottom brim row in the full-size `assets/luna-custom.png` coordinate system. Increase `y` to lower the brim, increase `x` to move it right, and change `pixelSize` to resize around that contact point. Try changes of 10 image pixels at a time. After drawing the hat, `HAT_EARS` redraws Luna's two ears from the PNG over it so they poke through. If you move the ears in the source image, update these rectangles too. The hat and ears share Luna's body animation, so their fit follows walking, jumping, and landing automatically.
+1. Prepare a candidate in the studio, keeping it separate from the live game. Extend the relevant preview controls when introducing a new appearance or animation change.
+2. Review enlarged and actual-size views, outfit combinations, walking, jumping/landing, and blinking. Slow playback or use **Step frame** to inspect movement.
+3. Adjust the candidate and download **Save fit JSON** and **Save preview PNG**. Place both in `concepts/luna/wardrobe-review/` and tell the developer the saved files are ready to apply. The browser downloads files; it does not write them into the repository automatically.
+4. Apply the exact reviewed image and saved settings, preserving the review pair. Verify that the game matches the saved preview and still animates correctly. Once the owner says to apply the saved files, no additional visual approval is required.
 
-Save the file, reload `http://127.0.0.1:8080`, and select the bowler in Store to preview it (it must already be unlocked). Start a new run to check its fit during movement. When publishing an adjustment, increment `VERSION` in `sw.js` so installed games receive the updated artwork.
+All nine items are editable, regardless of player unlocks: bowler, witch hat, crown; heels, runners, sandals; Mickey, star, skull and bones. Choosing an item in the top selectors also chooses its editor. **Adjust** switches between the currently worn hat, shoes, and mark. **Across**, **Down**, and **Size** affect only that item, and switching items retains their independent drafts. No hat and Bare paws have no artwork to adjust. Hats and their tailored ears move together; shoe offsets apply within all four paw transforms; body marks retain their proportions during torso squash. The studio includes extra headroom for the witch hat.
+
+**Load item PNG** can replace the selected item's appearance using a local transparent PNG (up to 4 MB / 4096 × 4096). A hat PNG should include its ears. Its initial displayed width is matched to the existing item; the fit sliders refine it. The original PNG bytes are embedded in the review JSON so the approved artwork travels with the settings. **Reset item** restores just the selected item, keeping other drafts. **Reset all items** restores all applied/default artwork and fits.
+
+**Save fit JSON** downloads `luna-wardrobe-fit.json`, a version 2 review containing all nine independent fits, any replacement PNGs, the selected outfit, and the current animation pose. **Save preview PNG** downloads `luna-wardrobe-preview.png`. Either save pauses the animation at the reviewed frame so the pair matches. Use Play to continue. **Load fit JSON** restores the complete review at the saved pose; Play restarts its animation. Earlier bowler-only JSON downloads still import. Malformed JSON, invalid placements, and missing/invalid images leave the current review intact.
+
+Neither preview controls nor imports change equipped items, unlocks, best scores, or live artwork. Drafts live in the page until downloaded; save before refreshing. Future movement or character changes must also be prepared in this studio before application. The existing source-space animation rig remains the shared renderer.
+
+### Applied bowler
+
+The owner's saved pair is `concepts/luna/bowler-review/luna-bowler-fit.json` and `luna-bowler-preview.png`. The saved placement is **x 817, y 373, scale 1.91**. The approved hat and ears were extracted from `concepts/luna/04-approved-wardrobe.png`, preserving source RGB pixels. The live files are `assets/cosmetics/bowler.png` and `bowler.json`; both game and studio load them through `src/cosmetic-assets.js`. The live renderer matches the owner-saved preview PNG pixel for pixel.
+
+The studio starts at the applied fit. Position uses full-size `assets/luna-custom.png` coordinates; increasing y lowers the hat. Scale is uniform. The renderer masks the original ear area above y=476 and draws the hat plus tailored ears together, leaving the face and blink intact. The PNG saved from the studio is evidence of the complete reviewed look, not a replacement for the transparent accessory PNG.
+
+`tools/wardrobe-preview/extract_bowler.py` reproduces the source extraction without dependencies. It removes connected exterior cream paper and trims below the brim while preserving enclosed light inner ears. Its crop and mask are recorded in `concepts/luna/bowler-review/extraction.json`. The original `fit.json` / `preview.png` in that folder archive the initial proposal; the `luna-bowler-*` files contain the owner's final adjustments. Extraction never overwrites the active game asset.
+
+### Other artwork
+
+The remaining hats, shoes, and marks use `HATS`, `SHOES`, and `MARKS` in `src/cosmetic-art.js`. Pixel rows use X (charcoal), G (grey), L (light grey), W (cream), and . (transparent); colors are in `src/pixels.js`. The old `HATS.bowler` grid is a fallback; editing it does not change the approved raster bowler. To avoid further concept-to-game differences, future approved raster accessories should retain their exact PNG and placement.
+
+`src/cosmetics.js` draws hats on the torso and shoes within each paw's transform. High heels replace the paw bottom to leave the gap between heel and toe empty; marks counter torso squash to retain their proportions. After applying reviewed files, reload the local game, select the unlocked item in Store, and start a new run. Include new runtime PNG/JSON/modules in `sw.js` and increment its version for offline updates. The studio itself is a development tool and is not bundled into the offline game.
 
 ## Development and verification
 
@@ -75,7 +112,7 @@ Manual device checks before release:
 - Install, go offline, close and reopen the game. Test both site root and repository path.
 - Check a short screen and landscape fallback; controls should remain reachable by scrolling.
 
-`src/engine.js` owns simulation, `src/pixels.js` defines the sprites, `src/draw.js` draws Luna and the playfield, and `src/app.js` handles input, interface, saving, and installation. `src/customisation.js` owns the item catalog, unlock targets, selections, and versioned wardrobe save validation; `src/store.js` builds the store and preview. `style.css` controls the page. The simulation uses a fixed time step. Tests include reward boundaries, single-run counting, saved combinations, invalid-save recovery, and offline store assets.
+`src/engine.js` owns simulation, `src/pixels.js` defines the base sprites, `src/cosmetic-art.js` defines the wardrobe artwork, `src/draw.js` draws Luna and the playfield, and `src/app.js` handles input, interface, saving, and installation. `src/customisation.js` owns the item catalog, unlock targets, selections, and versioned wardrobe save validation; `src/store.js` builds the store and preview. `style.css` controls the page. The simulation uses a fixed time step. Tests include every reward boundary, single-run counting, all 48 saved combinations, boots migration, invalid-save recovery, and offline store assets.
 
 When shipping changes, bump `VERSION` in `sw.js` and include any new offline assets in `FILES`. A new worker waits for existing game windows to close before activating. Local development automatically bypasses the offline cache; `refresh.html` also provides recovery for older installed versions without clearing saved progress.
 

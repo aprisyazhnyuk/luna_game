@@ -1,33 +1,7 @@
 import {PALETTE,stamp} from './pixels.js';
+import {EAR,HATS,SHOES,MARKS} from './cosmetic-art.js';
+import {getRasterHat} from './cosmetic-assets.js';
 
-const HAT=[
- '....XXXXXXXX....',
- '...XGGGGGGGGX...',
- '..XGGGGGGGGGGX..',
- '..XGGGGGGGGGGX..',
- '..XWWWWWWWWWWX..',
- 'XXXXXXXXXXXXXXXX',
- '.XXXXXXXXXXXXXX.'
-];
-// Position the centre of the bottom brim row on the forehead, below the ear
-// tips. Coordinates are pixels in assets/luna-custom.png, not screen pixels.
-// Increase y to lower the hat; change pixelSize to resize around this contact.
-const BOWLER_FIT={x:970,y:480,pixelSize:15};
-// Redraw the two ear cutouts over the hat, leaving the brim visible around
-// their bases. These source-image rectangles share the head's animation.
-const HAT_EARS=[[866,350,90,98],[950,350,97,82]];
-const STAR=[
- '.....GG.....',
- '.....GG.....',
- '....GGGG....',
- 'GGGGGGGGGGGG',
- '.GGGGGGGGGG.',
- '..GGGGGGGG..',
- '...GGGGGG...',
- '..GGGGGGGG..',
- '..GGG..GGG..',
- '.GGG....GGG.'
-];
 const rasters=new Map();
 function sprite(c,rows,x,y,size){
  let raster=rasters.get(rows);
@@ -37,33 +11,53 @@ function sprite(c,rows,x,y,size){
  }
  c.drawImage(raster,x,y,raster.width*size,raster.height*size);
 }
-// All attachment coordinates use the same native image space as the rig.
-// The hat and mark sit on the torso; shoes are drawn inside each paw transform.
-export function drawHat(c,hat,image){
- if(hat!=='bowler')return;
- const {x,y,pixelSize}=BOWLER_FIT;
- sprite(c,HAT,x-HAT[0].length*pixelSize/2,y-(HAT.length-1)*pixelSize,pixelSize);
- for(const [ex,ey,width,height] of HAT_EARS){
-  c.drawImage(image,ex,ey,width,height,ex,ey,width,height);
+
+// Hats share the torso transform. Smaller ears emerge through slots, leaving
+// the crown and band visible instead of covering the whole accessory.
+export function drawHat(c,hat,override){
+ const raster=override?.image?override:override?.fit?.kind==='grid'?null:getRasterHat(hat);
+ if(raster){
+  const image=raster.image,fit=override?.fit??raster.fit;
+  c.drawImage(image,fit.x,fit.y,image.width*fit.scale,image.height*fit.scale);return;
+ }
+ const design=HATS[hat];if(!design)return;
+ const fit=override?.fit??{x:design.x,y:design.y,scale:1};
+ const x=fit.x,y=fit.y,size=design.size*fit.scale;
+ sprite(c,design.rows,x,y,size);
+ for(const [dx,dy,earSize] of design.ears){
+  const scale=size/12,earX=x+dx*scale,earY=y+dy*scale,tipSize=earSize*scale;
+  c.fillStyle=PALETTE.X;c.fillRect(earX-tipSize,earY+6*tipSize,8*tipSize,2*tipSize);
+  sprite(c,EAR,earX,earY,tipSize);
  }
 }
-export function drawShoes(c,leg,index,shoes){
- if(shoes!=='boots')return;
+
+// Called inside each paw's rotation, so all four shoes follow the gait.
+export function drawShoes(c,leg,shoes,override){
+ const design=SHOES[shoes];if(!design)return;
+ const fit=override?.fit??{x:0,y:0,scale:1};
  const [x,y]=leg.foot;
- c.fillStyle=PALETTE.X;c.fillRect(x-34,y-37,68,37);
- c.fillRect(x-20,y-52,42,20);
- c.fillStyle=index===0||index===2?PALETTE.G:PALETTE.L;
- c.fillRect(x-20,y-26,44,14);
- c.fillStyle=PALETTE.W;c.fillRect(x-12,y-45,26,9);
+ if(override?.image){
+  const image=override.image,w=image.width*fit.scale,h=image.height*fit.scale;
+  c.drawImage(image,x+fit.x-w/2,y+fit.y-h,w,h);return;
+ }
+ const {rows}=design,size=design.size*fit.scale;
+ sprite(c,rows,x+fit.x-rows[0].length*size/2,y+fit.y-rows.length*size,size);
 }
-export function drawMark(c,image,mark,stretch){
- // Cover the original patch within its white flank. The replacement layer
- // counters torso squash/stretch, keeping the emblem's proportions stable.
+
+export function drawMark(c,mark,stretch,override){
+ // Cover the old patch only within the white flank, and counter landing squash
+ // so the emblems retain their proportions.
  c.fillStyle=PALETTE.W;c.beginPath();
  const mask=[[522,677],[531,666],[589,666],[604,686],[620,666],[680,666],[694,683],[694,726],[669,742],[669,789],[646,808],[562,808],[544,789],[544,741],[522,726]];
  mask.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill();
- c.save();c.translate(604,726);c.scale(1,1/stretch);c.translate(-604,-726);
- if(mark==='star')sprite(c,STAR,531,657,12);
- else c.drawImage(image,522,650,174,148,522,650,174,148);
+ const fit=override?.fit??{x:604,y:730,scale:1};
+ c.save();c.translate(fit.x,fit.y);c.scale(1,1/stretch);c.translate(-fit.x,-fit.y);
+ if(override?.image){
+  const image=override.image,w=image.width*fit.scale,h=image.height*fit.scale;
+  c.drawImage(image,fit.x-w/2,fit.y-h/2,w,h);
+ }else{
+  const design=MARKS[mark]??MARKS.original,{rows}=design,size=design.size*fit.scale;
+  sprite(c,rows,fit.x-rows[0].length*size/2,fit.y-rows.length*size/2,size);
+ }
  c.restore();
 }

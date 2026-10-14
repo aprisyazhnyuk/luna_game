@@ -58,7 +58,10 @@ const LEGS = [
 ];
 const BODY = [[132,320],[1152,320],[1152,815],[884,815],[869,807],[858,792],[828,792],[828,809],[749,809],[749,795],[732,795],[716,830],[658,830],[658,815],[578,815],[578,800],[536,800],[518,827],[481,846],[451,864],[419,841],[418,780],[132,780]];
 function path(c,points) {c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();}
-export function drawImageLuna(c,image,x,y,pose,outfit=ORIGINAL) {
+// Preview tools can supply an accessory renderer without changing live outfits.
+export function drawImageLuna(c,image,x,y,pose,outfit=ORIGINAL,renderers={}) {
+ // Preserve the original hat-only preview callback API.
+ const layers=typeof renderers==='function'?{hat:renderers}:renderers;
  c.save();
  c.translate(Math.round(x-44),Math.round(y-54+pose.bob));
  c.scale(86/970,54/605);
@@ -74,16 +77,27 @@ export function drawImageLuna(c,image,x,y,pose,outfit=ORIGINAL) {
   const planted=pose.grounded ? dy-Math.sin(angle)*dx-Math.cos(angle)*dy-pose.bob*605/54 : 0;
   c.translate(leg.hip[0],leg.hip[1]+planted-pose.lift[i]*605/54);
   c.rotate(pose.legs[i]);c.translate(-leg.hip[0],-leg.hip[1]);
-  c.save();path(c,leg.outline);c.clip();c.drawImage(image,0,0);c.restore();
-  drawShoes(c,leg,i,outfit.shoes);c.restore();
+  c.save();path(c,leg.outline);c.clip();
+  if(outfit.shoes==='heels'){
+   // Leave the space between the pump's heel and toe empty.
+   c.beginPath();c.rect(0,0,image.naturalWidth,foot[1]-24);c.clip();
+  }
+  c.drawImage(image,0,0);c.restore();
+  (layers.shoes??drawShoes)(c,leg,outfit.shoes);c.restore();
  }
- c.save();path(c,BODY);c.clip();c.drawImage(image,0,0);c.restore();
- drawMark(c,image,outfit.mark,pose.stretch);
+ c.save();path(c,BODY);c.clip();
+ if(['bowler','witch','crown'].includes(outfit.hat)){
+  // Replace the original ear area with the hat's tailored ear design. The
+  // forehead below this line stays intact, including the blink overlay.
+  c.beginPath();c.rect(0,476,image.naturalWidth,image.naturalHeight-476);c.clip();
+ }
+ c.drawImage(image,0,0);c.restore();
+ (layers.mark??drawMark)(c,outfit.mark,pose.stretch);
  if(pose.blink) {
   // Cover only the visible eye, using the surrounding white face colour.
   c.fillStyle='#f7f7f2';c.fillRect(1015,551,49,59);
   c.fillStyle='#42443f';c.fillRect(1019,583,38,12);
  }
- drawHat(c,outfit.hat,image);
+ (layers.hat??drawHat)(c,outfit.hat);
  c.restore();
 }
