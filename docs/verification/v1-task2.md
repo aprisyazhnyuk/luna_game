@@ -49,3 +49,10 @@ save, with independent field recovery. An empty recognizable version shell must
 not hide an otherwise valid legacy save. Old raw data is never deleted. Storage
 failure shows the existing notice and preserves session play. Scratch testing
 uses temporary directories and browser profiles, not the owner's saved game.
+
+Fresh-context read-only review completed with no Critical, Important or Minor
+findings; the reviewer independently ran all 96 Node tests successfully. The
+reviewer inspected browser-check code/evidence but did not rerun Chrome. Concurrent
+tab progress merging remains the pre-existing behavior outside this task; downgrade
+session merging is explicitly excluded by the rollback contract. These exclusions
+do not change the threshold-preservation and migration guarantees above.
