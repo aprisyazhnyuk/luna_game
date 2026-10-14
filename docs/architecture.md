@@ -209,3 +209,14 @@ are removed from normal drawing. All character rig transforms/masks and current
 item data remain unchanged, with exact 48-outfit and animation-pose parity.
 Legacy art JS stays untouched as an independent historical test reference, with
 no runtime/studio imports. See [rendering contract](cosmetic-rendering.md).
+
+## Task 5: shared studio/review adapters
+
+`src/wardrobe-review.js` now owns pure v2 import/export adapters and delegates
+placement limits and PNG header checks to the shared cosmetic model. Runtime and
+studio use one catalog-to-review fit adapter and one PNG decoder. Optional concept
+references cannot block editing; historical imports preserve later catalog items
+at applied defaults. Async drafts invalidate stale work on newer actions.
+See [studio/review contract](studio-review.md) and
+[verification](verification/v1-task5.md). The next boundary is the Task 6 exact-byte
+application transaction; no candidate artwork was applied here.

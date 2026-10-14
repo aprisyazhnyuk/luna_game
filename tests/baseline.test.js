@@ -29,9 +29,10 @@ for(const fixture of await read('gameplay'))test(`fixed-step gameplay fixture: $
 });
 test('legacy bowler and v2 fixture reviews reproduce the baseline fits',async()=>{
  const bowler=JSON.parse(await readFile(new URL('../assets/cosmetics/bowler.json',import.meta.url)));
- const defaults=defaultFits(bowler);
- assert.deepEqual(parseReview(await read('review-v2'),defaults).fits,defaults);
- const legacy=parseReview(await read('review-bowler'),defaults);
+ const catalog=JSON.parse(await readFile(new URL('../assets/cosmetics/catalog.json',import.meta.url)));
+ const defaults=defaultFits(catalog);
+ assert.deepEqual(parseReview(await read('review-v2'),catalog).fits,defaults);
+ const legacy=parseReview(await read('review-bowler'),catalog);
  assert.deepEqual({...legacy.fits.hat.bowler,asset:bowler.asset},defaults.hat.bowler);
  assert.deepEqual(legacy.fits.shoes,defaults.shoes);assert.deepEqual(legacy.fits.mark,defaults.mark);
  assert.deepEqual(await readFile(new URL('../'+legacy.fits.hat.bowler.asset,import.meta.url)),await readFile(new URL('../'+bowler.asset,import.meta.url)));

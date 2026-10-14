@@ -1,10 +1,11 @@
 import {drawImageLuna,lunaPose} from '../../src/animation.js';
 import {createRun,jump,step} from '../../src/engine.js';
-import {loadCosmeticAssets} from '../../src/cosmetic-assets.js';
+import {loadCosmeticAssets,decodeCosmeticPng} from '../../src/cosmetic-assets.js';
+import {INPUT_LIMITS,validateReviewByteLength} from '../../src/cosmetic-model.js';
 import {drawHat,drawShoes,drawMark} from '../../src/cosmetics.js';
 import {stamp} from '../../src/pixels.js';
 import {ITEMS,ORIGINAL} from '../../src/customisation.js';
-import {LIMITS,clone,defaultFits,itemName,parseReview} from './review-model.js';
+import {LIMITS,clone,defaultFits,parseReview,createReview,validateAsset} from '../../src/wardrobe-review.js';
 
 const $=selector=>document.querySelector(selector),status=$('#status');
 const root=new URL('../../',import.meta.url),key=(category,id)=>`${category}/${id}`;
@@ -12,6 +13,21 @@ const load=async src=>{
  const image=new Image();image.src=src.startsWith('data:')?src:new URL(src,root);await image.decode();
  if(image.width>4096||image.height>4096)throw new Error('Use a PNG no larger than 4096 × 4096');return image;
 };
+const loadItem=async asset=>{
+ validateAsset(asset);
+ const response=await fetch(asset.startsWith('data:')?asset:new URL(asset,root));
+ if(!response.ok)throw new Error(`Could not load PNG: HTTP ${response.status}`);
+ if(Number(response.headers.get('content-length'))>INPUT_LIMITS.pngBytes)throw new Error('PNG exceeds 4 MB');
+ return decodeCosmeticPng(new Uint8Array(await response.arrayBuffer()));
+};
+async function conceptReference(){
+ try{
+  const response=await fetch(new URL('./concept-references.json',import.meta.url));
+  if(!response.ok)return null;
+  const data=await response.json();validateAsset(data.asset);
+  return {image:await load(data.asset),crops:data.crops};
+ }catch{return null;}
+}
 const context=id=>{const c=$(id).getContext('2d');c.imageSmoothingEnabled=false;return c;};
 function checker(c){
  c.clearRect(0,0,c.canvas.width,c.canvas.height);
@@ -24,17 +40,13 @@ function contain(c,image){
  c.drawImage(image,(c.canvas.width-image.width*scale)/2,(c.canvas.height-image.height*scale)/2,image.width*scale,image.height*scale);
 }
 try {
- const snapshot=await loadCosmeticAssets(),initial=defaultFits();
+ const snapshot=await loadCosmeticAssets(),initial=defaultFits(snapshot.catalog);
+ const itemName=(category,id)=>snapshot.catalog.items.find(item=>item.category===category&&item.id===id)?.name??id;
  const appliedImages=new Map(Object.values(snapshot.items).filter(item=>item.image).map(item=>[key(item.category,item.id),item.image]));
  let fits=clone(initial),images=new Map(appliedImages),selectedCategory='hat',revision=0;
- const outfit={...ORIGINAL,hat:'bowler'};
- const [luna,source]=await Promise.all([load('assets/luna-custom.png'),load('concepts/luna/04-approved-wardrobe.png')]);
+ const outfit={...ORIGINAL,hat:snapshot.catalog.items.find(item=>item.category==='hat'&&item.fit)?.id??ORIGINAL.hat};
+ const luna=await load('assets/luna-custom.png');let reference=null;
  const sourceContext=context('#source'),accessoryContext=context('#accessory');
- const crops={
-  hat:{bowler:[242,78,173,96],witch:[590,20,215,170],crown:[1067,52,166,125]},
-  shoes:{heels:[85,660,280,90],runners:[495,660,280,90],sandals:[905,660,280,90]},
-  mark:{original:[150,970,95,100],star:[550,970,110,110],skull:[955,970,120,120]}
- };
  const active=()=>({category:selectedCategory,id:outfit[selectedCategory],fit:fits[selectedCategory][outfit[selectedCategory]]});
  const override=(category,id)=>{
   const fit=fits[category][id];return fit?{fit,image:fit.kind==='raster'?images.get(key(category,id)):undefined}:undefined;
@@ -65,10 +77,11 @@ try {
  function showArtwork(){
   const {category,id,fit}=active();checker(sourceContext);checker(accessoryContext);
   if(!fit){$('#source-label').textContent='Choose an item';$('#accessory-label').textContent='No item selected';return;}
-  const crop=crops[category]?.[id];
+  const raw=reference?.crops?.[category]?.[id];
+  const crop=Array.isArray(raw)&&raw.length===4&&raw.every(v=>Number.isFinite(v)&&v>=0)&&raw[2]>0&&raw[3]>0?raw:null;
   if(crop){
    const [x,y,w,h]=crop,scale=Math.min(346/w,192/h);
-   sourceContext.drawImage(source,x,y,w,h,(346-w*scale)/2,(192-h*scale)/2,w*scale,h*scale);
+   sourceContext.drawImage(reference.image,x,y,w,h,(346-w*scale)/2,(192-h*scale)/2,w*scale,h*scale);
   }
   $('#source-label').textContent=crop?`Approved concept · ${itemName(category,id)}`:`No concept reference · ${itemName(category,id)}`;
   let art=images.get(key(category,id));
@@ -114,12 +127,12 @@ try {
   for(const item of ITEMS.filter(item=>item.category===category)){
    const option=document.createElement('option');option.value=item.id;option.textContent=item.name;select.append(option);
   }
-  select.addEventListener('change',()=>{outfit[category]=select.value;selectedCategory=category;sync(true);});
+  select.addEventListener('change',()=>{++revision;outfit[category]=select.value;selectedCategory=category;sync(true);});
  }
- $('#edit-category').addEventListener('change',event=>{selectedCategory=event.target.value;sync(true);});
- $('#original').addEventListener('click',()=>{Object.assign(outfit,ORIGINAL);selectedCategory='mark';sync(true);});
+ $('#edit-category').addEventListener('change',event=>{++revision;selectedCategory=event.target.value;sync(true);});
+ $('#original').addEventListener('click',()=>{++revision;Object.assign(outfit,ORIGINAL);selectedCategory='mark';sync(true);});
  for(const name of ['x','y','scale'])$(`#${name}`).addEventListener('input',event=>{
-  const {fit}=active();if(!fit)return;fit[name]=Number(event.target.value);
+  const {fit}=active();if(!fit)return;++revision;fit[name]=Number(event.target.value);
   status.textContent='Draft changed. Save the fit JSON and preview PNG when ready; the game is unchanged.';sync();
  });
  function setMotion(next){
@@ -127,11 +140,11 @@ try {
   if(motion!=='ready')run.phase='running';if(motion==='jump')jump(run);
   document.querySelectorAll('[data-motion]').forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.motion===motion)));render();
  }
- for(const button of document.querySelectorAll('[data-motion]'))button.addEventListener('click',()=>setMotion(button.dataset.motion));
+ for(const button of document.querySelectorAll('[data-motion]'))button.addEventListener('click',()=>{++revision;setMotion(button.dataset.motion);});
  function setPaused(value){paused=value;$('#pause').textContent=paused?'Play':'Pause';$('#pause').setAttribute('aria-pressed',String(paused));}
  function releasePose(){if(heldPose){if(restartOnPlay)setMotion(motion);else heldPose=null;}}
  $('#pause').addEventListener('click',()=>{
-  if(paused)releasePose();setPaused(!paused);
+  ++revision;if(paused)releasePose();setPaused(!paused);
  });
  function advance(dt){
   releasePose();clock+=dt;
@@ -141,8 +154,9 @@ try {
    if(motion==='jump'&&run.y===0&&run.time-run.jumpTime>1.2)jump(run);
   }
  }
- $('#step').addEventListener('click',()=>{setPaused(true);advance(1/120);render();});
- $('#blink').addEventListener('click',()=>{forceBlinkUntil=performance.now()+250;render();});
+ $('#step').addEventListener('click',()=>{++revision;setPaused(true);advance(1/120);render();});
+ $('#blink').addEventListener('click',()=>{++revision;forceBlinkUntil=performance.now()+250;render();});
+ $('#speed').addEventListener('change',()=>{++revision;});
  function resetItem(category,id){
   fits[category][id]=clone(initial[category][id]);images.delete(key(category,id));
   const image=appliedImages.get(key(category,id));if(image)images.set(key(category,id),image);
@@ -157,48 +171,51 @@ try {
  });
  $('#load-art').addEventListener('click',()=>$('#art-file').click());
  $('#art-file').addEventListener('change',async event=>{
-  const file=event.target.files[0],{category,id,fit}=active();if(!file||!fit)return;
+  const file=event.target.files[0],current=active();if(!file||!current.fit)return;
+  event.target.value='';
+  const {category,id}=current,fit=clone(current.fit);
   const request=++revision;
   try{
    if(file.type!=='image/png'||file.size>4_000_000)throw new Error('Choose a PNG up to 4 MB');
    const asset=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
-   const image=await load(asset);if(request!==revision)return;
+   const image=await loadItem(asset);if(request!==revision)return;
    const oldImage=images.get(key(category,id));
    const design=snapshot.items[id].art;
    const width=(fit.kind==='raster'?oldImage.width:design.rows[0].length*design.size)*fit.scale;
    fits[category][id]={kind:'raster',asset,x:fit.x,y:fit.y,scale:Math.max(.01,Math.min(LIMITS[category].scale[1],Math.round(width/image.width*100)/100))};
    images.set(key(category,id),image);selectedCategory=category;sync(true);
    status.textContent=`Loaded ${file.name} for ${itemName(category,id)}. The PNG will be embedded in the saved JSON; the game is unchanged.`;
-  }catch(error){status.textContent=`Could not load PNG: ${error.message}. The current artwork was kept.`;}
-  finally{event.target.value='';}
+  }catch(error){if(request===revision)status.textContent=`Could not load PNG: ${error.message}. The current artwork was kept.`;}
  });
  $('#import').addEventListener('click',()=>$('#fit-file').click());
  $('#fit-file').addEventListener('change',async event=>{
   const file=event.target.files[0];if(!file)return;const request=++revision;
+  event.target.value='';
   try{
-   const candidate=parseReview(JSON.parse(await file.text()),initial),nextImages=new Map();
+   validateReviewByteLength(file.size);
+   const candidate=parseReview(JSON.parse(await file.text()),snapshot.catalog),nextImages=new Map();
    await Promise.all(Object.entries(candidate.fits).flatMap(([category,items])=>Object.entries(items).filter(([,fit])=>fit.kind==='raster').map(async([id,fit])=>{
-    nextImages.set(key(category,id),await load(fit.asset));
+    nextImages.set(key(category,id),await loadItem(fit.asset));
    })));
    if(request!==revision)return;
    fits=candidate.fits;images=nextImages;Object.assign(outfit,candidate.outfit);selectedCategory=candidate.selectedCategory;
    const review=candidate.review;setMotion(review?.motion??'ready');
    if(review){heldPose=review.pose;restartOnPlay=true;run.y=review.height;$('#speed').value=String(review.playbackSpeed);setPaused(true);}
    sync(true);status.textContent=`Loaded ${file.name}. All saved fits restored${review?' with the saved pose; Play restarts that animation':''}. The game is unchanged.`;
-  }catch(error){status.textContent=`Could not load fit: ${error.message}. The current preview was kept.`;}
-  finally{event.target.value='';}
+  }catch(error){if(request===revision)status.textContent=`Could not load fit: ${error.message}. The current preview was kept.`;}
  });
  function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  function freezeFrame(){heldPose=currentPose();forceBlinkUntil=0;setPaused(true);render();}
  $('#export').addEventListener('click',()=>{
-  freezeFrame();
-  const exported={version:2,type:'luna-wardrobe-review',status:'preview-awaiting-application',fits:clone(fits),outfit:{...outfit},selectedCategory,
-   review:{motion,playbackSpeed:Number($('#speed').value),height:run.y,pose:currentPose()}};
+  ++revision;freezeFrame();
+  const exported=createReview({fits,outfit,selectedCategory,
+   review:{motion,playbackSpeed:Number($('#speed').value),height:run.y,pose:currentPose()}},snapshot.catalog);
   download(new Blob([JSON.stringify(exported,null,2)+'\n'],{type:'application/json'}),'luna-wardrobe-fit.json');
   status.textContent='Paused at the saved pose. All item fits are in the JSON. Save the matching preview PNG, then tell me to apply the files.';
  });
- $('#snapshot').addEventListener('click',()=>{freezeFrame();$('#luna').toBlob(blob=>download(blob,'luna-wardrobe-preview.png'));});
+ $('#snapshot').addEventListener('click',()=>{++revision;freezeFrame();$('#luna').toBlob(blob=>download(blob,'luna-wardrobe-preview.png'));});
  sync(true);status.textContent='Every hat, shoe style, and body mark can be adjusted. Changes stay in this preview until applied.';
+ conceptReference().then(value=>{reference=value;showArtwork();});
  function frame(now){
   const dt=Math.min((now-previous)/1000,.05);previous=now;
   if(!paused)advance(dt*Number($('#speed').value));render();requestAnimationFrame(frame);

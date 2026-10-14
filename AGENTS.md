@@ -78,3 +78,11 @@ harder obstacles, changing backgrounds and more items are deferred. Open questio
 does persistent high score unlock levels between runs, or does the current run's
 score trigger stage transitions during a run? Do not resolve or implement that
 choice without agreement. The visual approval requirements above remain permanent.
+
+The shared v2 review contract is `src/wardrobe-review.js`; see
+`docs/studio-review.md`. Use its adapters and the cosmetic model validation rather
+than duplicating fit limits or parsing review fields in application tools. Preserve
+exact embedded bytes and every supplied fit. Older reviews keep later catalog
+items at applied defaults. Concept reference metadata is optional and never an
+artwork source for application. PNG header/decode checks in the studio do not
+replace full CRC and transaction validation in the application command.

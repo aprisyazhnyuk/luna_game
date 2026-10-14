@@ -4,6 +4,7 @@ Status: approved by the owner on 2026-10-14. Task 1 is complete on its separate
 branch; see [verification evidence](../verification/v1-task1.md). Task 2 is complete on its separate branch with [save verification evidence](../verification/v1-task2.md).
 Task 3 is complete on its separate branch with [loader verification evidence](../verification/v1-task3.md).
 Task 4 is complete on its separate branch with [rendering verification evidence](../verification/v1-task4.md).
+Task 5 is complete on its separate branch with [studio/review verification evidence](../verification/v1-task5.md).
 Later tasks remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
@@ -247,8 +248,8 @@ Owner decides merging/publishing only after this evidence is presented.
 
 ## Recommended next task
 
-Tasks 1–4 establish catalog data, save compatibility, loading and declarative
-rendering. Next is Task 5: complete the shared studio/review model and backward
-compatibility before building the approved-review application command.
+Tasks 1–5 establish catalog data, save compatibility, loading, declarative
+rendering and shared studio/review handling. Next is Task 6: build the reproducible
+validated approved-review application command in temporary test repositories.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?

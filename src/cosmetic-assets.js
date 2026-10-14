@@ -1,18 +1,18 @@
-import {validateCatalog,validatePngMetadata,INPUT_LIMITS} from './cosmetic-model.js';
+import {validateCatalog,validatePngMetadata,validatePngBytes,reviewFitForItem,INPUT_LIMITS} from './cosmetic-model.js';
 import {configureWardrobe} from './customisation.js';
 const root=new URL('../',import.meta.url);
 const CATALOG_BYTES=1_000_000;
-const signature=[137,80,78,71,13,10,26,10];
 async function decodePng(bytes){
  const url=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));
  try{const image=new Image();image.src=url;await image.decode();return image;}
  finally{URL.revokeObjectURL(url);}
 }
-function pngMetadata(bytes){
- if(bytes.length<33||!signature.every((value,i)=>bytes[i]===value))throw new Error('Invalid PNG header');
- const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
- if(view.getUint32(8)!==13||String.fromCharCode(...bytes.subarray(12,16))!=='IHDR')throw new Error('Invalid PNG IHDR');
- return validatePngMetadata({byteLength:bytes.length,width:view.getUint32(16),height:view.getUint32(20)});
+export async function decodeCosmeticPng(bytes,{decode=decodePng,source}={}){
+ const metadata=validatePngBytes(bytes),image=await decode(bytes,source);
+ const width=image.naturalWidth??image.width,height=image.naturalHeight??image.height;
+ validatePngMetadata({byteLength:bytes.length,width,height});
+ if(width!==metadata.width||height!==metadata.height)throw new Error('PNG decoded dimensions disagree with header');
+ return image;
 }
 // Injectable IO keeps Node verification independent of browser globals/network.
 export function createCosmeticAssetLoader({root:projectRoot=root,fetch:request=globalThis.fetch,decode=decodePng}={}){
@@ -38,17 +38,14 @@ export function createCosmeticAssetLoader({root:projectRoot=root,fetch:request=g
   const paths=[...new Set(catalog.items.filter(item=>item.art.kind==='png').map(item=>item.art.asset))];
   await Promise.all(paths.map(async path=>{
    try{
-    const bytes=await bytesAt(path,INPUT_LIMITS.pngBytes),metadata=pngMetadata(bytes);
-    const image=await decode(bytes,new URL(path,base));
-    const width=image.naturalWidth??image.width,height=image.naturalHeight??image.height;
-    validatePngMetadata({byteLength:bytes.length,width,height});
-    if(width!==metadata.width||height!==metadata.height)throw new Error('PNG decoded dimensions disagree with header');
+    const bytes=await bytesAt(path,INPUT_LIMITS.pngBytes);
+    const image=await decodeCosmeticPng(bytes,{decode,source:new URL(path,base)});
     images.set(path,image);
    }catch(error){throw new Error(`Invalid ${path}: ${error.message}`,{cause:error});}
   }));
   const items=Object.create(null);
   for(const item of catalog.items){
-   const fit=item.fit?Object.freeze({kind:item.art.kind==='png'?'raster':'grid',...item.fit,...(item.art.kind==='png'?{asset:item.art.asset}:{})}):null;
+   const fit=item.fit?Object.freeze(reviewFitForItem(item)):null;
    items[item.id]=Object.freeze({id:item.id,category:item.category,art:item.art,attachment:item.attachment,fit,image:images.get(item.art.asset)});
   }
   return Object.freeze({catalog,items:Object.freeze(items)});
