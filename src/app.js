@@ -1,6 +1,6 @@
 import {createRun, jump, step} from './engine.js';
 import {draw} from './draw.js';
-import {SAVE_KEY,restoreWardrobe,recordTreats} from './customisation.js';
+import {SAVE_KEY,restoreWardrobe,loadWardrobe,recordTreats} from './customisation.js';
 import {createStore} from './store.js';
 import {isLocalhost} from './local-cache.js';
 import {loadCosmeticAssets} from './cosmetic-assets.js';
@@ -10,7 +10,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('scene'),ctx=canvas.getContext('2d');
 let run=createRun(),lastTime=0,accumulator=0,best=0,installPrompt=null,endedAt=0,displayedPhase='',animationTime=0;
 let wardrobe=restoreWardrobe(null),rewardUntil=0;
-try{wardrobe=restoreWardrobe(localStorage.getItem(SAVE_KEY));}catch{$('store-saving').hidden=false;}
+try{wardrobe=loadWardrobe(localStorage);saveWardrobe();}catch{$('store-saving').hidden=false;}
 run.outfit={...wardrobe.equipped};
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const lunaImage=new Image();

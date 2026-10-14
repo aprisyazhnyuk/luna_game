@@ -181,3 +181,11 @@ See [the implemented version 1 contract](cosmetic-catalog.md). Runtime consumers
 still use the original sources; no visual, save, gameplay or offline-cache changes
 are introduced by Task 1. Superpowers became available after the preparation audit
 and its execution, TDD, debugging, review and verification guidance is now used.
+
+## Task 2 implementation status
+
+Wardrobe save version 2 now records earned IDs, migrating historical targets and
+boots aliases into `luna.wardrobe.v2` while retaining `luna.wardrobe.v1`. Startup
+persists the migrated state; best distance remains separate. Current reward targets,
+artwork, Store/input behavior and simulation remain unchanged. Worker version v16
+ships the changed modules. See [save compatibility](wardrobe-saves.md).

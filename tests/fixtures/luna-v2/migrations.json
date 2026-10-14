@@ -1,0 +1,7 @@
+{
+ "new":{"version":2,"bestTreats":0,"unlocked":["none","original","bare"],"equipped":{"hat":"none","mark":"original","shoes":"bare"}},
+ "all-unlocked":{"version":2,"bestTreats":135,"unlocked":["none","original","bare","bowler","star","runners","witch","crown","heels","sandals","skull"],"equipped":{"hat":"crown","mark":"skull","shoes":"sandals"}},
+ "boots-alias":{"version":2,"bestTreats":60,"unlocked":["none","original","bare","bowler","star","runners"],"equipped":{"hat":"bowler","mark":"star","shoes":"runners"}},
+ "partial-invalid":{"version":2,"bestTreats":30,"unlocked":["none","original","bare","bowler"],"equipped":{"hat":"bowler","mark":"original","shoes":"bare"}},
+ "corrupt":{"version":2,"bestTreats":0,"unlocked":["none","original","bare"],"equipped":{"hat":"none","mark":"original","shoes":"bare"}}
+}

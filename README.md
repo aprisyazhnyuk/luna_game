@@ -128,3 +128,11 @@ the current game/studio still use their existing sources until the later integra
 tasks. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
 Do not modify the new catalog expecting live changes yet. All visual candidates
 continue through the permanent owner review workflow above.
+
+### Permanent earned rewards
+
+Wardrobe save version 2 records earned IDs so future threshold increases cannot
+relock rewards. Existing saves migrate using historical targets; the original
+`luna.wardrobe.v1` value remains intact, and best distance keeps its existing key.
+See [save compatibility and rollback behavior](docs/wardrobe-saves.md), including
+how older game versions handle post-migration progress.

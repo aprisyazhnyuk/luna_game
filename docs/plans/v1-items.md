@@ -1,8 +1,8 @@
 # V1 customization implementation plan
 
 Status: approved by the owner on 2026-10-14. Task 1 is complete on its separate
-branch; see [verification evidence](../verification/v1-task1.md). Later tasks
-remain to implement.
+branch; see [verification evidence](../verification/v1-task1.md). Task 2 is complete on its separate branch with [save verification evidence](../verification/v1-task2.md).
+Later tasks remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
 branch and PR; proceed in order. Paths below are proposed additions where absent.

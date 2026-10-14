@@ -11,7 +11,9 @@ for(const fixture of poses)test(`recorded ${fixture.id} pose remains reproducibl
  assert.deepEqual(JSON.parse(JSON.stringify(lunaPose(fixture.run,fixture.animationTime))),fixture.pose);
 });
 for(const fixture of await read('saves'))test(`legacy save fixture: ${fixture.id}`,()=>{
- assert.deepEqual(restoreWardrobe(fixture.saved),fixture.expected);
+ const actual=restoreWardrobe(fixture.saved);
+ assert.equal(actual.bestTreats,fixture.expected.bestTreats);
+ assert.deepEqual(actual.equipped,fixture.expected.equipped);
 });
 for(const fixture of await read('gameplay'))test(`fixed-step gameplay fixture: ${fixture.id}`,()=>{
  let seed=fixture.seed;const rng=()=>{seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/2**32;};
