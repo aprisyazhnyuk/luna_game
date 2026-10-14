@@ -1,0 +1,78 @@
+{
+  "browser": "155.0.8059.40",
+  "deviceScaleFactor": 1,
+  "poses": "3026d576e1de5621df814cf63795e5317691a09a2ec3ee44348ef40b503bdceb",
+  "outfits": [
+    {
+      "hat": "bowler",
+      "mark": "original",
+      "shoes": "bare"
+    },
+    {
+      "hat": "witch",
+      "mark": "original",
+      "shoes": "bare"
+    },
+    {
+      "hat": "crown",
+      "mark": "original",
+      "shoes": "bare"
+    },
+    {
+      "hat": "none",
+      "mark": "original",
+      "shoes": "heels"
+    },
+    {
+      "hat": "none",
+      "mark": "original",
+      "shoes": "runners"
+    },
+    {
+      "hat": "none",
+      "mark": "original",
+      "shoes": "sandals"
+    },
+    {
+      "hat": "none",
+      "mark": "original",
+      "shoes": "bare"
+    },
+    {
+      "hat": "none",
+      "mark": "star",
+      "shoes": "bare"
+    },
+    {
+      "hat": "none",
+      "mark": "skull",
+      "shoes": "bare"
+    }
+  ],
+  "inputs": {
+    "src/animation.js": "2e962c7eb9c2c390700f9ae4e86da4ec9d8922c8708876f3bd450b2f30cd1585",
+    "src/cosmetics.js": "dad7dd020bc1318eae59d35bb28c114621c881ddb07c037c3461768a798fdb46",
+    "src/cosmetic-art.js": "6e2c9d99c14b8ee6d2e4213e4018ba3647f98203704bc65f6fcdc3407d36849a",
+    "src/cosmetic-assets.js": "9c10414d780b9a7f412fda35f0f301ad76f0f9003a84fe2c140cbb750a277d1b",
+    "src/pixels.js": "9cc9c386044d0298cb9b7a47b7c7675b369f52c1599cf2deeea3214190eca3df",
+    "assets/luna-custom.png": "be2bad83b61aabebd6d2fa1f4f69934611c75d646817df4b7fe83d7eae7cad6a",
+    "assets/cosmetics/bowler.png": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876",
+    "assets/cosmetics/bowler.json": "35ea052d08d55ce7acfe6fb46b6c23ab2c5538afbd1dad2e9d34a6ddaab20d10"
+  },
+  "images": {
+    "stand-native.png": "5bfec36639f099d787b945543059e5d68aacddef9501b9786350ddbfcddf642b",
+    "stand-enlarged.png": "566247c9aac6a8a1741bce7e62111f0d0857751f39a35fbf13889ff7b427ccab",
+    "walk-native.png": "59f20c8f82f8387946067038d2ad988ebf427a016674d63c519f0ed333dea491",
+    "walk-enlarged.png": "96c35f9c72c831d37f4a38122c9f79e3619626fae398404813ca68e6d780e34a",
+    "takeoff-native.png": "400ed613b56c922e4b03eca87b768db67636401d64db86037529831f6b8e0dfa",
+    "takeoff-enlarged.png": "10459e766baf209609100e605fb8d4d8bdd1cba018a0c02a82ef8258edf8261d",
+    "apex-native.png": "955abfadd1109135cb0935a30529ab6376e78b522f0726ec437f5514f53670a1",
+    "apex-enlarged.png": "54223c46cc0a134e22a6aea98d1ecb76f0800efd41af537209df02920e686fae",
+    "reach-native.png": "005330f8f683c5cfbceb517ea047d2fae25d0795dd4b4ca5ee5ec009c99e5ba4",
+    "reach-enlarged.png": "d13b5586599f53527af42be89ecccc9d4e9bf5ef7e386c86cbc599a77ed4d6f9",
+    "landing-native.png": "040bcd58c1cbb49f1e6bdfbe68434b5dd82b9663e81b517490d263a1f408b566",
+    "landing-enlarged.png": "40f8a305fd216c814af6b284486b9b063fe391ac71d26334e4b4d555e907e6f3",
+    "blink-native.png": "4836ba407d2cf6f8143f5bf0ddfaa9f76d59c62b23d68803082fc6015cced7e4",
+    "blink-enlarged.png": "f0b7a7a6ad8e16a0cdc281798f50471a5ae8a0c507613ea4f7ae5c1d74a6c333"
+  }
+}
