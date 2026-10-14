@@ -1,6 +1,6 @@
 # Luna first-release specification
 
-Status: proposed for owner approval; preparation only. Audit date: 2026-10-14.
+Status: approved by the owner on 2026-10-14. Audit date: 2026-10-14.
 Implementation is described in [the item plan](plans/v1-items.md). This document
 sets release requirements, not a claim that all requirements are verified today.
 

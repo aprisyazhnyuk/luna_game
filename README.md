@@ -119,3 +119,12 @@ When shipping changes, bump `VERSION` in `sw.js` and include any new offline ass
 ## Rights and privacy
 
 See [LICENSE](LICENSE), [CREDITS.md](CREDITS.md), and [PRIVACY.md](PRIVACY.md). A public open-source license has not yet been selected; no broad reuse license is granted in this prototype. The owner's original photos are not included in the published game or repository. `references/` is ignored if you later keep private local copies there.
+
+### Shared catalog development
+
+The approved development plan is in [docs/plans/v1-items.md](docs/plans/v1-items.md).
+Task 1 adds a validated declarative catalog and reproducible baseline fixtures;
+the current game/studio still use their existing sources until the later integration
+tasks. See [the catalog contract and baseline commands](docs/cosmetic-catalog.md).
+Do not modify the new catalog expecting live changes yet. All visual candidates
+continue through the permanent owner review workflow above.

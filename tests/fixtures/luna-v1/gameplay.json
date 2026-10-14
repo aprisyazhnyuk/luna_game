@@ -1,0 +1,74 @@
+[
+  {
+    "id": "box-clearance",
+    "seed": 12345,
+    "ticks": 120,
+    "jumpAt": [
+      0
+    ],
+    "obstacles": [
+      {
+        "x": 150,
+        "w": 32,
+        "h": 35,
+        "type": "box"
+      }
+    ],
+    "bites": [
+      {
+        "x": 166,
+        "y": 190
+      }
+    ],
+    "expected": {
+      "phase": "running",
+      "chances": 3,
+      "treats": 1,
+      "y": 0,
+      "vy": 0,
+      "distance": 6
+    }
+  },
+  {
+    "id": "stationary-bump",
+    "seed": 12345,
+    "ticks": 1,
+    "jumpAt": [],
+    "obstacles": [
+      {
+        "x": 80,
+        "w": 32,
+        "h": 35,
+        "type": "box"
+      }
+    ],
+    "bites": [],
+    "expected": {
+      "phase": "running",
+      "chances": 2,
+      "treats": 0,
+      "y": 0,
+      "vy": 0,
+      "distance": 0.05
+    }
+  },
+  {
+    "id": "seeded-spawns",
+    "seed": 12345,
+    "ticks": 600,
+    "jumpAt": [],
+    "obstacles": [],
+    "bites": [],
+    "expected": {
+      "phase": "running",
+      "chances": 3,
+      "treats": 0,
+      "y": 0,
+      "vy": 0,
+      "distance": 30
+    },
+    "expectedObstacleTypes": [
+      "yarn"
+    ]
+  }
+]
