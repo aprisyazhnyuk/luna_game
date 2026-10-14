@@ -40,3 +40,40 @@ ears and paw attachment. The saved PNG is a full-character reference only.
 The studio accepts older bowler-only files. Saving pauses the frame so JSON and
 PNG can match. Applying a review must include all changed item fits, not just the
 currently selected editor item. Do not alter source art to approximate a PNG.
+
+## Development process and first-release scope
+
+Communicate and write project documentation in English. Read
+`docs/game-spec.md`, `docs/architecture.md`, `docs/development-workflow.md`, and
+`docs/plans/v1-items.md` before implementation. These documents are a proposed
+plan until the owner approves it; this preparation does not authorize runtime
+changes or application of new artwork.
+
+Once a task is approved, complete its scope autonomously. Ask only for essential
+missing information or a significant decision. Use a separate `codex/` branch
+and PR per complete task; do not merge into main or publish without instruction.
+Do not combine major refactoring with gameplay changes. Preserve the current
+JavaScript/Canvas stack unless an audit identifies a concrete reason to change it.
+
+Customization must share catalog, configuration format, asset loader and renderer
+between game, Store and studio. The owner must be able to replace any current
+item's PNG and placement without editing JavaScript. Adding an item to an existing
+category requires an asset and catalog entry, without item-name-specific behavior
+branches. Historical save aliases are compatibility data. An approved review must
+be applied by a reproducible command that validates all input before active writes,
+transfers exact image bytes and all changed fits, preserves evidence and reports
+changes. Validation failure must not partially modify active assets.
+
+Verify studio/assets/game/saves/offline boundaries, use fixed poses for visual
+checks and deterministic gameplay scenarios, and preserve earned rewards when
+thresholds change. Record baseline failures separately. Do not claim Android
+verification without real-device results. Use relevant Superpowers skills if
+installed; otherwise continue under these requirements.
+
+First release retains the existing endless runner, controls and mechanics, nine
+reviewed items with independent categories, local progress/high score/equipment,
+Android Chrome installation and offline play after downloads complete. Levels,
+harder obstacles, changing backgrounds and more items are deferred. Open question:
+does persistent high score unlock levels between runs, or does the current run's
+score trigger stage transitions during a run? Do not resolve or implement that
+choice without agreement. The visual approval requirements above remain permanent.
