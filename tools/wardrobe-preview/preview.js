@@ -1,6 +1,6 @@
 import {drawImageLuna,lunaPose} from '../../src/animation.js';
 import {createRun,jump,step} from '../../src/engine.js';
-import {loadCosmeticAssets,getRasterHat} from '../../src/cosmetic-assets.js';
+import {loadCosmeticAssets} from '../../src/cosmetic-assets.js';
 import {drawHat,drawShoes,drawMark} from '../../src/cosmetics.js';
 import {HATS,SHOES,MARKS} from '../../src/cosmetic-art.js';
 import {stamp} from '../../src/pixels.js';
@@ -25,9 +25,9 @@ function contain(c,image){
  c.drawImage(image,(c.canvas.width-image.width*scale)/2,(c.canvas.height-image.height*scale)/2,image.width*scale,image.height*scale);
 }
 try {
- await loadCosmeticAssets();
- const applied=getRasterHat('bowler'),initial=defaultFits(applied.fit);
- let fits=clone(initial),images=new Map([[key('hat','bowler'),applied.image]]),selectedCategory='hat',revision=0;
+ const snapshot=await loadCosmeticAssets(),initial=defaultFits();
+ const appliedImages=new Map(Object.values(snapshot.items).filter(item=>item.image).map(item=>[key(item.category,item.id),item.image]));
+ let fits=clone(initial),images=new Map(appliedImages),selectedCategory='hat',revision=0;
  const outfit={...ORIGINAL,hat:'bowler'};
  const [luna,source]=await Promise.all([load('assets/luna-custom.png'),load('concepts/luna/04-approved-wardrobe.png')]);
  const sourceContext=context('#source'),accessoryContext=context('#accessory');
@@ -66,9 +66,12 @@ try {
  function showArtwork(){
   const {category,id,fit}=active();checker(sourceContext);checker(accessoryContext);
   if(!fit){$('#source-label').textContent='Choose an item';$('#accessory-label').textContent='No item selected';return;}
-  const [x,y,w,h]=crops[category][id],scale=Math.min(346/w,192/h);
-  sourceContext.drawImage(source,x,y,w,h,(346-w*scale)/2,(192-h*scale)/2,w*scale,h*scale);
-  $('#source-label').textContent=`Approved concept · ${itemName(category,id)}`;
+  const crop=crops[category]?.[id];
+  if(crop){
+   const [x,y,w,h]=crop,scale=Math.min(346/w,192/h);
+   sourceContext.drawImage(source,x,y,w,h,(346-w*scale)/2,(192-h*scale)/2,w*scale,h*scale);
+  }
+  $('#source-label').textContent=crop?`Approved concept · ${itemName(category,id)}`:`No concept reference · ${itemName(category,id)}`;
   let art=images.get(key(category,id));
   if(fit.kind==='grid'){
    if(!thumbnails.has(key(category,id)))thumbnails.set(key(category,id),gridArtwork(category,id));
@@ -143,14 +146,14 @@ try {
  $('#blink').addEventListener('click',()=>{forceBlinkUntil=performance.now()+250;render();});
  function resetItem(category,id){
   fits[category][id]=clone(initial[category][id]);images.delete(key(category,id));
-  if(category==='hat'&&id==='bowler')images.set(key(category,id),applied.image);
+  const image=appliedImages.get(key(category,id));if(image)images.set(key(category,id),image);
  }
  $('#reset').addEventListener('click',()=>{
   const {category,id,fit}=active();if(!fit)return;++revision;resetItem(category,id);sync(true);
   status.textContent=`Restored ${itemName(category,id)} to its applied fit. Other drafts were kept.`;
  });
  $('#reset-all').addEventListener('click',()=>{
-  ++revision;fits=clone(initial);images=new Map([[key('hat','bowler'),applied.image]]);sync(true);
+  ++revision;fits=clone(initial);images=new Map(appliedImages);sync(true);
   status.textContent='All item drafts restored to their current game artwork and fit.';
  });
  $('#load-art').addEventListener('click',()=>$('#art-file').click());

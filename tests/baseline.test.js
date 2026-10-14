@@ -1,3 +1,4 @@
+import {initializeCatalog} from './helpers/catalog.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -5,6 +6,7 @@ import {createRun,jump,step} from '../src/engine.js';
 import {lunaPose} from '../src/animation.js';
 import {restoreWardrobe} from '../src/customisation.js';
 import {parseReview,defaultFits} from '../tools/wardrobe-preview/review-model.js';
+await initializeCatalog();
 const read=name=>readFile(new URL(`./fixtures/luna-v1/${name}.json`,import.meta.url),'utf8').then(JSON.parse);
 const poses=await read('poses');
 for(const fixture of poses)test(`recorded ${fixture.id} pose remains reproducible`,()=>{

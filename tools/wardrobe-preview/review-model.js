@@ -1,4 +1,3 @@
-import {HATS,SHOES,MARKS} from '../../src/cosmetic-art.js';
 import {ITEMS} from '../../src/customisation.js';
 
 export const LIMITS=Object.freeze({
@@ -9,13 +8,13 @@ export const LIMITS=Object.freeze({
 export const clone=value=>JSON.parse(JSON.stringify(value));
 export const itemName=(category,id)=>ITEMS.find(item=>item.category===category&&item.id===id)?.name??id;
 export function defaultFits(bowler){
- return {
-  hat:Object.fromEntries(Object.entries(HATS).map(([id,art])=>[id,id==='bowler'
-   ?{kind:'raster',asset:bowler.asset,x:bowler.x,y:bowler.y,scale:bowler.scale}
-   :{kind:'grid',x:art.x,y:art.y,scale:1}])),
-  shoes:Object.fromEntries(Object.keys(SHOES).map(id=>[id,{kind:'grid',x:0,y:0,scale:1}])),
-  mark:Object.fromEntries(Object.keys(MARKS).map(id=>[id,{kind:'grid',x:604,y:730,scale:1}]))
- };
+ const fits={hat:{},shoes:{},mark:{}};
+ for(const item of ITEMS)if(item.fit){
+  fits[item.category][item.id]={kind:item.art.kind==='png'?'raster':'grid',...item.fit,...(item.art.kind==='png'?{asset:item.art.asset}:{})};
+ }
+ // Legacy callers may still supply the archived bowler-only placement.
+ if(bowler)fits.hat.bowler={kind:'raster',asset:bowler.asset,x:bowler.x,y:bowler.y,scale:bowler.scale};
+ return fits;
 }
 export function validateAsset(asset){
  if(typeof asset!=='string')throw new Error('Missing PNG asset');
