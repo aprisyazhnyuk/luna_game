@@ -14,10 +14,17 @@ test('catalog preserves the current metadata, grids, ears, applied fits and atta
  assert.deepEqual(valid.items.map(({id,category,name,target})=>({id,category,name,target})),ITEMS);
  assert.equal(valid.items.filter(item=>item.art.kind!=='none').length,9);
  for(const item of valid.items){
+  if(item.art.kind!=='none'){
+   const want=item.category==='hat'?{earMaskY:476}:item.category==='shoes'?{pawClip:item.id==='heels'?24:0}:{counterStretch:true};
+   assert.deepEqual(item.attachment,want);
+  }
   if(item.art.kind==='grid'){
    const art=({hat:HATS,shoes:SHOES,mark:MARKS})[item.category][item.id];
    assert.deepEqual(item.art.rows,art.rows);assert.equal(item.art.size,art.size);
-   if(item.category==='hat')assert.deepEqual(item.art.ears,art.ears);
+   if(item.category==='hat'){
+    assert.deepEqual(item.art.ears,art.ears);
+    assert.deepEqual(item.fit,{x:art.x,y:art.y,scale:1});
+   }else assert.deepEqual(item.fit,item.category==='shoes'?{x:0,y:0,scale:1}:{x:604,y:730,scale:1});
   }
  }
  assert.deepEqual(valid.items.find(item=>item.id==='bowler').fit,{x:817,y:373,scale:1.91});
@@ -100,4 +107,8 @@ test('total review input allows nine maximum-size embedded images with bounded o
  assert.doesNotThrow(()=>validateReviewByteLength(encoded+1_000_000));
  assert.doesNotThrow(()=>validateReviewByteLength(56_000_000));
  for(const size of [56_000_001,-1,NaN,.5])assert.throws(()=>validateReviewByteLength(size));
+});
+
+test('fit validation rejects category values that only coerce to a valid string',()=>{
+ for(const category of [['hat'],new String('hat'),{toString:()=> 'hat'}])assert.throws(()=>validateFit(category,{x:500,y:400,scale:1}));
 });

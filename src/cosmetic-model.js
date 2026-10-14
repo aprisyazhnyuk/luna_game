@@ -19,7 +19,7 @@ function object(value,required,optional=[],label='object'){
 function number(value,min,max,label){if(!Number.isFinite(value)||value<min||value>max)fail(`Invalid ${label}`);}
 function integer(value,min,max,label){if(!Number.isSafeInteger(value)||value<min||value>max)fail(`Invalid ${label}`);}
 export function validateFit(category,fit){
- if(!Object.hasOwn(FIT_LIMITS,category))fail('Unknown fit category');
+ if(typeof category!=='string'||!Object.hasOwn(FIT_LIMITS,category))fail('Unknown fit category');
  object(fit,['x','y','scale'],[],'fit');
  for(const [key,[min,max]] of Object.entries(FIT_LIMITS[category]))number(fit[key],min,max,`fit.${key}`);
  return Object.freeze({x:fit.x,y:fit.y,scale:fit.scale});

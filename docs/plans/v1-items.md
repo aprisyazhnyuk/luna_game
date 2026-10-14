@@ -1,6 +1,8 @@
 # V1 customization implementation plan
 
-Status: proposed, awaiting owner approval. This branch changes documentation only.
+Status: approved by the owner on 2026-10-14. Task 1 is complete on its separate
+branch; see [verification evidence](../verification/v1-task1.md). Later tasks
+remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
 branch and PR; proceed in order. Paths below are proposed additions where absent.

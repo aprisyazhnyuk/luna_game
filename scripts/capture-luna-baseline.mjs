@@ -51,13 +51,18 @@ try{
  for(const path of ['src/animation.js','src/cosmetics.js','src/cosmetic-art.js','src/cosmetic-assets.js','src/pixels.js','assets/luna-custom.png','assets/cosmetics/bowler.png','assets/cosmetics/bowler.json'])manifest.inputs[path]=hash(await readFile(resolve(root,path)));
  if(mode==='--capture')await mkdir(dest,{recursive:true});
  const expected=mode==='--check'?JSON.parse(await readFile(resolve(dest,'manifest.json'))):null;
+ if(expected&&(expected.deviceScaleFactor!==manifest.deviceScaleFactor||JSON.stringify(expected.outfits)!==JSON.stringify(outfits)))throw new Error('Capture configuration mismatch');
  if(expected&&expected.browser!==manifest.browser)throw new Error(`Browser mismatch: ${manifest.browser} versus ${expected.browser}`);
  for(const fixture of poses)for(const size of ['native','enlarged']){
   const name=`${fixture.id}-${size}.png`;
   const bytes=Buffer.from(await page.evaluate(({pose,outfits,size})=>window.baselineRender(pose,outfits,size),{pose:fixture.pose,outfits,size}),'base64');
   manifest.images[name]=hash(bytes);
   if(mode==='--capture')await writeFile(resolve(dest,name),bytes);
-  else if(hash(await readFile(resolve(dest,name)))!==hash(bytes))throw new Error(`Renderer differs: ${name}`);
+  else {
+   const savedHash=hash(await readFile(resolve(dest,name)));
+   if(expected.images?.[name]!==savedHash)throw new Error(`Baseline hash mismatch: ${name}`);
+   if(savedHash!==hash(bytes))throw new Error(`Renderer differs: ${name}`);
+  }
  }
  if(expected&&expected.poses!==manifest.poses)throw new Error('Pose fixture mismatch');
  if(mode==='--capture')await writeFile(resolve(dest,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');

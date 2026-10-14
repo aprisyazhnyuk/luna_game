@@ -1,6 +1,6 @@
 # Luna development and verification workflow
 
-Status: proposed for owner approval. The permanent visual workflow in
+Status: approved by the owner on 2026-10-14. The permanent visual workflow in
 [AGENTS.md](../AGENTS.md) remains authoritative. Follow [the release specification](game-spec.md)
 and implement one task from [the sequential plan](plans/v1-items.md) at a time.
 All communication and project documentation use English.

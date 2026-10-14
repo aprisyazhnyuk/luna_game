@@ -31,7 +31,7 @@ application command are not yet implemented. The generic owner-saved nine-item
 review pair is not currently present, so nine corrected/approved items are still
 a release requirement rather than a completed milestone.
 
-Proposed sequence, awaiting owner plan approval:
+Sequence approved by the owner on 2026-10-14:
 
 1. Shared declarative catalog/validation and reproducible baseline fixtures.
 2. Earned-ID save migration to preserve rewards across target changes.
@@ -46,8 +46,9 @@ See [first-release specification](docs/game-spec.md),
 [development workflow](docs/development-workflow.md), and
 [sequential tasks](docs/plans/v1-items.md) for acceptance criteria and verification.
 Each complete implementation task uses a separate branch and PR. No merging or
-release publication without the owner's instruction. Next: approve the plan and
-start its shared catalog/validation task; no runtime changes in preparation.
+release publication without the owner's instruction. Task 1 (shared catalog and
+validation) is complete with baseline fixtures and verification evidence; active
+consumers remain unchanged. Next engineering task: earned-ID save migration.
 
 ## Next iteration: destinations and increasing challenge
 
