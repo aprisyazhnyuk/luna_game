@@ -48,7 +48,9 @@ See [first-release specification](docs/game-spec.md),
 Each complete implementation task uses a separate branch and PR. No merging or
 release publication without the owner's instruction. Task 1 (shared catalog and
 validation) is complete with baseline fixtures and verification evidence; active
-consumers remain unchanged. Next engineering task: earned-ID save migration.
+consumers remain unchanged. Task 2 adds earned-ID save migration, preserving
+legacy saves and current reward targets. Next engineering task: shared catalog
+consumers and generic asset loading.
 
 ## Next iteration: destinations and increasing challenge
 
