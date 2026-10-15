@@ -9,6 +9,10 @@ export const FIT_LIMITS=freeze({
  mark:{x:[400,850],y:[550,900],scale:[.01,3]}
 });
 export const INPUT_LIMITS=Object.freeze({pngBytes:4_000_000,pngDimension:4096,reviewBytes:56_000_000});
+// Version-2 review adapter; the placement itself is the catalog's x/y/scale.
+export function reviewFitForItem(item){
+ return item.fit?{kind:item.art.kind==='png'?'raster':'grid',...item.fit,...(item.art.kind==='png'?{asset:item.art.asset}:{})}:null;
+}
 const categories=Object.keys(FIT_LIMITS);
 function fail(message){throw new Error(message);}
 function object(value,required,optional=[],label='object'){
@@ -34,6 +38,15 @@ export function validatePngMetadata(metadata){
  integer(metadata.byteLength,1,INPUT_LIMITS.pngBytes,'PNG byte length');
  for(const key of ['width','height'])integer(metadata[key],1,INPUT_LIMITS.pngDimension,`PNG ${key}`);
  return Object.freeze({...metadata});
+}
+// Header/bounds check shared by runtime and review imports; full CRC validation
+// belongs to the application transaction, while browsers also decode the image.
+export function validatePngBytes(bytes){
+ const signature=[137,80,78,71,13,10,26,10];
+ if(!(bytes instanceof Uint8Array)||bytes.length<33||!signature.every((v,i)=>bytes[i]===v))fail('Invalid PNG header');
+ const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+ if(view.getUint32(8)!==13||String.fromCharCode(...bytes.subarray(12,16))!=='IHDR')fail('Invalid PNG IHDR');
+ return validatePngMetadata({byteLength:bytes.length,width:view.getUint32(16),height:view.getUint32(20)});
 }
 export function validateReviewByteLength(length){
  integer(length,1,INPUT_LIMITS.reviewBytes,'Review byte length');return length;

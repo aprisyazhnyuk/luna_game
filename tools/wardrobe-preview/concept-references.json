@@ -1,0 +1,8 @@
+{
+  "asset": "concepts/luna/04-approved-wardrobe.png",
+  "crops": {
+    "hat": {"bowler": [242,78,173,96], "witch": [590,20,215,170], "crown": [1067,52,166,125]},
+    "shoes": {"heels": [85,660,280,90], "runners": [495,660,280,90], "sandals": [905,660,280,90]},
+    "mark": {"original": [150,970,95,100], "star": [550,970,110,110], "skull": [955,970,120,120]}
+  }
+}

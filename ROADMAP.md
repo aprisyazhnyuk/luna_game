@@ -51,8 +51,9 @@ validation) is complete with baseline fixtures and verification evidence; active
 consumers remain unchanged. Task 2 adds earned-ID save migration, preserving
 legacy saves and current reward targets. Task 3 connects shared catalog consumers
 and generic asset loading, with unchanged visuals/saves. Task 4 makes grid/PNG
-attachments declarative with exact outfit parity. Next engineering task: complete
-the shared studio/review model.
+attachments declarative with exact outfit parity. Task 5 unifies studio/review
+validation and backward compatibility, with isolated exact-byte/pose checks.
+Next engineering task: the reproducible approved-review application command.
 
 ## Next iteration: destinations and increasing challenge
 

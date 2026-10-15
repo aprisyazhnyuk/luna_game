@@ -146,3 +146,13 @@ With Playwright available to Node and Google Chrome installed, run
 `node scripts/check-catalog-integration.mjs` to verify root/subpath startup, studio
 controls and save isolation in temporary profiles. It does not modify owner art
 or browser progress.
+
+## Shared studio reviews
+
+The studio starts from applied catalog art and fits, accepts replacement PNGs for
+all nine items, and saves their original bytes with every fit in version 2 JSON.
+Imports preserve newer edits and keep later catalog items when reading an older
+review. Optional concept references do not block editing. See the
+[shared review contract](docs/studio-review.md) and
+[Task 5 checks](docs/verification/v1-task5.md). Downloads remain review candidates;
+the reproducible application command is the next implementation task.
