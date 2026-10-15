@@ -78,7 +78,7 @@ next task; no owner artwork adjustment or candidate application happened here.
 Run `node --test tests/*.test.js`. With Playwright, pngjs and Chrome available,
 run `node scripts/check-studio-review.mjs` and
 `node scripts/check-catalog-integration.mjs`.
-The new check exercises all nine uploads/fit edits, exact embedded byte hashes,
+The new check exercises all nine uploads/fit edits, a valid near-limit 3.9 MB PNG, exact embedded byte hashes,
 reset-one/all, saved-pose PNG reproduction and JSON/PNG re-import, malformed and
 concurrent imports, delayed uploads, additional items, root/subpath URLs, unchanged
 localStorage and active asset/review hashes. These are isolated browser contexts.

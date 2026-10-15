@@ -40,3 +40,15 @@ test('embedded PNG assets reject noncanonical base64, invalid headers and excess
  const huge=Buffer.from(png);huge.writeUInt32BE(4097,16);
  for(const asset of ['data:image/png;base64,YWJjZA==','data:image/png;base64,AAA','data:image/png;base64,'+huge.toString('base64'),'assets//hat.png','concepts/./hat.png'])assert.throws(()=>validateAsset(asset));
 });
+
+test('near-limit valid PNGs survive upload/import/export validation without regex stack overflow',async()=>{
+ const {nearLimitPng}=await import('./helpers/png.js');
+ const bytes=nearLimitPng();assert.ok(bytes.length>3_900_000&&bytes.length<=4_000_000);
+ const asset='data:image/png;base64,'+bytes.toString('base64'),fits=defaultFits(catalog);
+ fits.hat.bowler={kind:'raster',asset,x:817,y:373,scale:.1};
+ const saved=createReview({fits,outfit:catalog.defaults,selectedCategory:'hat',review:legacy.review},catalog);
+ assert.equal(parseReview(saved,catalog).fits.hat.bowler.asset,asset);
+});
+test('editor category requires a primitive category ID',()=>{
+ for(const selectedCategory of [['hat'],{toString:()=> 'hat'}])assert.throws(()=>parseReview({...legacy,selectedCategory},catalog));
+});

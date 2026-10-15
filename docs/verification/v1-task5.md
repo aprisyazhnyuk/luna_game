@@ -1,10 +1,10 @@
 # Task 5 verification record
 
-Date: 2026-10-14. Base: `2bfd297`, main after merged PR 6.
+Dates: 2026-10-14–15 (Europe/Moscow). Base: `2bfd297`, main after merged PR 6.
 Branch: `codex/v1-studio-review`. No merge or release authorized.
 
 Baseline: 119 Node tests passed; no pre-existing suite failures. The shared review
-module was absent before the new contract tests. Its completed suite has 124
+module was absent before the new contract tests. Its completed suite has 126
 passing tests on Node v24.19.0, zero failures/skips/cancellations. Historical review
 fixtures and active catalog/art/approved review files are unchanged.
 
@@ -24,7 +24,7 @@ Chrome 155.0.8059.40 verification:
   selection. Reset-one keeps other drafts; reset-all restores all applied art.
 - Saved jump pose, playback speed and height reconstruct the complete 640×480
   preview exactly with the actual rig/renderer. Re-import reproduces its pixels.
-  Malformed input preserves the draft. Older imports/uploads cannot overwrite
+  Malformed input, including valid-header PNGs that fail decoding, preserves the draft. Older imports/uploads cannot overwrite
   later edits, and a newer successful import wins over a delayed earlier request.
 - Active assets/catalog/review evidence hashes and player localStorage stay equal
   before/after all studio scenarios. Tests use isolated profiles and synthetic
@@ -46,3 +46,17 @@ resource is needed, and studio/concept resources remain outside offline inventor
 Full application transactions/PNG CRC validation remain Task 6; inventory and
 installed-worker scenarios remain Task 7; owner corrections and real Android
 verification remain Tasks 8–9. No gameplay, target, progress or approved art change.
+
+Independent read-only review passed the earlier 124-test suite and found one
+important defect: a repeated-group base64 regex overflowed on a valid 3,901,958-byte
+PNG below the supported limit. A generated valid near-limit PNG reproduced the
+failure before replacement with linear alphabet/padding and length checks, keeping
+canonical atob/btoa verification. Node regression and browser upload/export/import
+checks now cover this image. A coercible editor-category value also failed a new
+regression before adding a primitive-string guard. Final suite: 126 pass. Review
+inspected browser evidence without independently rerunning Chrome.
+
+The expanded download test initially timed out during rapid repeated downloads;
+pacing download clicks 150 ms apart resolved it without application changes. A
+separate Chrome startup timeout also cleared on retry. These are verification
+harness/environment events, separate from the clean baseline and final checks.

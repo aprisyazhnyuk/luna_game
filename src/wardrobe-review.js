@@ -19,7 +19,7 @@ export function validateAsset(asset){
  if(typeof asset!=='string')throw new Error('Missing PNG asset');
  if(asset.startsWith('data:image/png;base64,')){
   const encoded=asset.slice(22);
-  if(encoded.length>4*Math.ceil(INPUT_LIMITS.pngBytes/3)||!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(encoded))throw new Error('Invalid embedded PNG encoding');
+  if(encoded.length>4*Math.ceil(INPUT_LIMITS.pngBytes/3)||encoded.length%4!==0||!/^[A-Za-z0-9+/]*={0,2}$/.test(encoded))throw new Error('Invalid embedded PNG encoding');
   const decoded=atob(encoded);
   if(btoa(decoded)!==encoded)throw new Error('Invalid embedded PNG encoding');
   validatePngBytes(Uint8Array.from(decoded,c=>c.charCodeAt(0)));return asset;
@@ -78,7 +78,7 @@ export function parseReview(data,catalog){
   if(!catalog.items.some(item=>item.category===category&&item.id===id))throw new Error(`Invalid ${category} selection`);
   outfit[category]=id;
  }
- if(!Object.hasOwn(LIMITS,data.selectedCategory))throw new Error('Invalid editor category');
+ if(typeof data.selectedCategory!=='string'||!Object.hasOwn(LIMITS,data.selectedCategory))throw new Error('Invalid editor category');
  return {fits,outfit,selectedCategory:data.selectedCategory,review:playback(data.review)};
 }
 export function createReview(draft,catalog){

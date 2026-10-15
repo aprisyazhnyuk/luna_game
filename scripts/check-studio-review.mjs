@@ -1,5 +1,6 @@
 // Dev-only catalog/Studio checks in isolated Chrome, never the owner's profile.
 import assert from 'node:assert/strict';
+import {nearLimitPng} from '../tests/helpers/png.js';
 import {createServer} from 'node:http';
 import {readFile,readdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -33,7 +34,7 @@ const server=createServer(async(req,res)=>{
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));let browser;
 try{
- browser=await chromium.launch({headless:true,channel:'chrome',args:['--disable-accelerated-2d-canvas']});
+ browser=await chromium.launch({headless:true,channel:'chrome',timeout:30000,args:['--disable-accelerated-2d-canvas']});
  const origin=`http://127.0.0.1:${server.address().port}`;
  const editable=catalog.items.filter(item=>item.fit),fixture=JSON.parse(await readFile(resolve(root,'tests/fixtures/luna-v1/review-v2.json')));
  const context=await browser.newContext(),page=await context.newPage();
@@ -44,13 +45,16 @@ try{
  assert.match(await page.textContent('#status'),/^Every hat/,'Missing concept art must not prevent editing');
  console.log('Studio starts without optional concept art');
  await context.close();
- const exportJson=async page=>{const event=page.waitForEvent('download');await page.click('#export');return JSON.parse(await readFile(await (await event).path()));};
- const screenshot=async page=>{const event=page.waitForEvent('download');await page.click('#snapshot');return readFile(await (await event).path());};
+ // Space real download clicks to avoid Chrome's burst-download limiter.
+ let lastDownload=0;
+ const paceDownload=async()=>{const delay=Math.max(0,150-(Date.now()-lastDownload));if(delay)await new Promise(resolve=>setTimeout(resolve,delay));lastDownload=Date.now();};
+ const exportJson=async page=>{await paceDownload();const event=page.waitForEvent('download');await page.click('#export');return JSON.parse(await readFile(await (await event).path()));};
+ const screenshot=async page=>{await paceDownload();const event=page.waitForEvent('download');await page.click('#snapshot');return readFile(await (await event).path());};
  const importJson=async(page,data,name='candidate.json')=>page.setInputFiles('#fit-file',{name,mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});
  const setX=async(page,x)=>page.locator('#x').evaluate((el,x)=>{el.value=x;el.dispatchEvent(new Event('input',{bubbles:true}));},x);
  const storage=page=>page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)])));
  for(const path of ['/','/luna_game/']){
-  const ctx=await browser.newContext(),p=await ctx.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const ctx=await browser.newContext(),p=await ctx.newPage(),errors=[];p.on('pageerror',e=>{errors.push(e.message);console.log('Browser error:',e.message);});
   await p.addInitScript(()=>{localStorage.setItem('luna.best.v1','456');localStorage.setItem('luna.wardrobe.v2',JSON.stringify({version:2,bestTreats:135,unlocked:['bowler','star','heels'],equipped:{hat:'bowler',mark:'star',shoes:'heels'}}));});
   await p.goto(origin+path+'tools/wardrobe-preview/');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Every hat'));
   const before=await storage(p);
@@ -86,6 +90,11 @@ try{
   const bad=structuredClone(review);bad.fits.mark.skull.asset='data:image/png;base64,YWJjZA==';
   await importJson(p,bad,'bad.json');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Could not load fit'));
   assert.deepEqual((await exportJson(p)).fits,review.fits);assert.equal(pixelHash(await screenshot(p)),pixelHash(image));
+  // Valid PNG header but undecodable payload fails after candidate preparation.
+  await ctx.route('**/concepts/broken.png',route=>route.fulfill({body:png.subarray(0,33),contentType:'image/png'}));
+  const broken=structuredClone(review);broken.fits.mark.skull.asset='concepts/broken.png';broken.fits.hat.bowler.x=900;
+  await importJson(p,broken,'broken.json');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Could not load fit'));
+  assert.deepEqual((await exportJson(p)).fits,review.fits);assert.equal(pixelHash(await screenshot(p)),pixelHash(image));
   // A delayed file read must not roll back a fit edit made after upload began.
   await p.evaluate(()=>{const read=FileReader.prototype.readAsDataURL;FileReader.prototype.readAsDataURL=function(file){if(file.name==='slow.png')window.releaseSlow=()=>read.call(this,file);else read.call(this,file);};window.decodeCompletions=0;});
   await p.setInputFiles('#art-file',{name:'slow.png',mimeType:'image/png',buffer:png});await setX(p,831);await p.evaluate(()=>window.releaseSlow());
@@ -109,6 +118,16 @@ try{
   await unblock();await p.waitForFunction(()=>window.decodeCompletions>=18);
   await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   assert.match(await p.textContent('#status'),/^Loaded second.json/);assert.deepEqual((await exportJson(p)).fits,review.fits);
+  const owner=JSON.parse(await readFile(resolve(root,'concepts/luna/bowler-review/luna-bowler-fit.json')));
+  await importJson(p,owner,'legacy.json');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Loaded legacy.json'));
+  const restored=await exportJson(p);assert.equal(restored.fits.hat.bowler.asset,owner.asset);assert.equal(restored.fits.hat.bowler.x,owner.x);assert.deepEqual(restored.outfit,{...catalog.defaults,hat:'bowler'});assert.equal(restored.fits.shoes.heels.kind,'grid');
+  await importJson(p,fixture,'v2.json');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Loaded v2.json'));
+  assert.deepEqual((await exportJson(p)).fits,fixture.fits);
+  const large=nearLimitPng();await p.selectOption('#outfit-hat','bowler');
+  await p.setInputFiles('#art-file',{name:'large.png',mimeType:'image/png',buffer:large});await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Loaded large.png'));
+  const largeReview=await exportJson(p);assert.equal(digest(Buffer.from(largeReview.fits.hat.bowler.asset.split(',')[1],'base64')),digest(large));
+  await importJson(p,largeReview,'large.json');await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Loaded large.json'));
+  assert.equal((await exportJson(p)).fits.hat.bowler.asset,largeReview.fits.hat.bowler.asset);
   assert.deepEqual(await storage(p),before);assert.deepEqual(errors,[]);await ctx.close();
   console.log(`Nine PNG byte/fit round trips, saved pose, resets, failed/concurrent imports and save isolation passed at ${path}`);
  }
