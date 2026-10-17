@@ -220,3 +220,14 @@ at applied defaults. Async drafts invalidate stale work on newer actions.
 See [studio/review contract](studio-review.md) and
 [verification](verification/v1-task5.md). The next boundary is the Task 6 exact-byte
 application transaction; no candidate artwork was applied here.
+
+## Task 6: review application transaction
+
+The Node-only `scripts/apply-wardrobe-review.mjs` command validates shared review
+semantics plus PNG CRC/bounded scanlines, then plans content-addressed PNGs, all
+changed catalog fits, evidence and manual worker updates. It snapshots inputs,
+stages original/new bytes, publishes with a durable journal and rolls back failures.
+Recovery handles interrupted staging/publication/cleanup without overwriting a
+conflicting edit. Game code, saved player state and approved art remain unchanged
+on this engineering branch. See [application contract](review-application.md).
+The next task derives offline inventory and tests installed-worker transitions.

@@ -86,3 +86,10 @@ exact embedded bytes and every supplied fit. Older reviews keep later catalog
 items at applied defaults. Concept reference metadata is optional and never an
 artwork source for application. PNG header/decode checks in the studio do not
 replace full CRC and transaction validation in the application command.
+
+For an approved saved pair, use `scripts/apply-wardrobe-review.mjs`; see
+`docs/review-application.md`. Inspect its default dry-run before explicit `--apply`.
+Keep the archived evidence and complete catalog/image/worker diff together. An
+interrupted transaction retains `.luna-review-transaction/`; recover only after
+its writer stopped, preserving any reported conflicting edits. Do not manually
+substitute images or apply the preview PNG as a wearable.

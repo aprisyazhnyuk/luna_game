@@ -5,6 +5,7 @@ branch; see [verification evidence](../verification/v1-task1.md). Task 2 is comp
 Task 3 is complete on its separate branch with [loader verification evidence](../verification/v1-task3.md).
 Task 4 is complete on its separate branch with [rendering verification evidence](../verification/v1-task4.md).
 Task 5 is complete on its separate branch with [studio/review verification evidence](../verification/v1-task5.md).
+Task 6 is complete on its separate branch with [application verification evidence](../verification/v1-task6.md).
 Later tasks remain to implement.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
@@ -248,8 +249,8 @@ Owner decides merging/publishing only after this evidence is presented.
 
 ## Recommended next task
 
-Tasks 1–5 establish catalog data, save compatibility, loading, declarative
-rendering and shared studio/review handling. Next is Task 6: build the reproducible
-validated approved-review application command in temporary test repositories.
+Tasks 1–6 establish catalog data, save compatibility, shared rendering/reviews
+and a validated exact-byte application command. Next is Task 7: derive and verify
+the offline inventory and coherent installed-worker transitions.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?
