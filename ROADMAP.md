@@ -53,7 +53,10 @@ legacy saves and current reward targets. Task 3 connects shared catalog consumer
 and generic asset loading, with unchanged visuals/saves. Task 4 makes grid/PNG
 attachments declarative with exact outfit parity. Task 5 unifies studio/review
 validation and backward compatibility, with isolated exact-byte/pose checks.
-Next engineering task: the reproducible approved-review application command.
+Task 6 adds the validated exact-byte application command, dry-run, archived
+evidence and recoverable catalog/image/worker transaction. All engineering
+application tests use temporary copies. Next: generated offline inventory and
+installed-worker verification.
 
 ## Next iteration: destinations and increasing challenge
 

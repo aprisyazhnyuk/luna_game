@@ -84,8 +84,9 @@ Browser/device checks supplement Node tests; record what actually ran.
 6. Verify the live game/Store, saves and offline updates. Never write the review
    outfit to player localStorage. A malformed review must leave active assets intact.
 
-Until the command exists, the studio is still available for review, but this
-preparation task does not apply any candidate. The missing generic saved review
+The [application command](review-application.md) now provides a default dry-run,
+explicit `--apply`, exact-byte evidence and interrupted-operation recovery. It
+does not authorize applying a candidate before owner instruction. The missing generic saved review
 pair is an essential input for correcting the remaining items, not a reason to
 block the preceding engineering tasks.
 

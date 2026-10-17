@@ -1,7 +1,11 @@
 {
-  "name":"luna-little-adventures",
-  "version":"0.1.0",
-  "private":true,
-  "type":"module",
-  "scripts":{"test":"node --test tests/*.test.js","start":"python3 -m http.server 8080 --bind 127.0.0.1"}
+  "name": "luna-little-adventures",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "python3 -m http.server 8080 --bind 127.0.0.1",
+    "review:apply": "node scripts/apply-wardrobe-review.mjs"
+  }
 }

@@ -155,4 +155,13 @@ Imports preserve newer edits and keep later catalog items when reading an older
 review. Optional concept references do not block editing. See the
 [shared review contract](docs/studio-review.md) and
 [Task 5 checks](docs/verification/v1-task5.md). Downloads remain review candidates;
-the reproducible application command is the next implementation task.
+the [validated application command](docs/review-application.md) now provides a
+dry-run and explicit application after owner approval.
+
+## Apply approved wardrobe files
+
+Use `node scripts/apply-wardrobe-review.mjs --review FIT.json --preview PREVIEW.png`
+for a read-only change report. After owner approval, add `--apply` to transfer exact
+images/all fits, preserve the review pair and update the offline worker. See
+[application and recovery](docs/review-application.md). No new artwork was applied
+as part of implementing this command.
