@@ -36,9 +36,15 @@ function tokens(source){
    if(quote==='`'&&/\$\{[\s\S]*\bimport\s*\(/.test(value))throw new Error('Unsupported import in template expression');
    result.push({kind:quote==='`'?'template':'string',value,escaped});continue;
   }
-  if(c==='/'&&!['word','string',']',')'].includes(result.at(-1)?.kind)){
-   i++;let bracket=false;
-   while(i<source.length){if(source[i]==='\\'){i+=2;continue;}if(source[i]==='[')bracket=true;if(source[i]===']')bracket=false;if(source[i++]==='/'&&!bracket)break;}
+  if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(source[i+1]??''))){
+   const start=i++;while(i<source.length&&/[A-Za-z0-9_.]/.test(source[i]))i++;
+   result.push({kind:'number',value:source.slice(start,i)});continue;
+  }
+  if(source.startsWith('++',i)||source.startsWith('--',i)){result.push({kind:'postfix',value:source.slice(i,i+2)});i+=2;continue;}
+  if(c==='/'&&!['word','number','string','template','postfix',']',')','}'].includes(result.at(-1)?.kind)){
+   i++;let bracket=false,closed=false;
+   while(i<source.length){if(source[i]==='\\'){i+=2;continue;}if(source[i]==='[')bracket=true;if(source[i]===']')bracket=false;if(/[\r\n]/.test(source[i]))throw new Error('Unsupported or unterminated JS regex');if(source[i++]==='/'&&!bracket){closed=true;break;}}
+   if(!closed)throw new Error('Unterminated JS regex');
    while(/[a-z]/i.test(source[i]??'')&&i<source.length)i++;result.push({kind:'regex',value:''});continue;
   }
   if(/[A-Za-z_$]/.test(c)){const start=i++;while(i<source.length&&/[A-Za-z0-9_$]/.test(source[i]))i++;result.push({kind:'word',value:source.slice(start,i)});continue;}
@@ -47,19 +53,24 @@ function tokens(source){
  return result;
 }
 function jsDependencies(source){
- const ts=tokens(source),paths=[];
+ const ts=tokens(source),paths=[],add=(spec,base)=>paths.push({spec,base});
  const literal=t=>{if(t?.kind!=='string'||t.escaped)throw new Error('Offline imports/assets require plain literal paths');return t.value;};
  for(let i=0;i<ts.length;i++){
   const t=ts[i];
   if(t.kind==='word'&&t.value==='import'&&ts[i+1]?.value!=='.'){
-   if(ts[i+1]?.value==='('){if(![')',','].includes(ts[i+3]?.value))throw new Error('Dynamic import requires a literal offline path');paths.push(literal(ts[i+2]));}
-   else if(ts[i+1]?.kind==='string')paths.push(literal(ts[i+1]));
-   else for(let j=i+1;j<ts.length&&ts[j].value!==';';j++)if(ts[j].value==='from'){paths.push(literal(ts[j+1]));break;}
+   if(ts[i+1]?.value==='('){if(![')',','].includes(ts[i+3]?.value))throw new Error('Dynamic import requires a literal offline path');add(literal(ts[i+2]));}
+   else if(ts[i+1]?.kind==='string')add(literal(ts[i+1]));
+   else for(let j=i+1;j<ts.length&&ts[j].value!==';';j++)if(ts[j].value==='from'){add(literal(ts[j+1]));break;}
   }else if(t.kind==='word'&&t.value==='export'){
-   if(['{','*'].includes(ts[i+1]?.value))for(let j=i+1;j<ts.length&&ts[j].value!==';';j++)if(ts[j].value==='from'){paths.push(literal(ts[j+1]));break;}
+   if(['{','*'].includes(ts[i+1]?.value))for(let j=i+1;j<ts.length&&ts[j].value!==';';j++)if(ts[j].value==='from'){add(literal(ts[j+1]));break;}
   }else if(t.value==='new'&&ts[i+1]?.value==='URL'&&ts[i+2]?.value==='('&&ts[i+3]?.kind==='string'&&ts.slice(i+5,i+10).map(t=>t.value).join('')==='import.meta.url'){
-   const path=literal(ts[i+3]);if(!path.endsWith('/'))paths.push(path);
-  }else if(['fetch','importScripts'].includes(t.value)&&ts[i+1]?.value==='('&&ts[i+2]?.kind==='string')paths.push(literal(ts[i+2]));
+   const path=literal(ts[i+3]);if(!path.endsWith('/'))add(path);
+  }else if(t.value==='fetch'&&ts[i+1]?.value==='('&&ts[i+2]?.kind==='string')add(literal(ts[i+2]),'index.html');
+  else if(t.value==='importScripts'&&ts[i+1]?.value==='('){
+   for(let j=i+2;ts[j]?.value!==')';j+=2){
+    add(literal(ts[j]),'sw.js');if(ts[j+1]?.value===')')break;if(ts[j+1]?.value!==',')throw new Error('importScripts requires literal offline paths');
+   }
+  }
  }
  return paths;
 }
@@ -73,8 +84,8 @@ export async function generateInventory({read}){
  while(queue.length){
   const path=queue.shift();if(path===GENERATED||files.has(path))continue;safe(path);
   const bytes=Buffer.from(await read(path));if(bytes.length>MAX_FILE)throw new Error(`Offline dependency too large: ${path}`);files.set(path,bytes);
-  const add=spec=>{const dep=dependency(path,spec);if(dep&&dep!==GENERATED)queue.push(dep);};
-  if(path.endsWith('.js'))for(const spec of jsDependencies(bytes.toString('utf8')))add(spec);
+  const add=(spec,base=path)=>{const dep=dependency(base,spec);if(dep&&dep!==GENERATED)queue.push(dep);};
+  if(path.endsWith('.js'))for(const {spec,base} of jsDependencies(bytes.toString('utf8')))add(spec,base);
   if(path.endsWith('.css')){
    const text=bytes.toString('utf8').replace(/\/\*[\s\S]*?\*\//g,'');
    for(const m of text.matchAll(/url\(\s*['"]?([^'"\s)]+)['"]?\s*\)|@import\s+['"]([^'"]+)['"]/g))add(m[1]??m[2]);

@@ -114,3 +114,14 @@ test('application stages generated inventory and snapshots all runtime dependenc
  await fs.appendFile(join(s.root,'src/engine.js'),'\n');const before=await hashes(s.root);
  await assert.rejects(()=>applyPrepared(plan),/concurrent|changed/i);assert.deepEqual(await hashes(s.root),before);
 });
+
+test('an input changed during inventory preparation cannot replace its validated snapshot',async t=>{
+ const s=await sandbox(t),before=await hashes(s.root),module=fileURLToPath(new URL('../scripts/lib/review-application.mjs',import.meta.url));
+ // Isolate the deterministic concurrent-writer hook from other tests/processes.
+ const code=`import fs from 'node:fs/promises';import {syncBuiltinESMExports} from 'node:module';import assert from 'node:assert/strict';import {prepareReview} from ${JSON.stringify(module)};
+ const [root,review,preview]=process.argv.slice(1),open=fs.open;let injected=false;
+ fs.open=async(...args)=>{if(!injected&&args[0]===root+'/index.html'){injected=true;await fs.writeFile(root+'/assets/cosmetics/bowler.png','invalid concurrent PNG');}return open(...args);};syncBuiltinESMExports();
+ try{await assert.rejects(()=>prepareReview({root,review,preview}),/concurrent|changed/i);assert.equal(injected,true);}finally{fs.open=open;syncBuiltinESMExports();}`;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',code,s.root,s.review,s.preview],{encoding:'utf8'});assert.equal(child.status,0,child.stderr);
+ const expected={...before,'assets/cosmetics/bowler.png':hash(Buffer.from('invalid concurrent PNG'))};assert.deepEqual(await hashes(s.root),expected,'only the injected external edit remains');
+});

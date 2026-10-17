@@ -27,3 +27,28 @@ test('every shipped-file byte change invalidates identity; missing dependencies 
  await writeFile(join(s.root,'offline-assets.js'),await generate(s.root));assert.equal(run().status,0);
  await writeFile(join(s.root,'src/engine.js'),"import './missing.js';\n");const before=await hashes(s.root);assert.notEqual(run().status,0);assert.deepEqual(await hashes(s.root),before);
 });
+
+test('imports after numeric divisions in the real app remain required dependencies',async t=>{
+ const s=await sandbox(t),app=join(s.root,'src/app.js'),source=await readFile(app,'utf8');
+ await writeFile(join(s.root,'src/late-module.js'),'export const late=true;');
+ await writeFile(app,source+"\nconst ratio=1/120; import './late-module.js';\n");
+ assert.ok(parseInventory(await generate(s.root)).files.some(file=>file.url==='./src/late-module.js'));
+ await writeFile(app,source+"\nimport './missing-after-division.js';\n");
+ await assert.rejects(()=>generate(s.root),/missing-after-division|ENOENT/);
+});
+
+test('literal fetch uses the game execution URL',async t=>{
+ const s=await sandbox(t),app=join(s.root,'src/app.js'),sw=join(s.root,'sw.js');
+ await writeFile(join(s.root,'assets/fetch-example.png'),'example');
+ await writeFile(app,"fetch('./assets/fetch-example.png');\n"+await readFile(app,'utf8'));
+ assert.ok(parseInventory(await generate(s.root)).files.some(file=>file.url==='./assets/fetch-example.png'));
+});
+
+test('every importScripts argument is a required worker dependency',async t=>{
+ const s=await sandbox(t),sw=join(s.root,'sw.js');
+ await writeFile(join(s.root,'first-worker.js'),'const first=1;');await writeFile(join(s.root,'second-worker.js'),'const second=2;');
+ await writeFile(sw,"importScripts('./first-worker.js', './second-worker.js');\n"+await readFile(sw,'utf8'));
+ const urls=parseInventory(await generate(s.root)).files.map(file=>file.url);
+ for(const url of ['./first-worker.js','./second-worker.js'])assert.ok(urls.includes(url),url);
+ await writeFile(sw,"importScripts('./first-worker.js', './missing-worker.js');\n");await assert.rejects(()=>generate(s.root),/missing-worker|ENOENT/);
+});

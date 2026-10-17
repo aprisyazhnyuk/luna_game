@@ -28,14 +28,18 @@ node scripts/generate-offline-assets.mjs --check
 node --test tests/*.test.js
 ```
 
-Inventory check passed; 167 tests passed, no failures, skips or cancellations.
+Inventory check passed; 171 tests passed, no failures, skips or cancellations.
 New coverage includes deterministic graph/exclusions, nested literal imports,
 catalog-only PNGs including paths with spaces, content invalidation, stale/missing
 checks, root/subpath worker lifecycle, wrong/missing downloads, complete-cache
 status, eviction/repair, generation isolation and same-generation reinstall.
 Status tests cover initial failure, verified readiness, waiting/failing update,
-bounded timeout and registration failure. Application tests cover inventory changes
-and concurrent runtime edits alongside existing rollback/recovery cases.
+bounded timeout and registration failure. Scanner regressions cover literal imports
+after the real app’s numeric divisions, game-relative fetch paths and every
+importScripts argument. Application tests cover inventory changes
+and concurrent runtime edits alongside existing rollback/recovery cases. A deterministic
+writer hook changes a validated PNG during preparation; rejection preserves every
+other file and the original snapshot limits.
 
 The red phase showed absent generator/status APIs and the former worker accepting
 an install without a new required catalog PNG. The application integration test
@@ -100,3 +104,21 @@ Next is Task 8: owner review of all nine items in the permanent studio, then the
 saved JSON/PNG pair and instruction to apply. The generic owner-saved pair is still
 absent; no artwork is inferred from screenshots or regenerated. Existing bowler
 approval is preserved. No merge or publication is performed by this task.
+
+
+## Independent review and fixes
+
+One fresh-context whole-branch review found two important issues: repeated reads
+could overwrite an earlier validated snapshot during preparation, and numeric
+division could hide later imports from the scanner. Both were reproduced by failing
+regressions before fixing the first-snapshot invariant and numeric-token handling.
+The review also identified fetch-base and multi-argument importScripts omissions.
+These were treated as dependency-completeness issues and fixed in the same pass,
+with separate red-to-green regressions. No review findings remain deferred.
+The final suite has 171 passing tests; generated inventory remains unchanged.
+
+Review scope decisions: Android/production delivery remain explicitly pending,
+since desktop profiles cannot establish device results. Arbitrary computed URLs
+continue to require a declared dependency source/generator extension; otherwise
+future features could omit assets. The current cosmetic loader’s computed paths
+are covered by the catalog. These limits are documented in the offline contract.

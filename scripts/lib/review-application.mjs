@@ -58,7 +58,11 @@ function targetAllowed(path){
 export async function prepareReview({root,review,preview}){
  root=await fs.realpath(resolve(root));const snapshots=new Map();
  const read=async(path,limit,optional=false)=>{
-  const bytes=await readInside(root,path,limit,fs,optional);snapshots.set(join(root,path),{path,limit,hash:hash(bytes)});return bytes;
+  const bytes=await readInside(root,path,limit,fs,optional),absolute=join(root,path),prior=snapshots.get(absolute),digest=hash(bytes);
+  // A second consumer must use the same bytes that passed the first validation.
+  // Never replace that evidence (or its original limits) with a later reread.
+  if(prior&&prior.hash!==digest)throw new Error(`Input changed concurrently during preparation: ${path}`);
+  if(!prior)snapshots.set(absolute,{path,limit,hash:digest});return bytes;
  };
  const source=async(path,limit)=>{
   const original=resolve(path),stat=await fs.lstat(original);if(stat.isSymbolicLink())throw new Error(`Symlink input: ${path}`);

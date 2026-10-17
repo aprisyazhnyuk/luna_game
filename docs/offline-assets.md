@@ -23,7 +23,9 @@ pending catalog/image bytes; it snapshots runtime inputs to detect concurrent ed
 the cosmetic catalog and the three linked legal/privacy documents. It follows
 HTML script/link references, CSS URLs/imports, JS literal imports/reexports,
 literal dynamic imports, literal `new URL(path, import.meta.url)`, and literal
-fetch/importScripts references. The catalog contributes every PNG art path in
+fetch/importScripts references. Fetch paths use the game document/worker
+execution URL; module imports and import.meta URLs use the containing module.
+All literal importScripts arguments are included. The catalog contributes every PNG art path in
 any category. Grid artwork and fits travel in the catalog itself. Paths must be
 local, bounded regular files without symlinks; dependencies outside the game
 (such as studio/concepts) are rejected.
