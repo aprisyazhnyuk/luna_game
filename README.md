@@ -61,6 +61,8 @@ See [GitHub's publishing instructions](https://docs.github.com/en/pages/getting-
 
 Open the HTTPS Pages URL in Chrome while online. Wait for **Ready for offline adventures** in the **?** help panel. Use **Install game** if available, or Chrome's menu → **Install app / Add to Home screen** (the wording varies). Installation needs your browser's confirmation; visiting a page cannot silently install a home-screen app.
 
+A completed update asks you to close all Luna windows before finishing; a failed download keeps the previous installed version.
+
 Launch once from the home-screen icon, then turn on airplane mode and relaunch to check your device. The game has no external font, script, image, or audio requests. Browser data removal or storage eviction can remove saved scores and downloaded assets; revisit online if needed.
 
 The [manifest enables installation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable), and the [service worker caches game files](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation). Adding to the home screen and downloading the offline cache are separate browser actions.
@@ -94,7 +96,7 @@ The studio starts at the applied fit. Position uses full-size `assets/luna-custo
 
 All hats, shoes, and marks now use grid rows or PNG references in `assets/cosmetics/catalog.json`. The unchanged `src/cosmetic-art.js` is retained as a historical parity reference and is no longer imported by the game or studio. Pixel rows use X (charcoal), G (grey), L (light grey), W (cream), and . (transparent); colors are in `src/pixels.js`. The old `HATS.bowler` grid is historical artwork; editing it does not change the approved raster bowler. To avoid further concept-to-game differences, future approved raster accessories should retain their exact PNG and placement.
 
-`src/cosmetics.js` draws hats on the torso and shoes within each paw's transform. High heels replace the paw bottom to leave the gap between heel and toe empty; marks counter torso squash to retain their proportions. After applying reviewed files, reload the local game, select the unlocked item in Store, and start a new run. Include new runtime PNG/JSON/modules in `sw.js` and increment its version for offline updates. The studio itself is a development tool and is not bundled into the offline game.
+`src/cosmetics.js` draws hats on the torso and shoes within each paw's transform. High heels replace the paw bottom to leave the gap between heel and toe empty; marks counter torso squash to retain their proportions. After applying reviewed files, reload the local game, select the unlocked item in Store, and start a new run. Run `node scripts/generate-offline-assets.mjs --write` after runtime edits; approved review application updates that inventory automatically. The studio itself is a development tool and is not bundled into the offline game.
 
 ## Development and verification
 
@@ -112,9 +114,9 @@ Manual device checks before release:
 - Install, go offline, close and reopen the game. Test both site root and repository path.
 - Check a short screen and landscape fallback; controls should remain reachable by scrolling.
 
-`src/engine.js` owns simulation, `src/pixels.js` defines the base sprites, `src/cosmetic-art.js` defines the wardrobe artwork, `src/draw.js` draws Luna and the playfield, and `src/app.js` handles input, interface, saving, and installation. `src/customisation.js` owns the item catalog, unlock targets, selections, and versioned wardrobe save validation; `src/store.js` builds the store and preview. `style.css` controls the page. The simulation uses a fixed time step. Tests include every reward boundary, single-run counting, all 48 saved combinations, boots migration, invalid-save recovery, and offline store assets.
+`src/engine.js` owns simulation, `src/pixels.js` defines the base sprites, `assets/cosmetics/catalog.json` defines current wardrobe artwork and placements, `src/draw.js` draws Luna and the playfield, and `src/app.js` handles input, interface, saving, and installation. `src/customisation.js` consumes catalog targets and owns selections and versioned wardrobe save validation; `src/store.js` builds the store and preview. `style.css` controls the page. The simulation uses a fixed time step. Tests include every reward boundary, single-run counting, all 48 saved combinations, boots migration, invalid-save recovery, and offline store assets.
 
-When shipping changes, bump `VERSION` in `sw.js` and include any new offline assets in `FILES`. A new worker waits for existing game windows to close before activating. Local development automatically bypasses the offline cache; `refresh.html` also provides recovery for older installed versions without clearing saved progress.
+Before committing shipped changes, run `node scripts/generate-offline-assets.mjs --write` and `--check`. CI rejects stale or missing offline assets. The worker verifies exact resource bytes before reporting readiness. See [offline inventory and update checks](docs/offline-assets.md). A new worker waits for existing game windows to close before activating. Local development automatically bypasses the offline cache; `refresh.html` also provides recovery for older installed versions without clearing saved progress.
 
 ## Rights and privacy
 
@@ -162,6 +164,6 @@ dry-run and explicit application after owner approval.
 
 Use `node scripts/apply-wardrobe-review.mjs --review FIT.json --preview PREVIEW.png`
 for a read-only change report. After owner approval, add `--apply` to transfer exact
-images/all fits, preserve the review pair and update the offline worker. See
+images/all fits, preserve the review pair and update the generated offline inventory. See
 [application and recovery](docs/review-application.md). No new artwork was applied
 as part of implementing this command.

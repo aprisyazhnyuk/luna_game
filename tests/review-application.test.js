@@ -19,7 +19,7 @@ test('dry-run changes nothing; apply transfers all fits and exact PNGs, evidence
  const archived=join(s.root,result.evidence);
  assert.equal(hash(await fs.readFile(join(archived,'review.json'))),hash(await fs.readFile(s.review)));
  assert.equal(hash(await fs.readFile(join(archived,'preview.png'))),hash(await fs.readFile(s.preview)));
- const sw=await fs.readFile(join(s.root,'sw.js'),'utf8');for(const id of ['crown','heels','skull'])assert.ok(sw.includes(catalog.items.find(i=>i.id===id).art.asset));assert.notEqual(hash(Buffer.from(sw)),before['sw.js']);
+ const sw=await fs.readFile(join(s.root,'offline-assets.js'),'utf8');for(const id of ['crown','heels','skull'])assert.ok(sw.includes(catalog.items.find(i=>i.id===id).art.asset));assert.notEqual(hash(Buffer.from(sw)),before['offline-assets.js']);
  const applied=await hashes(s.root);const again=await prepareReview(s);assert.equal(again.files.length,0);await applyPrepared(again);assert.deepEqual(await hashes(s.root),applied);
 });
 for(const [name,corrupt] of [
@@ -106,4 +106,11 @@ for(const name of ['review.json','preview.png'])test(`conflicting archived ${nam
  const s=await sandbox(t),applied=await applyPrepared(await prepareReview(s));
  await fs.writeFile(join(s.root,applied.evidence,name),'a conflicting preserved review');
  const before=await hashes(s.root);await assert.rejects(()=>prepareReview(s),/archive|evidence/i);assert.deepEqual(await hashes(s.root),before);
+});
+
+test('application stages generated inventory and snapshots all runtime dependencies',async t=>{
+ const s=await sandbox(t),plan=await prepareReview(s);
+ assert.ok(plan.files.some(file=>file.path==='offline-assets.js'));
+ await fs.appendFile(join(s.root,'src/engine.js'),'\n');const before=await hashes(s.root);
+ await assert.rejects(()=>applyPrepared(plan),/concurrent|changed/i);assert.deepEqual(await hashes(s.root),before);
 });

@@ -26,8 +26,8 @@ preview → owner adjustment and saved JSON/PNG → application of exact reviewe
 
 Preparation completed on 2026-10-14: source/test/CI audit and proposed documentation
 plan. Existing 30 tests passed with Node v24.19.0; real-device and fresh visual
-parity checks remain pending. Generic runtime item loading and a validated
-application command are not yet implemented. The generic owner-saved nine-item
+parity checks remain pending. Generic runtime item loading, validated application and generated offline coverage
+have since been implemented in Tasks 1–7. The generic owner-saved nine-item
 review pair is not currently present, so nine corrected/approved items are still
 a release requirement rather than a completed milestone.
 
@@ -55,8 +55,11 @@ attachments declarative with exact outfit parity. Task 5 unifies studio/review
 validation and backward compatibility, with isolated exact-byte/pose checks.
 Task 6 adds the validated exact-byte application command, dry-run, archived
 evidence and recoverable catalog/image/worker transaction. All engineering
-application tests use temporary copies. Next: generated offline inventory and
-installed-worker verification.
+application tests use temporary copies. Task 7 generates the runtime/catalog PNG
+inventory, stages it during review application and verifies complete-cache readiness,
+v19 upgrades, cold offline starts and failed-download recovery in desktop Chrome
+at root/subpath. Next: Task 8 owner visual review and exact application, followed
+by Task 9 real Android verification. See [Task 7 evidence](docs/verification/v1-task7.md).
 
 ## Next iteration: destinations and increasing challenge
 

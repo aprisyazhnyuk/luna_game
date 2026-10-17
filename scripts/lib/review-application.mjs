@@ -6,6 +6,7 @@ import {isDeepStrictEqual} from 'node:util';
 import {validateCatalog,validateReviewByteLength,INPUT_LIMITS} from '../../src/cosmetic-model.js';
 import {parseReview,clone} from '../../src/wardrobe-review.js';
 import {validatePng} from './png.mjs';
+import {generateInventory} from './offline-inventory.mjs';
 const JOURNAL='.luna-review-transaction',MAX_JSON=56_000_000;
 const ROLLBACK=Symbol('writer rollback');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -49,20 +50,9 @@ async function readFile(path,limit,io=fs,optional=false){
 async function readInside(root,path,limit,io=fs,optional=false){await checkPath(root,path,io);return readFile(join(root,path),limit,io,optional);}
 function targetAllowed(path){
  safeRelative(path);
- if(path==='assets/cosmetics/catalog.json'||path==='sw.js')return true;
+ if(path==='assets/cosmetics/catalog.json'||path==='sw.js'||path==='offline-assets.js')return true;
  if(/^assets\/cosmetics\/[a-z][a-z0-9-]*-[a-f0-9]{64}\.png$/.test(path))return true;
  return /^concepts\/luna\/applied-reviews\/[a-f0-9]{64}\/(review\.json|preview\.png|report\.json)$/.test(path);
-}
-function cacheSource(source,assets,changed,catalogBytes){
- const list=/^const FILES=(\[[^\n]*\]);$/m.exec(source),version=/^const VERSION='[^'\n]+';$/m.exec(source);
- if(!list||!version)throw new Error('Unsupported manual service worker format');
- let files;try{files=JSON.parse(list[1].replaceAll("'",'"'));}catch{throw new Error('Invalid offline list');}
- if(!Array.isArray(files)||files.some(path=>typeof path!=='string'||!path.startsWith('./')))throw new Error('Invalid offline paths');
- const additions=assets.map(path=>'./'+path).filter(path=>!files.includes(path)).sort();
- if(!changed&&!additions.length)return Buffer.from(source);
- const next=source.replace(list[0],'const FILES='+JSON.stringify([...files,...additions])+';');
- const identity=sha(Buffer.concat([catalogBytes,Buffer.from(next.replace(version[0],"const VERSION='';"))]));
- return Buffer.from(next.replace(version[0],`const VERSION='review-${identity.slice(0,24)}';`));
 }
 // Planning is read-only. Snapshot every input/target, including absent files.
 export async function prepareReview({root,review,preview}){
@@ -77,7 +67,6 @@ export async function prepareReview({root,review,preview}){
   snapshots.set(actual,{absolute:actual,original,limit,hash:sha(bytes)});return bytes;
  };
  const catalogBytes=await read('assets/cosmetics/catalog.json',1_000_000),catalog=validateCatalog(decode(catalogBytes));
- const workerBytes=await read('sw.js',2_000_000);
  const reviewBytes=await source(review,MAX_JSON);validateReviewByteLength(reviewBytes.length);
  const draft=parseReview(decode(reviewBytes),catalog),previewBytes=await source(preview,INPUT_LIMITS.pngBytes);validatePng(previewBytes);
  const previewHash=sha(previewBytes),validated=new Set([previewHash]),activeImages=new Map();
@@ -118,8 +107,8 @@ export async function prepareReview({root,review,preview}){
  validateCatalog(next);
  const nextBytes=items.some(item=>item.changed)?json(next):catalogBytes;
  await add('assets/cosmetics/catalog.json',nextBytes,1_000_000);
- const worker=cacheSource(workerBytes.toString('utf8'),next.items.filter(i=>i.art.kind==='png').map(i=>i.art.asset),!nextBytes.equals(catalogBytes),nextBytes);
- await add('sw.js',worker,2_000_000);
+ const inventory=await generateInventory({read:async path=>pending.get(path)?.after??read(path,64_000_000)});
+ await add('offline-assets.js',inventory);
  const reviewHash=sha(reviewBytes),evidence=`concepts/luna/applied-reviews/${sha(Buffer.from(reviewHash+':'+previewHash))}`;
  await add(evidence+'/review.json',reviewBytes,MAX_JSON,true);await add(evidence+'/preview.png',previewBytes,INPUT_LIMITS.pngBytes,true);
  const report={version:1,inputs:{review:{sha256:reviewHash},preview:{sha256:previewHash}},evidence,items,files:files.map(f=>({path:f.path,before:hash(f.before),after:sha(f.after)}))};

@@ -89,7 +89,14 @@ replace full CRC and transaction validation in the application command.
 
 For an approved saved pair, use `scripts/apply-wardrobe-review.mjs`; see
 `docs/review-application.md`. Inspect its default dry-run before explicit `--apply`.
-Keep the archived evidence and complete catalog/image/worker diff together. An
+Keep the archived evidence and complete catalog/image/offline-inventory diff together. An
 interrupted transaction retains `.luna-review-transaction/`; recover only after
 its writer stopped, preserving any reported conflicting edits. Do not manually
 substitute images or apply the preview PNG as a wearable.
+
+Offline coverage is generated in `offline-assets.js`; see `docs/offline-assets.md`.
+After runtime edits run `node scripts/generate-offline-assets.mjs --write` and
+`--check`; commit the generated inventory with its source changes. Approved review
+application stages this automatically. Do not restore a manual worker list/version
+or force waiting workers to activate. Preserve local worker bypass and verify
+installed-worker behavior separately from cache mocks and real Android checks.

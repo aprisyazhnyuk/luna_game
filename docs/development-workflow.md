@@ -22,8 +22,10 @@ and cache updates, even when these span several files. Never combine major
 refactoring with gameplay changes. Keep the current JavaScript/Canvas stack.
 
 Run `node --test tests/*.test.js` (or `npm test`) before and after changes. CI uses
-Node 22; prefer Node 22 for matching CI and record any other version used. No
-package installation is needed for the current suite. Record baseline failures
+Node 22; prefer Node 22 for matching CI and record any other version used. Run `node scripts/generate-offline-assets.mjs --write` after runtime changes and
+`node scripts/generate-offline-assets.mjs --check` before tests/commit; CI checks
+the same generated inventory. Approved-review application stages it automatically.
+No package installation is needed for the current suite. Record baseline failures
 separately, including command/runtime and whether caused by environment setup.
 Do not label an unavailable command a failed game test.
 
@@ -102,8 +104,9 @@ criteria still need evidence. Attach created PRs to the Codex chat.
 Before handing off, review the diff, run appropriate checks, verify only authorized
 files changed, and update docs for the final implementation. Report observed
 results and pre-existing failures separately. No merge, main update, or release
-publication without instruction. This documentation branch is preparation only;
-future commands/interfaces mentioned here are proposed until implemented.
+publication without instruction. Use the implemented [review application](review-application.md) and
+[offline inventory](offline-assets.md) commands; visual application still requires
+the owner-saved pair and instruction.
 
 ## Release verification
 
