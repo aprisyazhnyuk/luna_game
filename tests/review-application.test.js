@@ -92,3 +92,18 @@ test('manual recovery refuses a live writer instead of undoing its publication',
  const path=join(dir,'manifest.json'),manifest=JSON.parse(await fs.readFile(path));manifest.phase='committing';await fs.writeFile(path,JSON.stringify(manifest));
  const before=await hashes(s.root);await assert.rejects(()=>recoverReview(s.root),/active writer|still running/i);assert.deepEqual(await hashes(s.root),before);
 });
+
+test('a second recovery resumes after the rollback process itself exits',async t=>{
+ const s=await sandbox(t),before=await hashes(s.root),module=fileURLToPath(new URL('../scripts/lib/review-application.mjs',import.meta.url));
+ const applying=`import * as fs from 'node:fs/promises';import {prepareReview,applyPrepared} from ${JSON.stringify(module)};const [root,review,preview]=process.argv.slice(1);await applyPrepared(await prepareReview({root,review,preview}),{io:{...fs,rename:async(from,to)=>{await fs.rename(from,to);if(to===root+'/assets/cosmetics/catalog.json')process.exit(86);}}});`;
+ assert.equal(spawnSync(process.execPath,['--input-type=module','-e',applying,s.root,s.review,s.preview]).status,86);
+ const rollingBack=`import * as fs from 'node:fs/promises';import {recoverReview} from ${JSON.stringify(module)};await recoverReview(process.argv[1],{io:{...fs,rename:async(from,to)=>{if(from.endsWith('.rollback'))process.exit(87);return fs.rename(from,to);}}});`;
+ assert.equal(spawnSync(process.execPath,['--input-type=module','-e',rollingBack,s.root]).status,87);
+ await recoverReview(s.root);assert.deepEqual(await hashes(s.root),before);
+});
+
+for(const name of ['review.json','preview.png'])test(`conflicting archived ${name} is preserved without any writes`,async t=>{
+ const s=await sandbox(t),applied=await applyPrepared(await prepareReview(s));
+ await fs.writeFile(join(s.root,applied.evidence,name),'a conflicting preserved review');
+ const before=await hashes(s.root);await assert.rejects(()=>prepareReview(s),/archive|evidence/i);assert.deepEqual(await hashes(s.root),before);
+});

@@ -4,7 +4,7 @@ Date: 2026-10-17 (Europe/Moscow). Base `973876d`, main after merged PR 7.
 Branch: `codex/v1-review-application`. No merge, release or real candidate apply.
 
 Baseline: 126 Node tests passed on Node v24.19.0. No pre-existing failures.
-Implementation suite: 152 tests pass, zero failures/skips/cancellations.
+Implementation suite: 155 tests pass, zero failures/skips/cancellations.
 CI continues to run the complete Node glob on Node 22, including the new command,
 PNG and interrupted-process tests. No dependency installation is required.
 
@@ -72,3 +72,14 @@ The original approved PNG/JSON pair and compatibility fit remain intact.
 Generated inventory/installed-worker scenarios remain Task 7. Owner corrections
 and real Android checks remain Tasks 8–9. The command never treats JSON status or
 successful validation as owner approval. See [application/recovery contract](../review-application.md).
+
+## Independent review
+
+A read-only whole-branch reviewer independently passed the 153-test suite and
+inspected the browser evidence without rerunning Chrome. It found one important
+evidence-safety issue: generic planning could overwrite a conflicting archived
+JSON or PNG. Both regression cases failed before the fix. Evidence targets now
+reject any differing existing bytes during planning, preserving the whole tree.
+The final 155-test suite passes; no other findings were reported. Real interrupted
+rollback resumption is also covered by a child exiting after writing a rollback
+temporary file, followed by successful recovery to the original whole-tree hashes.

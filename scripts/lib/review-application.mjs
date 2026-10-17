@@ -86,10 +86,11 @@ export async function prepareReview({root,review,preview}){
   const bytes=await read(item.art.asset,INPUT_LIMITS.pngBytes);validate(bytes);activeImages.set(item.art.asset,bytes);
  }
  const files=[],pending=new Map();
- const add=async(path,after,limit=MAX_JSON)=>{
+ const add=async(path,after,limit=MAX_JSON,immutable=false)=>{
   if(!targetAllowed(path))throw new Error(`Disallowed application target ${path}`);
   const prior=pending.get(path);if(prior){if(!prior.after.equals(after))throw new Error(`Conflicting target: ${path}`);return;}
   const before=await read(path,limit,true);if(before?.equals(after))return;
+  if(immutable&&before!==null)throw new Error(`Conflicting archived evidence: ${path}`);
   const entry={path,before,after};pending.set(path,entry);files.push(entry);
  };
  const next=clone(catalog),items=[];
@@ -120,7 +121,7 @@ export async function prepareReview({root,review,preview}){
  const worker=cacheSource(workerBytes.toString('utf8'),next.items.filter(i=>i.art.kind==='png').map(i=>i.art.asset),!nextBytes.equals(catalogBytes),nextBytes);
  await add('sw.js',worker,2_000_000);
  const reviewHash=sha(reviewBytes),evidence=`concepts/luna/applied-reviews/${sha(Buffer.from(reviewHash+':'+previewHash))}`;
- await add(evidence+'/review.json',reviewBytes);await add(evidence+'/preview.png',previewBytes,INPUT_LIMITS.pngBytes);
+ await add(evidence+'/review.json',reviewBytes,MAX_JSON,true);await add(evidence+'/preview.png',previewBytes,INPUT_LIMITS.pngBytes,true);
  const report={version:1,inputs:{review:{sha256:reviewHash},preview:{sha256:previewHash}},evidence,items,files:files.map(f=>({path:f.path,before:hash(f.before),after:sha(f.after)}))};
  const oldReport=await read(evidence+'/report.json',MAX_JSON,true);
  if(oldReport){const saved=decode(oldReport);if(saved.version!==1||saved.inputs?.review?.sha256!==reviewHash||saved.inputs?.preview?.sha256!==previewHash)throw new Error('Conflicting review evidence report');}
