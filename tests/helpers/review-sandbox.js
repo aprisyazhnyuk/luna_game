@@ -8,6 +8,8 @@ export const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function hashes(root){const result={};for(const entry of await readdir(root,{recursive:true,withFileTypes:true}))if(entry.isFile()){const path=join(entry.parentPath,entry.name);result[relative(root,path)]=hash(await readFile(path));}return result;}
 export async function sandbox(t){
  const root=await realpath(await mkdtemp(join(tmpdir(),'luna-review-')));t.after(()=>rm(root,{recursive:true,force:true}));
+ for(const name of ['src','assets'])await cp(join(project,name),join(root,name),{recursive:true});
+ for(const name of ['index.html','style.css','manifest.webmanifest','PRIVACY.md','CREDITS.md','LICENSE','offline-assets.js'])await cp(join(project,name),join(root,name));
  await mkdir(join(root,'assets'),{recursive:true});await cp(join(project,'assets/cosmetics'),join(root,'assets/cosmetics'),{recursive:true});await cp(join(project,'sw.js'),join(root,'sw.js'));
  await mkdir(join(root,'concepts/reviews'),{recursive:true});
  const review=join(root,'concepts/reviews/fit.json'),preview=join(root,'concepts/reviews/preview.png');

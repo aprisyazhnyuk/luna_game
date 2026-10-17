@@ -6,7 +6,8 @@ Task 3 is complete on its separate branch with [loader verification evidence](..
 Task 4 is complete on its separate branch with [rendering verification evidence](../verification/v1-task4.md).
 Task 5 is complete on its separate branch with [studio/review verification evidence](../verification/v1-task5.md).
 Task 6 is complete on its separate branch with [application verification evidence](../verification/v1-task6.md).
-Later tasks remain to implement.
+Task 7 is complete on its separate branch with [offline verification evidence](../verification/v1-task7.md).
+Owner visual corrections and real Android verification remain Tasks 8 and 9.
 Read [specification](../game-spec.md), [architecture audit](../architecture.md),
 and [workflow](../development-workflow.md). Each numbered task is a separate
 branch and PR; proceed in order. Paths below are proposed additions where absent.
@@ -249,8 +250,10 @@ Owner decides merging/publishing only after this evidence is presented.
 
 ## Recommended next task
 
-Tasks 1–6 establish catalog data, save compatibility, shared rendering/reviews
-and a validated exact-byte application command. Next is Task 7: derive and verify
-the offline inventory and coherent installed-worker transitions.
+Tasks 1–7 establish shared catalog/rendering/reviews, preserved saves, an exact-byte
+application command and generated offline coverage. Next is Task 8: owner visual
+review and application of the nine-item correction set. The generic saved pair is
+still required; prepare the studio for review and apply only after owner instruction.
+Real Android verification follows as Task 9.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?

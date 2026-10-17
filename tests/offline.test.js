@@ -1,53 +1,43 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import vm from 'node:vm';
 import {readFile} from 'node:fs/promises';
-const source=await readFile(new URL('../sw.js',import.meta.url),'utf8');
-async function worker(scope){
- const listeners={},stores=new Map();let online=true,claimed=false;
- const key=request=>new URL(typeof request==='string'?request:request.url,scope).href;
- const caches={
-  keys:async()=>[...stores.keys()],delete:async name=>stores.delete(name),
-  open:async name=>{
-   if(!stores.has(name))stores.set(name,new Map());const store=stores.get(name);
-   return {
-    addAll:async files=>{for(const file of files){const relative=file==='./'?'./index.html':file;const content=await readFile(new URL('../'+relative,import.meta.url));store.set(key(file),new Response(content));}},
-    match:async(request,options={})=>{const url=new URL(key(request));if(options.ignoreSearch)url.search='';return store.get(url.href)?.clone();}
-   };
-  }
- };
- const self={registration:{scope},clients:{claim:async()=>{claimed=true;}},addEventListener:(type,fn)=>{listeners[type]=fn;}};
- const network=async request=>{if(!online)throw new Error('offline');return new Response('network');};
- vm.runInNewContext(source,{self,caches,fetch:network,URL});
- const lifecycle=type=>new Promise((resolve,reject)=>listeners[type]({waitUntil:p=>p.then(resolve,reject)}));
- const fetchEvent=(relative,mode='cors')=>new Promise((resolve,reject)=>listeners.fetch({request:{url:new URL(relative,scope).href,method:'GET',mode},respondWith:p=>p.then(resolve,reject)}));
- return {stores,caches,lifecycle,fetchEvent,setOffline:()=>{online=false;},claimed:()=>claimed};
+import {worker} from './helpers/offline-worker.js';
+for(const path of ['/','/luna_game/']){
+ const scope='https://example.test'+path;
+ test(`required assets and completed-cache status work offline at ${path}`,async()=>{
+  const w=await worker(scope);await w.lifecycle('install');await w.lifecycle('activate');w.setOffline();assert.equal(w.claimed(),true);
+  assert.match(await(await w.fetchEvent('./','navigate')).text(),/id="scene"/);
+  for(const file of ['src/engine.js','src/animation.js','src/customisation.js','src/store.js','src/cosmetics.js','src/cosmetic-assets.js','src/cosmetic-model.js','assets/luna-custom.png','assets/icon-512.png'])assert.equal((await w.fetchEvent('./'+file)).status,200);
+  const catalog=await(await w.fetchEvent('./assets/cosmetics/catalog.json')).json();for(const item of catalog.items.filter(i=>i.art.kind==='png'))assert.equal((await w.fetchEvent('./'+item.art.asset)).status,200);
+  assert.equal((await w.status()).ready,true);assert.match(await(await w.fetchEvent('./unknown','navigate')).text(),/id="scene"/);
+ });
+ test(`catalog-only PNGs are cached; failed/mismatched installs preserve old cache at ${path}`,async()=>{
+  const first=await worker(scope);await first.lifecycle('install');await first.lifecycle('activate');
+  const catalog=JSON.parse(await readFile(new URL('../assets/cosmetics/catalog.json',import.meta.url))),png=await readFile(new URL('../assets/cosmetics/bowler.png',import.meta.url));
+  catalog.items.push({...catalog.items.find(i=>i.id==='bowler'),id:'new-hat',name:'New hat',art:{kind:'png',asset:'assets/cosmetics/new.png'}});
+  const overlay=new Map([['assets/cosmetics/catalog.json',Buffer.from(JSON.stringify(catalog))],['assets/cosmetics/new.png',png]]);
+  const failed=await worker(scope,{stores:first.stores,overlay,fail:'assets/cosmetics/new.png'});await assert.rejects(()=>failed.lifecycle('install'));assert.equal(first.stores.has(first.cacheName),true);assert.equal(first.stores.has(failed.cacheName),false);assert.equal((await failed.status()).ready,false);
+  const corrupt=await worker(scope,{stores:first.stores,overlay,corrupt:'assets/cosmetics/new.png'});await assert.rejects(()=>corrupt.lifecycle('install'));assert.equal(first.stores.has(first.cacheName),true);assert.equal(first.stores.has(corrupt.cacheName),false);
+  const second=await worker(scope,{stores:first.stores,overlay});await second.lifecycle('install');assert.equal(first.stores.has(first.cacheName),true);second.setOffline();assert.equal((await second.fetchEvent('./assets/cosmetics/new.png')).status,200);await second.lifecycle('activate');assert.equal(first.stores.has(first.cacheName),false);
+ });
 }
-for(const path of ['/', '/luna_game/'])test(`all assets are present and available offline at ${path}`,async()=>{
- const w=await worker('https://example.test'+path);await w.lifecycle('install');await w.lifecycle('activate');w.setOffline();
- assert.ok(w.claimed());assert.match(await(await w.fetchEvent('./','navigate')).text(),/id="scene"/);
- assert.match(await(await w.fetchEvent('./src/engine.js?v=1')).text(),/createRun/);
- assert.match(await(await w.fetchEvent('./src/animation.js')).text(),/drawImageLuna/);
- assert.match(await(await w.fetchEvent('./src/customisation.js')).text(),/recordTreats/);
- assert.match(await(await w.fetchEvent('./src/store.js')).text(),/createStore/);
- assert.match(await(await w.fetchEvent('./src/cosmetics.js')).text(),/drawShoes/);
- assert.match(await(await w.fetchEvent('./src/cosmetic-art.js')).text(),/HATS/);
- assert.match(await(await w.fetchEvent('./src/cosmetic-assets.js')).text(),/loadCosmeticAssets/);
- const catalog=await(await w.fetchEvent('./assets/cosmetics/catalog.json')).json();
- assert.equal(catalog.version,1);
- assert.match(await(await w.fetchEvent('./src/cosmetic-model.js')).text(),/validateCatalog/);
- for(const item of catalog.items.filter(item=>item.art.kind==='png'))assert.equal((await w.fetchEvent('./'+item.art.asset)).status,200);
- const bowler=await(await w.fetchEvent('./assets/cosmetics/bowler.json')).json();
- assert.deepEqual([bowler.x,bowler.y,bowler.scale],[817,373,1.91]);
- assert.equal((await w.fetchEvent('./'+bowler.asset)).status,200);
- assert.equal((await w.fetchEvent('./assets/luna-custom.png')).status,200);
- assert.equal((await w.fetchEvent('./assets/luna-run.png')).status,200);
- assert.equal((await w.fetchEvent('./assets/icon-512.png')).status,200);
- assert.match(await(await w.fetchEvent('./unknown','navigate')).text(),/id="scene"/);
+test('activation cleanup preserves unrelated apps/scopes and partial eviction removes ready status',async()=>{
+ const scope='https://example.test/luna_game/',w=await worker(scope);await w.caches.open(`luna-${scope}-old`);await w.caches.open('another-app');await w.caches.open('luna-https://example.test/another/-old');await w.lifecycle('install');await w.lifecycle('activate');
+ assert.equal(w.stores.has(`luna-${scope}-old`),false);assert.ok(w.stores.has('another-app'));assert.ok(w.stores.has('luna-https://example.test/another/-old'));
+ w.stores.get(w.cacheName).delete(scope+'src/engine.js');assert.equal((await w.status()).ready,false);
+ // The network may restore a missing required file only if its generation matches.
+ assert.equal((await w.fetchEvent('./src/engine.js')).status,200);assert.equal((await w.status()).ready,true);
 });
-test('updating this game preserves caches belonging to other apps or repository scopes',async()=>{
- const scope='https://example.test/luna_game/',w=await worker(scope);
- await w.caches.open(`luna-${scope}-v0`);await w.caches.open('another-game');await w.caches.open('luna-https://example.test/another-repo/-v0');
- await w.lifecycle('install');await w.lifecycle('activate');
- assert.ok(!w.stores.has(`luna-${scope}-v0`));assert.ok(w.stores.has('another-game'));assert.ok(w.stores.has('luna-https://example.test/another-repo/-v0'));
+
+test('missing required cache entries cannot silently mix newer network bytes',async()=>{
+ const overlay=new Map(),scope='https://example.test/luna_game/',w=await worker(scope,{overlay});await w.lifecycle('install');await w.lifecycle('activate');
+ w.stores.get(w.cacheName).delete(scope+'src/engine.js');overlay.set('src/engine.js',Buffer.from('different generation'));
+ await assert.rejects(()=>w.fetchEvent('./src/engine.js'),/integrity/);assert.equal((await w.status()).ready,false);
+});
+
+
+test('an identical-generation reinstall keeps the completed cache even with unavailable network',async()=>{
+ const scope='https://example.test/',first=await worker(scope);await first.lifecycle('install');await first.lifecycle('activate');
+ const second=await worker(scope,{stores:first.stores,fail:'assets/icon-512.png'});second.setOffline();await second.lifecycle('install');
+ assert.equal(second.cacheName,first.cacheName);assert.equal((await first.status()).ready,true);assert.equal((await second.status()).ready,true);
 });

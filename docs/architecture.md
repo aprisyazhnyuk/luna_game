@@ -231,3 +231,18 @@ Recovery handles interrupted staging/publication/cleanup without overwriting a
 conflicting edit. Game code, saved player state and approved art remain unchanged
 on this engineering branch. See [application contract](review-application.md).
 The next task derives offline inventory and tests installed-worker transitions.
+
+
+## Task 7: generated offline inventory
+
+`offline-assets.js` now records the runtime dependency closure and SHA-256 identity.
+The shared generator follows shell/module dependencies and all catalog PNGs; CI
+rejects stale or missing files. Review application stages the inventory alongside
+pending catalog/images and checks runtime snapshots for concurrent edits.
+`sw.js` imports that inventory, verifies downloads before marking completion,
+retains the previous generation on failure and activates after old clients close.
+`src/offline.js` reports readiness from a worker cache-status reply, including
+bounded failure handling. Game controls, renderer, saves and localhost bypass
+remain unchanged. See [offline contract](offline-assets.md) and
+[installed-worker evidence](verification/v1-task7.md). Owner visual correction and
+real Android checks remain Tasks 8 and 9.

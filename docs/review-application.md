@@ -71,11 +71,14 @@ its previous exact rows/fit remain in the archived before-art report and existin
 historical art sources. The new catalog references exact copies and updated
 x/y/scale values, retaining IDs, rewards, defaults and attachment rules.
 
-The manual worker list gains every referenced PNG without removing old resources.
-A deterministic `review-<digest>` cache identity changes with catalog/asset updates.
-Catalog, new images and worker changes publish in the same transaction. Source
-modules and normal localhost worker bypass stay unchanged. Generated inventory
-and actual installed-worker upgrade checks remain Task 7.
+The generated offline inventory includes every referenced PNG and the complete
+runtime graph. Catalog, new images and `offline-assets.js` publish in the same
+transaction; the inventory identity derives from all required resource bytes.
+Planning reads pending image/catalog bytes and snapshots every runtime dependency
+so concurrent edits abort application. Missing dependencies fail before active
+writes. No manual worker source edit is required for an artwork application.
+Old transaction journals containing `sw.js` remain recoverable. See
+[offline coverage and installed-worker checks](offline-assets.md).
 
 ## Evidence and idempotence
 
@@ -132,7 +135,7 @@ With Playwright, pngjs and Chrome available, run
 all categories in disposable copies, checks exact byte hashes and saved-pose
 pixels, compares seven movement poses at native/enlarged size, and verifies
 root/subpath reload, save isolation and a zero-change second plan. Pixel checks
-use matching software Canvas backends. Desktop results do not establish Android
-or installed-worker verification. See [Task 6 evidence](verification/v1-task6.md).
+use matching software Canvas backends. These pixel checks do not establish Android verification; installed-worker checks
+are recorded separately in [Task 7 evidence](verification/v1-task7.md). See [Task 6 evidence](verification/v1-task6.md).
 
 PNG filter/pass/chunk rules follow the [W3C PNG specification](https://www.w3.org/TR/png-3/).

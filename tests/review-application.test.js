@@ -19,7 +19,7 @@ test('dry-run changes nothing; apply transfers all fits and exact PNGs, evidence
  const archived=join(s.root,result.evidence);
  assert.equal(hash(await fs.readFile(join(archived,'review.json'))),hash(await fs.readFile(s.review)));
  assert.equal(hash(await fs.readFile(join(archived,'preview.png'))),hash(await fs.readFile(s.preview)));
- const sw=await fs.readFile(join(s.root,'sw.js'),'utf8');for(const id of ['crown','heels','skull'])assert.ok(sw.includes(catalog.items.find(i=>i.id===id).art.asset));assert.notEqual(hash(Buffer.from(sw)),before['sw.js']);
+ const sw=await fs.readFile(join(s.root,'offline-assets.js'),'utf8');for(const id of ['crown','heels','skull'])assert.ok(sw.includes(catalog.items.find(i=>i.id===id).art.asset));assert.notEqual(hash(Buffer.from(sw)),before['offline-assets.js']);
  const applied=await hashes(s.root);const again=await prepareReview(s);assert.equal(again.files.length,0);await applyPrepared(again);assert.deepEqual(await hashes(s.root),applied);
 });
 for(const [name,corrupt] of [
@@ -106,4 +106,22 @@ for(const name of ['review.json','preview.png'])test(`conflicting archived ${nam
  const s=await sandbox(t),applied=await applyPrepared(await prepareReview(s));
  await fs.writeFile(join(s.root,applied.evidence,name),'a conflicting preserved review');
  const before=await hashes(s.root);await assert.rejects(()=>prepareReview(s),/archive|evidence/i);assert.deepEqual(await hashes(s.root),before);
+});
+
+test('application stages generated inventory and snapshots all runtime dependencies',async t=>{
+ const s=await sandbox(t),plan=await prepareReview(s);
+ assert.ok(plan.files.some(file=>file.path==='offline-assets.js'));
+ await fs.appendFile(join(s.root,'src/engine.js'),'\n');const before=await hashes(s.root);
+ await assert.rejects(()=>applyPrepared(plan),/concurrent|changed/i);assert.deepEqual(await hashes(s.root),before);
+});
+
+test('an input changed during inventory preparation cannot replace its validated snapshot',async t=>{
+ const s=await sandbox(t),before=await hashes(s.root),module=fileURLToPath(new URL('../scripts/lib/review-application.mjs',import.meta.url));
+ // Isolate the deterministic concurrent-writer hook from other tests/processes.
+ const code=`import fs from 'node:fs/promises';import {syncBuiltinESMExports} from 'node:module';import assert from 'node:assert/strict';import {prepareReview} from ${JSON.stringify(module)};
+ const [root,review,preview]=process.argv.slice(1),open=fs.open;let injected=false;
+ fs.open=async(...args)=>{if(!injected&&args[0]===root+'/index.html'){injected=true;await fs.writeFile(root+'/assets/cosmetics/bowler.png','invalid concurrent PNG');}return open(...args);};syncBuiltinESMExports();
+ try{await assert.rejects(()=>prepareReview({root,review,preview}),/concurrent|changed/i);assert.equal(injected,true);}finally{fs.open=open;syncBuiltinESMExports();}`;
+ const child=spawnSync(process.execPath,['--input-type=module','-e',code,s.root,s.review,s.preview],{encoding:'utf8'});assert.equal(child.status,0,child.stderr);
+ const expected={...before,'assets/cosmetics/bowler.png':hash(Buffer.from('invalid concurrent PNG'))};assert.deepEqual(await hashes(s.root),expected,'only the injected external edit remains');
 });

@@ -3,6 +3,7 @@ import {draw} from './draw.js';
 import {SAVE_KEY,restoreWardrobe,loadWardrobe,recordTreats} from './customisation.js';
 import {createStore} from './store.js';
 import {isLocalhost} from './local-cache.js';
+import {setupOffline} from './offline.js';
 import {loadCosmeticAssets} from './cosmetic-assets.js';
 // Complete accessory loading before the first game/store render.
 await loadCosmeticAssets();
@@ -101,5 +102,5 @@ function pause(){if(run.phase==='running'){run.phase='paused';saveBest();}else i
   $('studio-link').hidden=false;
   $('offline-status').textContent='Local development · using current game files';
  }else if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{$('offline-status').textContent='Ready for offline adventures';}).catch(()=>{$('offline-status').textContent='Online play · offline setup unavailable';});
+  setupOffline(navigator.serviceWorker,text=>{$('offline-status').textContent=text;});
  }else $('offline-status').textContent='Online play';
