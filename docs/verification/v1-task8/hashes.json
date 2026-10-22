@@ -1,0 +1,20 @@
+{
+  "assets/cosmetics/catalog.json": "b29be07365d3c173478dff9dd46b5ecaef3c465e35a55a1a3487d6d730f0597b",
+  "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png": "1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f",
+  "assets/luna-custom.png": "be2bad83b61aabebd6d2fa1f4f69934611c75d646817df4b7fe83d7eae7cad6a",
+  "docs/verification/v1-task8/application.json": "96578df91e02ef134618502faf3352be65f7fcc9b71a583651395f8ffd014264",
+  "docs/verification/v1-task8/before-saved.png": "c304875d3403cfb068cc7eb9d6a1af2414a48c5b1d47d1a696e3d1f33f74aaff",
+  "docs/verification/v1-task8/check-review.mjs": "24da37a0f37f99fa320291973cf8076f43b99bfbd66eb6536654e048d1b1b4e3",
+  "docs/verification/v1-task8/dry-run.json": "0c4e335eb28e03238d90948cb7f1157ba972b22d36940ea672216bd5232a9b97",
+  "docs/verification/v1-task8/movement-enlarged.png": "6866f387de67e524ee4a37bbfc08a5d33467103a4288cc1de7b8f53a3bae5eea",
+  "docs/verification/v1-task8/movement-native.png": "cc8e779dd3d91ece1a244526b4d1146a1013dfbd20a8b7ea9c3937b9cc2bfa08",
+  "docs/verification/v1-task8/movement.json": "c111cf1a8cd25e112fb441d940a69343b17bf050f664831c272b298c64a07cee",
+  "docs/verification/v1-task8/pose-saved.png": "730454d43d3446c7f5399fb833bed89d055158b94d7bc611eeff3c3a88b66d58",
+  "docs/verification/v1-task8/pose.json": "8906f6cb9811d93aa87f737e75abaf5af25c31937831e5a022278313b2d56870",
+  "docs/verification/v1-task8/repeat.json": "fce5d277634d07309647764a34c15c9b9d676b8930748dcaab348af89d9db47e",
+  "offline-assets.js": "9470493accaccb14c4266e3f74e49ebddd33fb03a7dc0c9f459ab1be8f5a1f0d",
+  "src/animation.js": "47359c6dce8f8baa23b2d7a681d2d8b2d35fb136cf136e7cb1a39009342006c1",
+  "src/cosmetics.js": "97739b768f86a041eda162485612401733fc5c6c3f63b5110203651e253f1a2e",
+  "tests/fixtures/luna-v1/catalog.json": "3a2064624689dbe2ee5c739a4771514a2adcabe86453dd9aed13241844cfe478",
+  "tests/fixtures/luna-v1/poses.json": "3026d576e1de5621df814cf63795e5317691a09a2ec3ee44348ef40b503bdceb"
+}

@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 import {resolve,relative,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
+import {defaultFits} from '../src/wardrobe-review.js';
 const {chromium}=createRequire(import.meta.url)('playwright');
 const {PNG}=createRequire(import.meta.url)('pngjs');
 const pixelHash=bytes=>{const png=PNG.sync.read(bytes);return `${png.width}x${png.height}:`+digest(png.data);};
@@ -37,6 +38,7 @@ try{
  browser=await chromium.launch({headless:true,channel:'chrome',timeout:30000,args:['--disable-accelerated-2d-canvas']});
  const origin=`http://127.0.0.1:${server.address().port}`;
  const editable=catalog.items.filter(item=>item.fit),fixture=JSON.parse(await readFile(resolve(root,'tests/fixtures/luna-v1/review-v2.json')));
+ fixture.fits=defaultFits(catalog);
  const context=await browser.newContext(),page=await context.newPage();
  page.on('pageerror',()=>{});
  await context.route('**/concepts/luna/04-approved-wardrobe.png',route=>route.fulfill({status:404,body:'Missing optional reference'}));

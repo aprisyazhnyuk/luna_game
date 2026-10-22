@@ -57,55 +57,13 @@
       "name": "Witch hat",
       "target": 75,
       "art": {
-        "kind": "grid",
-        "rows": [
-          "..............XXXXXXX.......",
-          "...........XXXXXXXXXXX......",
-          "..........XXXXXXGGGGXXX.....",
-          ".........XXXXXXXGXXXXXX.....",
-          "........XXXXXXXXXX...XXX....",
-          "........XXX.XXXXX.....X.....",
-          "........XX...XXXX...........",
-          ".............XXXX...........",
-          ".............XXGXX..........",
-          "............XXXGXX..........",
-          "............XXGGXXX.........",
-          "............XXGGGXXX........",
-          "...........XXXGGGGXX........",
-          "...........XXXGGGGXXX.......",
-          "...........XXXGGGGGXX.......",
-          "..........XXXXGGGGGXXX......",
-          "..........XXXXGGGGGGXX......",
-          ".........XXXXXXGGGGGXXX.....",
-          ".........XXXXXXGGGGGXXX.....",
-          "........XXXXXXXXGGGGGXX.....",
-          ".......XXXXXXXXLLLLLLLLX....",
-          "......XLLLLLLLLLXWXLLLLLX...",
-          "....XXLLLLLLLLLLXXXLLLLLLX..",
-          "..XXXXLLLLLLLLLLLLLLXXXXXXX.",
-          ".XXXXLLLLLXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-          "XXXXXXXXXXXXXXXXXXXXXXXXXXX.",
-          ".XXXXXXXXXXXXX.............."
-        ],
-        "size": 12,
-        "ears": [
-          [
-            36,
-            212,
-            11
-          ],
-          [
-            246,
-            186,
-            9
-          ]
-        ]
+        "kind": "png",
+        "asset": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png"
       },
       "fit": {
-        "x": 806,
-        "y": 156,
-        "scale": 1
+        "x": 635,
+        "y": 209,
+        "scale": 0.4
       },
       "attachment": {
         "earMaskY": 476

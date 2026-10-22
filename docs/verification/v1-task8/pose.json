@@ -1,0 +1,45 @@
+{
+  "mode": "pose",
+  "canvasBackend": "default",
+  "browser": "156.0.8078.47",
+  "reviewSha256": "422435755b3ef3ba83e1685e834ba8628a1ef0b390468325218fe5e976748d18",
+  "previewSha256": "730454d43d3446c7f5399fb833bed89d055158b94d7bc611eeff3c3a88b66d58",
+  "paths": [
+    {
+      "prefix": "/",
+      "frames": 0,
+      "outfits": 1,
+      "poses": [
+        "saved"
+      ],
+      "scales": [
+        5
+      ],
+      "frameHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "savedPosePixels": "640x480:f8b7a98a14c7c09ed35a25ab4a62e6e6280e92ed9aad546b5c8518a4d9276efc",
+      "ownerScreenshotMatch": true,
+      "savedPoseMatch": true,
+      "savesPreserved": true,
+      "storeSelectionReload": true,
+      "pageErrors": []
+    },
+    {
+      "prefix": "/luna_game/",
+      "frames": 0,
+      "outfits": 1,
+      "poses": [
+        "saved"
+      ],
+      "scales": [
+        5
+      ],
+      "frameHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "savedPosePixels": "640x480:f8b7a98a14c7c09ed35a25ab4a62e6e6280e92ed9aad546b5c8518a4d9276efc",
+      "ownerScreenshotMatch": true,
+      "savedPoseMatch": true,
+      "savesPreserved": true,
+      "storeSelectionReload": true,
+      "pageErrors": []
+    }
+  ]
+}
