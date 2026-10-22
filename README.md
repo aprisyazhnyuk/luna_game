@@ -92,6 +92,16 @@ The studio starts at the applied fit. Position uses full-size `assets/luna-custo
 
 `tools/wardrobe-preview/extract_bowler.py` reproduces the source extraction without dependencies. It removes connected exterior cream paper and trims below the brim while preserving enclosed light inner ears. Its crop and mask are recorded in `concepts/luna/bowler-review/extraction.json`. The original `fit.json` / `preview.png` in that folder archive the initial proposal; the `luna-bowler-*` files contain the owner's final adjustments. Extraction never overwrites the active game asset.
 
+### Applied witch hat
+
+The owner's saved witch-hat review was applied on 2026-10-22 with the validated
+application command. Its exact embedded PNG uses **x 635, y 209, scale 0.40** in
+the shared catalog. The original JSON/PNG pair and archived application report
+are retained; see [Task 8 evidence](docs/verification/v1-task8.md) for hashes,
+saved-pose and movement comparisons, saves, idempotence and offline results.
+The bowler approval remains valid. The other seven item correction reviews are
+deferred by the owner, so full nine-item visual acceptance remains pending.
+
 ### Other artwork
 
 All hats, shoes, and marks now use grid rows or PNG references in `assets/cosmetics/catalog.json`. The unchanged `src/cosmetic-art.js` is retained as a historical parity reference and is no longer imported by the game or studio. Pixel rows use X (charcoal), G (grey), L (light grey), W (cream), and . (transparent); colors are in `src/pixels.js`. The old `HATS.bowler` grid is historical artwork; editing it does not change the approved raster bowler. To avoid further concept-to-game differences, future approved raster accessories should retain their exact PNG and placement.

@@ -6,10 +6,12 @@ import {parseReview,defaultFits,createReview,validateAsset} from '../src/wardrob
 const read=async path=>JSON.parse(await readFile(new URL(path,import.meta.url)));
 const catalog=await read('../assets/cosmetics/catalog.json');
 const legacy=await read('./fixtures/luna-v1/review-v2.json');
+const historicalCatalog=await read('./fixtures/luna-v1/catalog.json');
+const currentReview=()=>createReview({fits:defaultFits(catalog),outfit:legacy.outfit,selectedCategory:legacy.selectedCategory,review:legacy.review},catalog);
 const png=await readFile(new URL('../assets/cosmetics/bowler.png',import.meta.url));
-const withNew=()=>{const c=structuredClone(catalog);c.items.push({...structuredClone(c.items.find(i=>i.id==='bowler')),id:'new-hat',name:'New hat',fit:{x:850,y:390,scale:1},art:{kind:'png',asset:'assets/cosmetics/new-hat.png'}});return c;};
+const withNew=(base=catalog)=>{const c=structuredClone(base);c.items.push({...structuredClone(c.items.find(i=>i.id==='bowler')),id:'new-hat',name:'New hat',fit:{x:850,y:390,scale:1},art:{kind:'png',asset:'assets/cosmetics/new-hat.png'}});return c;};
 test('older v2 review retains later catalog items at applied defaults',()=>{
- const c=withNew(),restored=parseReview(legacy,c);
+ const c=withNew(historicalCatalog),restored=parseReview(legacy,c);
  assert.deepEqual(restored.fits.hat['new-hat'],{kind:'raster',asset:'assets/cosmetics/new-hat.png',x:850,y:390,scale:1});
  assert.equal(restored.fits.hat.bowler.x,817);
 });
@@ -31,7 +33,7 @@ test('all replacement bytes and unselected fits survive serialization and shared
 test('unknown review entries or contradictory fit fields are rejected without changing defaults',()=>{
  const defaults=defaultFits(catalog);
  for(const corrupt of [r=>{r.fits.hat.typo={...r.fits.hat.bowler};},r=>{r.fits.hat.bowler.rotation=1;},r=>{r.fits.mark.star.asset='assets/cosmetics/bowler.png';},r=>{r.fits.tail={};},r=>{r.review.pose.extra=1;}]){
-  const r=structuredClone(legacy);corrupt(r);assert.throws(()=>parseReview(r,catalog));
+  const r=currentReview();corrupt(r);assert.throws(()=>parseReview(r,catalog));
  }
  assert.equal(defaults.hat.bowler.x,817);
 });
@@ -50,5 +52,5 @@ test('near-limit valid PNGs survive upload/import/export validation without rege
  assert.equal(parseReview(saved,catalog).fits.hat.bowler.asset,asset);
 });
 test('editor category requires a primitive category ID',()=>{
- for(const selectedCategory of [['hat'],{toString:()=> 'hat'}])assert.throws(()=>parseReview({...legacy,selectedCategory},catalog));
+ for(const selectedCategory of [['hat'],{toString:()=> 'hat'}])assert.throws(()=>parseReview({...currentReview(),selectedCategory},catalog));
 });

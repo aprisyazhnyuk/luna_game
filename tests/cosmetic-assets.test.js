@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import * as assets from '../src/cosmetic-assets.js';
 const catalog=JSON.parse(await readFile(new URL('../assets/cosmetics/catalog.json',import.meta.url)));
 const png=await readFile(new URL('../assets/cosmetics/bowler.png',import.meta.url));
+const pngPaths=data=>[...new Set(data.items.filter(item=>item.art.kind==='png').map(item=>item.art.asset))];
 function fixture({root='https://example.test/luna_game/',data=structuredClone(catalog),image=png,decodeError=false,missing=false}={}){
  const calls=[],decodes=[];
  const loader=assets.createCosmeticAssetLoader({root:new URL(root),fetch:async url=>{
@@ -21,9 +22,9 @@ test('generic asset loader exposes a ready snapshot only after all assets valida
  const {loader,calls}=fixture();assert.equal(loader.getSnapshot(),null);
  const ready=await loader.load();assert.equal(loader.getSnapshot(),ready);
  assert.equal(ready.items.bowler.fit.asset,'assets/cosmetics/bowler.png');
- assert.deepEqual(ready.items.witch.art.rows,catalog.items.find(item=>item.id==='witch').art.rows);
+ assert.deepEqual(ready.items.witch.art,catalog.items.find(item=>item.id==='witch').art);
  assert.equal(ready.items.bare.fit,null);assert.equal(ready.items.skull.fit.kind,'grid');
- assert.deepEqual(calls,['https://example.test/luna_game/assets/cosmetics/catalog.json','https://example.test/luna_game/assets/cosmetics/bowler.png']);
+ assert.deepEqual(calls,['https://example.test/luna_game/assets/cosmetics/catalog.json',...pngPaths(catalog).map(path=>'https://example.test/luna_game/'+path)]);
  assert.throws(()=>{ready.items.bowler.fit.x=0;},TypeError);
  assert.throws(()=>{ready.items.bad={};},TypeError);
 });
@@ -38,7 +39,7 @@ for(const root of ['https://example.test/','https://example.test/luna_game/'])te
   assert.ok(ready.items[`new-${category}`].image);assert.equal(ready.items[`new-${category}`].category,category);
   assert.ok(calls.includes(root+`assets/cosmetics/new-${category}.png`));
  }
- assert.equal(decodes.length,4);
+ assert.equal(decodes.length,pngPaths(data).length);
 });
 for(const [name,options,pattern] of [
  ['missing PNG',{missing:true},/bowler.png.*404/],
@@ -69,7 +70,7 @@ test('failed transactions can retry without exposing partial items',async()=>{
   return new Response(png,{status:++attempt===1?404:200});
  },decode:async()=>({width:173,height:96})});
  await assert.rejects(loader.load());assert.equal(loader.getSnapshot(),null);
- assert.ok((await loader.load()).items.bowler.image);assert.equal(attempt,2);
+ assert.ok((await loader.load()).items.bowler.image);assert.equal(attempt,pngPaths(catalog).length*2);
 });
 
 test('late PNG failure cannot expose earlier decoded items',async()=>{

@@ -50,6 +50,8 @@ try{
   try{
    const s=await sandbox({after:fn=>{cleanup=fn;}});second=await mkdtemp(join(tmpdir(),'luna-offline-b-'));third=await mkdtemp(join(tmpdir(),'luna-offline-c-'));await cp(s.root,second,{recursive:true});await addItem(second,'new-hat');await cp(second,third,{recursive:true});await addItem(third,'interrupted-hat');
    await cp(join(project,'tests/fixtures/offline/sw-v19.js'),join(s.root,'sw.js'));await cp(join(project,'tests/fixtures/offline/app-v19.js'),join(s.root,'src/app.js'));
+   // The previous worker's manual inventory predates approved raster replacements.
+   await cp(join(project,'tests/fixtures/luna-v1/catalog.json'),join(s.root,'assets/cosmetics/catalog.json'));
    state.root=s.root;state.offline=false;state.fail=null;state.hold=null;state.held=null;const url=origin+prefix,oldKey=`luna-${url}-v19`,b=parseInventory(await readFile(join(second,'offline-assets.js'))),c=parseInventory(await readFile(join(third,'offline-assets.js')));
    profile=await mkdtemp(join(tmpdir(),'luna-offline-profile-'));context=await launch(profile);await context.addInitScript(()=>{if(!localStorage.getItem('luna.wardrobe.v2')){localStorage.setItem('luna.best.v1','812');localStorage.setItem('luna.wardrobe.v2',JSON.stringify({version:2,bestTreats:135,unlocked:['none','original','bare','bowler','witch','crown','star','skull','heels','runners','sandals','new-hat'],equipped:{hat:'bowler',mark:'star',shoes:'heels'}}));}});
    let page=await context.newPage();await page.goto(url);assert.equal(await page.evaluate(()=>isSecureContext),true);await ready(page);console.log('Previous v19 online ready',prefix);const saved=await storage(page);assert.ok((await cacheKeys(page)).includes(oldKey));
@@ -60,6 +62,11 @@ try{
    assert.equal(await page.evaluate(async()=> (await(await fetch('./assets/cosmetics/catalog.json')).json()).items.some(i=>i.id==='new-hat')),false,'old clients keep their old catalog until activation');
    ({context,page}=await activateAfterClosing(context,profile,[page,extra],url));state.offline=false;console.log('Generated worker activated',prefix);assert.deepEqual(await storage(page),saved);assert.equal((await cacheKeys(page)).includes(oldKey),false);assert.ok((await cacheKeys(page)).includes('another-app'));assert.ok((await cacheKeys(page)).some(key=>key.endsWith('other/-keep')));
    ({context,page}=await coldStart(context,profile,url));assert.deepEqual(await storage(page),saved);
+   const offlineCatalog=await page.evaluate(async()=>{const response=await fetch('./assets/cosmetics/catalog.json');return response.json();});
+   for(const item of offlineCatalog.items.filter(item=>item.art.kind==='png')){
+    const bytes=await page.evaluate(async asset=>[...new Uint8Array(await(await fetch('./'+asset)).arrayBuffer())],item.art.asset);
+    assert.equal(hash(Buffer.from(bytes)),hash(await readFile(join(second,item.art.asset))),`Exact offline PNG for ${item.id}`);
+   }
    await page.click('#open-store');for(const [tab,id] of [['Hats','new-hat'],['Shoes','runners'],['Body marks','skull']]){await page.getByRole('tab',{name:tab,exact:true}).click();await page.click(`[data-item="${id}"]`);}await page.click('#done-store');const equipped=await storage(page);
    const bytes=await page.evaluate(async()=>[...new Uint8Array(await(await fetch('./assets/cosmetics/new-hat.png')).arrayBuffer())]);assert.equal(hash(Buffer.from(bytes)),hash(s.png));
    state.offline=false;state.root=third;state.hold='assets/cosmetics/interrupted-hat.png';state.held=null;await registerUpdate(page);await until(()=>!!state.held,'partial new asset download');state.held.destroy();state.hold=null;

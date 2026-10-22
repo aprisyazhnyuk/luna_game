@@ -1,0 +1,563 @@
+{
+  "mode": "applied",
+  "version": 1,
+  "inputs": {
+    "review": {
+      "sha256": "422435755b3ef3ba83e1685e834ba8628a1ef0b390468325218fe5e976748d18"
+    },
+    "preview": {
+      "sha256": "730454d43d3446c7f5399fb833bed89d055158b94d7bc611eeff3c3a88b66d58"
+    }
+  },
+  "evidence": "concepts/luna/applied-reviews/6237feec4702c5c2bcaf8005c764084d6e889969a0a5a8cf8e2772783ff20191",
+  "items": [
+    {
+      "id": "bowler",
+      "category": "hat",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/bowler.png"
+        },
+        "fit": {
+          "x": 817,
+          "y": 373,
+          "scale": 1.91
+        },
+        "sha256": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876"
+      },
+      "after": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/bowler.png"
+        },
+        "fit": {
+          "x": 817,
+          "y": 373,
+          "scale": 1.91
+        },
+        "sha256": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876"
+      }
+    },
+    {
+      "id": "witch",
+      "category": "hat",
+      "changed": true,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..............XXXXXXX.......",
+            "...........XXXXXXXXXXX......",
+            "..........XXXXXXGGGGXXX.....",
+            ".........XXXXXXXGXXXXXX.....",
+            "........XXXXXXXXXX...XXX....",
+            "........XXX.XXXXX.....X.....",
+            "........XX...XXXX...........",
+            ".............XXXX...........",
+            ".............XXGXX..........",
+            "............XXXGXX..........",
+            "............XXGGXXX.........",
+            "............XXGGGXXX........",
+            "...........XXXGGGGXX........",
+            "...........XXXGGGGXXX.......",
+            "...........XXXGGGGGXX.......",
+            "..........XXXXGGGGGXXX......",
+            "..........XXXXGGGGGGXX......",
+            ".........XXXXXXGGGGGXXX.....",
+            ".........XXXXXXGGGGGXXX.....",
+            "........XXXXXXXXGGGGGXX.....",
+            ".......XXXXXXXXLLLLLLLLX....",
+            "......XLLLLLLLLLXWXLLLLLX...",
+            "....XXLLLLLLLLLLXXXLLLLLLX..",
+            "..XXXXLLLLLLLLLLLLLLXXXXXXX.",
+            ".XXXXLLLLLXXXXXXXXXXXXXXXXXX",
+            "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "XXXXXXXXXXXXXXXXXXXXXXXXXXX.",
+            ".XXXXXXXXXXXXX.............."
+          ],
+          "size": 12,
+          "ears": [
+            [
+              36,
+              212,
+              11
+            ],
+            [
+              246,
+              186,
+              9
+            ]
+          ]
+        },
+        "fit": {
+          "x": 806,
+          "y": 156,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png"
+        },
+        "fit": {
+          "x": 635,
+          "y": 209,
+          "scale": 0.4
+        },
+        "sha256": "1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f"
+      }
+    },
+    {
+      "id": "crown",
+      "category": "hat",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..........X..........",
+            ".........XWX.........",
+            "..X......XWX......X..",
+            ".XWX....XXXXX....XWX.",
+            ".XWX....XXXXX....XWX.",
+            ".XXXX...XXLXX...XXXX.",
+            "..XXXX.XXLLXXX.XXXX..",
+            "..XXLXXXXLLXXXXXXXX..",
+            "..XXXLXXXLLLXXXLXXX..",
+            "..XXXLLXLLLLXXLLXXX..",
+            "...XXLLLLLLLLLLXXX...",
+            "...XXXLLLLLLLLLXXX...",
+            "...XXGGWWWWWWWGGG....",
+            "....XGGGGGGGGGGGG....",
+            "....................."
+          ],
+          "size": 12,
+          "ears": [
+            [
+              -40,
+              74,
+              11
+            ],
+            [
+              166,
+              60,
+              9
+            ]
+          ]
+        },
+        "fit": {
+          "x": 892,
+          "y": 306,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..........X..........",
+            ".........XWX.........",
+            "..X......XWX......X..",
+            ".XWX....XXXXX....XWX.",
+            ".XWX....XXXXX....XWX.",
+            ".XXXX...XXLXX...XXXX.",
+            "..XXXX.XXLLXXX.XXXX..",
+            "..XXLXXXXLLXXXXXXXX..",
+            "..XXXLXXXLLLXXXLXXX..",
+            "..XXXLLXLLLLXXLLXXX..",
+            "...XXLLLLLLLLLLXXX...",
+            "...XXXLLLLLLLLLXXX...",
+            "...XXGGWWWWWWWGGG....",
+            "....XGGGGGGGGGGGG....",
+            "....................."
+          ],
+          "size": 12,
+          "ears": [
+            [
+              -40,
+              74,
+              11
+            ],
+            [
+              166,
+              60,
+              9
+            ]
+          ]
+        },
+        "fit": {
+          "x": 892,
+          "y": 306,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "original",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "...G.......G...",
+            ".GGGGG...GGGGG.",
+            ".GGGGG...GGGGG.",
+            "GGGGGGGGGGGGGGG",
+            ".GGGGGGGGGGGGG.",
+            ".GGGGGGGGGGGGG.",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            ".....GGGGG.....",
+            ".......G......."
+          ],
+          "size": 11
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "...G.......G...",
+            ".GGGGG...GGGGG.",
+            ".GGGGG...GGGGG.",
+            "GGGGGGGGGGGGGGG",
+            ".GGGGGGGGGGGGG.",
+            ".GGGGGGGGGGGGG.",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            ".....GGGGG.....",
+            ".......G......."
+          ],
+          "size": 11
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "star",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".......G.......",
+            ".......G.......",
+            ".......G.......",
+            "......GGG......",
+            "......GGG......",
+            ".GGGGGGGGGGGGG.",
+            "..GGGGGGGGGGG..",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GG...GG....",
+            "...GG.....GG...",
+            "...............",
+            "..............."
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".......G.......",
+            ".......G.......",
+            ".......G.......",
+            "......GGG......",
+            "......GGG......",
+            ".GGGGGGGGGGGGG.",
+            "..GGGGGGGGGGG..",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GG...GG....",
+            "...GG.....GG...",
+            "...............",
+            "..............."
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "skull",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "......GGGGG......",
+            ".....GGGGGGG.....",
+            "....GGGGGGGGG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GGGGWGGGG....",
+            "....GGGGGGGGG....",
+            ".....GGGGGGG.....",
+            ".....GWGGWGG.....",
+            ".GG..........GG..",
+            ".GGG........GGG..",
+            "..GGGG.....GGGG..",
+            "...GGGGGGGGGGG...",
+            ".....GGGGGGG.....",
+            "..GGGGGGGGGGGG...",
+            "..GGGGG...GGGGG..",
+            "...GG.......GGG.."
+          ],
+          "size": 8
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "......GGGGG......",
+            ".....GGGGGGG.....",
+            "....GGGGGGGGG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GGGGWGGGG....",
+            "....GGGGGGGGG....",
+            ".....GGGGGGG.....",
+            ".....GWGGWGG.....",
+            ".GG..........GG..",
+            ".GGG........GGG..",
+            "..GGGG.....GGGG..",
+            "...GGGGGGGGGGG...",
+            ".....GGGGGGG.....",
+            "..GGGGGGGGGGGG...",
+            "..GGGGG...GGGGG..",
+            "...GG.......GGG.."
+          ],
+          "size": 8
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "heels",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX........",
+            "XGGX.......",
+            "XGGGX......",
+            "XGGGGXXXXX.",
+            "XXXXXXXXXXX",
+            "XX....XXXXX",
+            "XX......XXX"
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX........",
+            "XGGX.......",
+            "XGGGX......",
+            "XGGGGXXXXX.",
+            "XXXXXXXXXXX",
+            "XX....XXXXX",
+            "XX......XXX"
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "runners",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..XXXX.....",
+            ".XGGGGX....",
+            "XGGWGGGX...",
+            "XGGGWGGGXX.",
+            "XGGWGGGGGGX",
+            "XWWWWWWWWWX",
+            ".XXXXXXXXX."
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..XXXX.....",
+            ".XGGGGX....",
+            "XGGWGGGX...",
+            "XGGGWGGGXX.",
+            "XGGWGGGGGGX",
+            "XWWWWWWWWWX",
+            ".XXXXXXXXX."
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "sandals",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX...XX...",
+            ".XGX..XGX..",
+            "XWWGGWWGGWX",
+            "XWWGGWWGGWX",
+            "XXXXXXXXXXX"
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX...XX...",
+            ".XGX..XGX..",
+            "XWWGGWWGGWX",
+            "XWWGGWWGGWX",
+            "XXXXXXXXXXX"
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png",
+      "before": null,
+      "after": "1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f"
+    },
+    {
+      "path": "assets/cosmetics/catalog.json",
+      "before": "3a2064624689dbe2ee5c739a4771514a2adcabe86453dd9aed13241844cfe478",
+      "after": "b29be07365d3c173478dff9dd46b5ecaef3c465e35a55a1a3487d6d730f0597b"
+    },
+    {
+      "path": "offline-assets.js",
+      "before": "ffe92e87bb4bec380a0b5a4ba331888b0eaa24d89c5759251f3226c76ed30132",
+      "after": "9470493accaccb14c4266e3f74e49ebddd33fb03a7dc0c9f459ab1be8f5a1f0d"
+    },
+    {
+      "path": "concepts/luna/applied-reviews/6237feec4702c5c2bcaf8005c764084d6e889969a0a5a8cf8e2772783ff20191/review.json",
+      "before": null,
+      "after": "422435755b3ef3ba83e1685e834ba8628a1ef0b390468325218fe5e976748d18"
+    },
+    {
+      "path": "concepts/luna/applied-reviews/6237feec4702c5c2bcaf8005c764084d6e889969a0a5a8cf8e2772783ff20191/preview.png",
+      "before": null,
+      "after": "730454d43d3446c7f5399fb833bed89d055158b94d7bc611eeff3c3a88b66d58"
+    },
+    {
+      "path": "concepts/luna/applied-reviews/6237feec4702c5c2bcaf8005c764084d6e889969a0a5a8cf8e2772783ff20191/report.json",
+      "before": null,
+      "after": "b463b0296efceb81b676db8a7f5e1c08d9b9c7f473ef439a148be3bfe181457b"
+    }
+  ],
+  "cleanupPending": false
+}

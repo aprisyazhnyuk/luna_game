@@ -1,0 +1,490 @@
+{
+  "mode": "applied",
+  "version": 1,
+  "inputs": {
+    "review": {
+      "sha256": "422435755b3ef3ba83e1685e834ba8628a1ef0b390468325218fe5e976748d18"
+    },
+    "preview": {
+      "sha256": "730454d43d3446c7f5399fb833bed89d055158b94d7bc611eeff3c3a88b66d58"
+    }
+  },
+  "evidence": "concepts/luna/applied-reviews/6237feec4702c5c2bcaf8005c764084d6e889969a0a5a8cf8e2772783ff20191",
+  "items": [
+    {
+      "id": "bowler",
+      "category": "hat",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/bowler.png"
+        },
+        "fit": {
+          "x": 817,
+          "y": 373,
+          "scale": 1.91
+        },
+        "sha256": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876"
+      },
+      "after": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/bowler.png"
+        },
+        "fit": {
+          "x": 817,
+          "y": 373,
+          "scale": 1.91
+        },
+        "sha256": "d7e75d126c549d336026150066cd1f9eea64d41cf9bc8f93cca4fed4fe750876"
+      }
+    },
+    {
+      "id": "witch",
+      "category": "hat",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png"
+        },
+        "fit": {
+          "x": 635,
+          "y": 209,
+          "scale": 0.4
+        },
+        "sha256": "1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f"
+      },
+      "after": {
+        "art": {
+          "kind": "png",
+          "asset": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png"
+        },
+        "fit": {
+          "x": 635,
+          "y": 209,
+          "scale": 0.4
+        },
+        "sha256": "1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f"
+      }
+    },
+    {
+      "id": "crown",
+      "category": "hat",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..........X..........",
+            ".........XWX.........",
+            "..X......XWX......X..",
+            ".XWX....XXXXX....XWX.",
+            ".XWX....XXXXX....XWX.",
+            ".XXXX...XXLXX...XXXX.",
+            "..XXXX.XXLLXXX.XXXX..",
+            "..XXLXXXXLLXXXXXXXX..",
+            "..XXXLXXXLLLXXXLXXX..",
+            "..XXXLLXLLLLXXLLXXX..",
+            "...XXLLLLLLLLLLXXX...",
+            "...XXXLLLLLLLLLXXX...",
+            "...XXGGWWWWWWWGGG....",
+            "....XGGGGGGGGGGGG....",
+            "....................."
+          ],
+          "size": 12,
+          "ears": [
+            [
+              -40,
+              74,
+              11
+            ],
+            [
+              166,
+              60,
+              9
+            ]
+          ]
+        },
+        "fit": {
+          "x": 892,
+          "y": 306,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..........X..........",
+            ".........XWX.........",
+            "..X......XWX......X..",
+            ".XWX....XXXXX....XWX.",
+            ".XWX....XXXXX....XWX.",
+            ".XXXX...XXLXX...XXXX.",
+            "..XXXX.XXLLXXX.XXXX..",
+            "..XXLXXXXLLXXXXXXXX..",
+            "..XXXLXXXLLLXXXLXXX..",
+            "..XXXLLXLLLLXXLLXXX..",
+            "...XXLLLLLLLLLLXXX...",
+            "...XXXLLLLLLLLLXXX...",
+            "...XXGGWWWWWWWGGG....",
+            "....XGGGGGGGGGGGG....",
+            "....................."
+          ],
+          "size": 12,
+          "ears": [
+            [
+              -40,
+              74,
+              11
+            ],
+            [
+              166,
+              60,
+              9
+            ]
+          ]
+        },
+        "fit": {
+          "x": 892,
+          "y": 306,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "original",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "...G.......G...",
+            ".GGGGG...GGGGG.",
+            ".GGGGG...GGGGG.",
+            "GGGGGGGGGGGGGGG",
+            ".GGGGGGGGGGGGG.",
+            ".GGGGGGGGGGGGG.",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            ".....GGGGG.....",
+            ".......G......."
+          ],
+          "size": 11
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "...G.......G...",
+            ".GGGGG...GGGGG.",
+            ".GGGGG...GGGGG.",
+            "GGGGGGGGGGGGGGG",
+            ".GGGGGGGGGGGGG.",
+            ".GGGGGGGGGGGGG.",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            ".....GGGGG.....",
+            ".......G......."
+          ],
+          "size": 11
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "star",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".......G.......",
+            ".......G.......",
+            ".......G.......",
+            "......GGG......",
+            "......GGG......",
+            ".GGGGGGGGGGGGG.",
+            "..GGGGGGGGGGG..",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GG...GG....",
+            "...GG.....GG...",
+            "...............",
+            "..............."
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".......G.......",
+            ".......G.......",
+            ".......G.......",
+            "......GGG......",
+            "......GGG......",
+            ".GGGGGGGGGGGGG.",
+            "..GGGGGGGGGGG..",
+            "...GGGGGGGGG...",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GGGGGGG....",
+            "....GG...GG....",
+            "...GG.....GG...",
+            "...............",
+            "..............."
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "skull",
+      "category": "mark",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "......GGGGG......",
+            ".....GGGGGGG.....",
+            "....GGGGGGGGG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GGGGWGGGG....",
+            "....GGGGGGGGG....",
+            ".....GGGGGGG.....",
+            ".....GWGGWGG.....",
+            ".GG..........GG..",
+            ".GGG........GGG..",
+            "..GGGG.....GGGG..",
+            "...GGGGGGGGGGG...",
+            ".....GGGGGGG.....",
+            "..GGGGGGGGGGGG...",
+            "..GGGGG...GGGGG..",
+            "...GG.......GGG.."
+          ],
+          "size": 8
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "......GGGGG......",
+            ".....GGGGGGG.....",
+            "....GGGGGGGGG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GWWGGGWWG....",
+            "....GGGGWGGGG....",
+            "....GGGGGGGGG....",
+            ".....GGGGGGG.....",
+            ".....GWGGWGG.....",
+            ".GG..........GG..",
+            ".GGG........GGG..",
+            "..GGGG.....GGGG..",
+            "...GGGGGGGGGGG...",
+            ".....GGGGGGG.....",
+            "..GGGGGGGGGGGG...",
+            "..GGGGG...GGGGG..",
+            "...GG.......GGG.."
+          ],
+          "size": 8
+        },
+        "fit": {
+          "x": 604,
+          "y": 730,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "heels",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX........",
+            "XGGX.......",
+            "XGGGX......",
+            "XGGGGXXXXX.",
+            "XXXXXXXXXXX",
+            "XX....XXXXX",
+            "XX......XXX"
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX........",
+            "XGGX.......",
+            "XGGGX......",
+            "XGGGGXXXXX.",
+            "XXXXXXXXXXX",
+            "XX....XXXXX",
+            "XX......XXX"
+          ],
+          "size": 10
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "runners",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..XXXX.....",
+            ".XGGGGX....",
+            "XGGWGGGX...",
+            "XGGGWGGGXX.",
+            "XGGWGGGGGGX",
+            "XWWWWWWWWWX",
+            ".XXXXXXXXX."
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            "..XXXX.....",
+            ".XGGGGX....",
+            "XGGWGGGX...",
+            "XGGGWGGGXX.",
+            "XGGWGGGGGGX",
+            "XWWWWWWWWWX",
+            ".XXXXXXXXX."
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    },
+    {
+      "id": "sandals",
+      "category": "shoes",
+      "changed": false,
+      "before": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX...XX...",
+            ".XGX..XGX..",
+            "XWWGGWWGGWX",
+            "XWWGGWWGGWX",
+            "XXXXXXXXXXX"
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      },
+      "after": {
+        "art": {
+          "kind": "grid",
+          "rows": [
+            ".XX...XX...",
+            ".XGX..XGX..",
+            "XWWGGWWGGWX",
+            "XWWGGWWGGWX",
+            "XXXXXXXXXXX"
+          ],
+          "size": 9
+        },
+        "fit": {
+          "x": 0,
+          "y": 0,
+          "scale": 1
+        },
+        "sha256": null
+      }
+    }
+  ],
+  "files": [],
+  "cleanupPending": false
+}

@@ -58,8 +58,11 @@ evidence and recoverable catalog/image/worker transaction. All engineering
 application tests use temporary copies. Task 7 generates the runtime/catalog PNG
 inventory, stages it during review application and verifies complete-cache readiness,
 v19 upgrades, cold offline starts and failed-download recovery in desktop Chrome
-at root/subpath. Next: Task 8 owner visual review and exact application, followed
-by Task 9 real Android verification. See [Task 7 evidence](docs/verification/v1-task7.md).
+at root/subpath. Task 8 has applied the owner's saved witch-hat review, preserving
+the prior bowler approval. The owner deferred the other seven item corrections;
+full nine-item visual acceptance and Task 9 real Android verification remain
+pending. See [Task 8 evidence](docs/verification/v1-task8.md) and
+[Task 7 evidence](docs/verification/v1-task7.md).
 
 ## Next iteration: destinations and increasing challenge
 

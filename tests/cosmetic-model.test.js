@@ -8,6 +8,7 @@ const ITEMS=JSON.parse(await readFile(new URL('./fixtures/luna-v1/historical-ite
 import {PALETTE} from '../src/pixels.js';
 const catalog=JSON.parse(await readFile(new URL('../assets/cosmetics/catalog.json',import.meta.url)));
 const copy=()=>structuredClone(catalog);
+const gridHat=source=>source.items.find(item=>item.category==='hat'&&item.art.kind==='grid');
 
 test('tailored grid ears require their underlay color, but other art permits renamed palettes',()=>{
  const source=copy();
@@ -79,14 +80,14 @@ const corruptions=[
  ['nonfinite mask',s=>{s.items[1].attachment.earMaskY=Infinity;}],
  ['negative clip',s=>{s.items[8].attachment.pawClip=-1;}],
  ['disabled mark compensation',s=>{s.items[4].attachment.counterStretch=false;}],
- ['empty grid',s=>{s.items[2].art.rows=[];}],
- ['ragged grid',s=>{s.items[2].art.rows[0]='X';}],
- ['unmapped palette',s=>{s.items[2].art.rows[0]='?'.repeat(28);}],
+ ['empty grid',s=>{gridHat(s).art.rows=[];}],
+ ['ragged grid',s=>{gridHat(s).art.rows[0]='X';}],
+ ['unmapped palette',s=>{gridHat(s).art.rows[0]='?'.repeat(28);}],
  ['bad color',s=>{s.palette.X='red';}],
- ['bad ear tuples',s=>{s.items[2].art.ears=[[1,2]];}],
- ['negative ear size',s=>{s.items[2].art.ears[0][2]=-1;}],
- ['zero grid size',s=>{s.items[2].art.size=0;}],
- ['grid path contradiction',s=>{s.items[2].art.asset='assets/a.png';}],
+ ['bad ear tuples',s=>{gridHat(s).art.ears=[[1,2]];}],
+ ['negative ear size',s=>{gridHat(s).art.ears[0][2]=-1;}],
+ ['zero grid size',s=>{gridHat(s).art.size=0;}],
+ ['grid path contradiction',s=>{gridHat(s).art.asset='assets/a.png';}],
  ['missing fit',s=>{delete s.items[1].fit;}],
  ['outside fit bounds',s=>{s.items[1].fit.x=349;}],
  ['unknown fit field',s=>{s.items[1].fit.rotation=1;}],

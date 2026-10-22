@@ -208,7 +208,11 @@ Confirm localhost bypass separately. Run CI commands and full suite.
 workflow. No art regeneration is implied by this task.
 
 **Dependencies:** task 7; owner adjusts/saves review pair and instructs application.
-Currently the generic pair is absent. Existing bowler approval remains valid.
+The owner supplied a generic pair for the witch hat and instructed proceeding
+with that change on 2026-10-22. It has been applied with exact bytes and fits;
+see [Task 8 evidence](../verification/v1-task8.md). Existing bowler approval remains
+valid. The owner deferred the other seven item corrections. This completes the
+witch-hat application scope; full nine-item visual acceptance remains pending.
 
 **Affected files:** owner review evidence under `concepts/luna/wardrobe-review/`,
 application report, exact approved assets/catalog fits, generated offline files,
@@ -251,9 +255,10 @@ Owner decides merging/publishing only after this evidence is presented.
 ## Recommended next task
 
 Tasks 1–7 establish shared catalog/rendering/reviews, preserved saves, an exact-byte
-application command and generated offline coverage. Next is Task 8: owner visual
-review and application of the nine-item correction set. The generic saved pair is
-still required; prepare the studio for review and apply only after owner instruction.
-Real Android verification follows as Task 9.
+application command and generated offline coverage. Task 8 has applied the saved
+witch-hat pair while retaining the bowler approval. The remaining seven correction
+reviews are deferred by the owner; retain the permanent studio for their later
+review and apply only after owner instruction. Full Task 8 visual acceptance
+remains pending. Real Android verification follows as Task 9.
 The future level-progression decision remains open: persistent high score unlocks
 between runs, or current-run score drives stage transitions during a run?
