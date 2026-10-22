@@ -74,7 +74,8 @@ and loading offline in that older build, with mechanics working fine; this does
 not approve deferred visual corrections or verify target artwork delivery.
 Landscape scrolling is accepted for now. Remaining device scenarios are pending.
 The owner has authorized a separate fixed-address temporary test site; its older
-build is deployed for a fresh phone baseline before the controlled update test.
+build passed a fresh offline phone baseline at `/`: HI 12 and Original look
+remained after relaunch. Controlled update interruption and recovery are next.
 
 ## Next iteration: destinations and increasing challenge
 

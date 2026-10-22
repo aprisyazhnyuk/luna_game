@@ -10,7 +10,8 @@ still need evidence.
 The owner subsequently confirmed that every item is unlocked and loads correctly
 offline in the older build, and reported that its mechanics work fine. This does
 not verify the target build's updated witch asset or approve deferred artwork.
-The fixed-address retest is prepared; a fresh phone baseline there is pending.
+The fixed-address retest baseline is confirmed: offline relaunch retained HI 12
+and Original look. Update interruption and recovery are pending.
 This record is not release acceptance. Seven Task 8 visual correction reviews
 remain deferred; the existing bowler and applied witch approvals are preserved.
 
@@ -91,11 +92,10 @@ testing. It does not serve the Luna repository, studio, review evidence or tests
 Existing phone installations are not cleared or migrated; this new origin has
 its own saves and caches.
 
-Both `/` and `/luna_game/` initially serve the previous merged game commit
+Both `/` and `/luna_game/` initially served the previous merged game commit
 `a00836fadbac746b34988559035b9956049ff6d1`, with the previous offline identity
-listed below. The target is prepared separately and has not been switched onto
-this site. The new installation's score and outfit must be confirmed before
-switching builds at the same origin/scope. Earlier phone results remain valid
+listed below. The new installation's score and outfit were confirmed before
+preparing a target update at the same origin/scope. Earlier phone results remain valid
 observations of their original installations; they do not prove this retest.
 
 The first Sites static deployment failed desktop integrity preflight: Cloudflare
@@ -122,15 +122,56 @@ and offline reload/start/pause worked. The larger Luna PNG downloaded intact
 but took about 40 seconds on this connection, exceeding the first desktop
 request's 20-second timeout. The successful rerun allowed 90 seconds per request;
 no game timeout or integrity rule was changed. This is desktop Chrome evidence,
-explicitly `android: false`. Real-device results at this new address remain
-pending.
+explicitly `android: false`. The subsequent phone baseline is recorded below;
+update outcomes remain pending.
 
-The owner has been asked to use the new site's root `/` on the Huawei P30:
-wait for readiness, install/add that copy to the home screen, finish a run and
-note HI, equip an earned item if available, then close Luna/Chrome and relaunch
-from the new icon in airplane mode with Wi-Fi off. Do not switch to the target
-until the baseline result is supplied. No phone result for this new site has
-been supplied yet.
+For the new site's root `/` on the Huawei P30, the owner was instructed to wait
+for readiness, install/add that copy to the home screen, finish a run and note
+HI, then close Luna/Chrome and relaunch from the new icon in airplane mode with
+Wi-Fi off. They first replied **12**, then explicitly confirmed:
+
+> Yes, HI 12 remained; Original look
+
+Record this fixed-origin baseline as passed by owner report. It establishes
+HI 12 and the default outfit; it does not establish a nondefault equipped item
+or preservation of the earlier origin's HI 661. Update interruption will precede
+completion of the same update so the working previous generation can be checked.
+
+## Controlled update download fixture
+
+After the HI 12 / Original look baseline, the temporary test site was switched
+at the same origin to the exact target game commit. Only the separate test
+server delays GET responses for the new required witch PNG by 120 seconds;
+Luna runtime bytes, integrity rules, saves and controls remain unchanged. This
+gives the owner a defined interval to interrupt a required update download.
+Interruption is checked before completing this same update. It is not yet a
+successful update or recovery result.
+
+Sites server source commit: `6bade8485844fdbc0476eb12f81daba18314f84c`;
+saved version **3**, deployment `appgdep_6ada357b1b1081918268e14a144d8a6e`
+succeeded at the existing fixed URL. Archive upload again failed before version
+creation (170866 ms); deployment used the exact pushed source and remote build.
+The [fixture preparation report](v1-release/delayed-download-preflight.json)
+records 56 exact local root/subpath response hashes, excluded paths and the
+GET-only delay. Live root checks matched target HTML, catalog, inventory and
+worker hashes, confirmed the fixture response header, and received no PNG bytes
+during an intentionally bounded eight-second GET. These are HTTP/local checks,
+not a full installed-worker update result or Android verification.
+
+An additional disposable desktop-browser attempt timed out after 150 seconds
+waiting for previous-generation readiness, before exercising an update; its
+cause was not established. An initial urllib HTTP probe returned 403; later curl
+checks received exact target responses without changing access settings. Both
+limitations are retained in the report. The earlier complete desktop baseline
+preflight and the owner's explicit phone baseline remain separate evidence.
+
+The owner has been instructed to reconnect the HI 12 installation, observe
+**Preparing offline update…**, enable airplane mode with Wi-Fi off during the
+controlled delay, note the status, then close Luna/Chrome and relaunch offline.
+Status, playability, HI and outfit results are pending. If preparation is not
+observed, timing alone will not be recorded as a required-download interruption.
+After this result, remove the test-server delay before guiding completion and
+recovery on the same origin; do not force worker activation or clear saves.
 
 ## Owner observations
 
@@ -232,7 +273,7 @@ on the same origin. A new hostname has separate saves and caches.
 | A10 | Repeat offline launch after a phone restart if practical; record separately from the closed-app check. Restore connectivity afterward. | Pending |
 | B1 | Repeat first load/readiness, installation, saves, Store assets and closed-app offline launch at `/luna_game/`. Record scope isolation from the root installation. | Previous-build offline relaunch with HI 661 retained, subsequent equipped-item persistence and all nine items loading passed by owner report; target build and independently confirmed phone scope/generation pending |
 | B2 | Keyboard checks (Space/Up jump, P/Escape pause/resume) if a keyboard is available; otherwise record unavailable. | Pending |
-| C1 | On a controlled test scope, install the previous merged generation, earn/save progress and an outfit, and prove its offline launch before updating. | Previous-build offline relaunch with HI 661 retained and subsequent equipped-item persistence passed by owner report; independently confirmed installed generation pending |
+| C1 | On a controlled test scope, install the previous merged generation, earn/save progress and an outfit, and prove its offline launch before updating. | Previous-build offline relaunch with HI 661 retained and subsequent equipped-item persistence passed by owner report. New fixed-origin baseline at `/` retained HI 12 and Original look offline; nondefault equipment at the new origin and independently confirmed phone generation pending |
 | C2 | Serve the target at the same origin/scope with the old app open. Wait for **Update downloaded · close all Luna windows to finish**. Existing clients keep the old generation. Close all Luna clients, reopen, and verify the target generation, witch art, progress and outfit. | Pending |
 | C3 | Interrupt a required download during an update: the old working cache/saves survive and new readiness is not falsely announced. Restore network, finish the update, close old clients, and verify recovery. | Pending |
 | C4 | On a separate unused scope/profile, interrupt first installation: it must not claim readiness. Reconnect, wait for readiness and repeat offline launch. | Pending |
@@ -244,7 +285,8 @@ server switching. A hash-verified previous snapshot is prepared from
 It remains staged locally at `/luna_game/`. The owner reported offline relaunch
 with HI 661 retained, but the public origin expired before switching to the
 target. C2 remains pending. The new fixed-address site supplies the stable origin
-for a fresh controlled retest at `/`; its phone baseline is not yet confirmed.
+for a controlled retest at `/`; its phone baseline retained HI 12 and Original
+look after an offline relaunch, confirmed by the owner.
 The original root installation remains untouched.
 Coordinate switching and failure injection
 before C1–C4; casual airplane-mode timing alone does not establish which required
