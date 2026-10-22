@@ -73,6 +73,8 @@ update preservation remains unverified. The owner reports all nine items unlocke
 and loading offline in that older build, with mechanics working fine; this does
 not approve deferred visual corrections or verify target artwork delivery.
 Landscape scrolling is accepted for now. Remaining device scenarios are pending.
+The owner has authorized a separate fixed-address temporary test site; its older
+build is deployed for a fresh phone baseline before the controlled update test.
 
 ## Next iteration: destinations and increasing challenge
 

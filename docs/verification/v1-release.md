@@ -10,6 +10,7 @@ still need evidence.
 The owner subsequently confirmed that every item is unlocked and loads correctly
 offline in the older build, and reported that its mechanics work fine. This does
 not verify the target build's updated witch asset or approve deferred artwork.
+The fixed-address retest is prepared; a fresh phone baseline there is pending.
 This record is not release acceptance. Seven Task 8 visual correction reviews
 remain deferred; the existing bowler and applied witch approvals are preserved.
 
@@ -25,6 +26,7 @@ remain deferred; the existing bowler and applied witch approvals are preserved.
 | Target offline identity | `ec6691ad50f5fd450d3262e56d2904dac1cc6e2a0bc1687510819672152d99ba` |
 | Owner-tested root origin | `https://fa100d51ac87bd.lhr.life` (subsequently rotated by provider) |
 | Upgrade test origin | `https://d1f892d4376a97.lhr.life` (subsequently rotated by provider) |
+| Fixed-address retest origin | `https://luna-task9-p30-20261022.cometthyme6.chatgpt.site` |
 | URL scopes to check separately | `/` and `/luna_game/` |
 | Phone's installed / active generation | Pending; desktop delivery is not proof of the phone's cache |
 
@@ -79,6 +81,56 @@ left intact. The expired links are retained here as historical evidence only.
 - The [previous subpath preflight](v1-release/previous-subpath-preflight.json)
   verifies the staged old catalog, old worker identity, readiness and offline
   reload on the upgrade origin in a disposable desktop context.
+
+## Fixed-address retest preparation
+
+After the temporary tunnel expired, the owner approved proceeding with a fixed
+HTTPS test site on 2026-10-22. This is a separate temporary, publicly accessible
+game-only deployment. Its public access will be restricted to the owner after
+testing. It does not serve the Luna repository, studio, review evidence or tests.
+Existing phone installations are not cleared or migrated; this new origin has
+its own saves and caches.
+
+Both `/` and `/luna_game/` initially serve the previous merged game commit
+`a00836fadbac746b34988559035b9956049ff6d1`, with the previous offline identity
+listed below. The target is prepared separately and has not been switched onto
+this site. The new installation's score and outfit must be confirmed before
+switching builds at the same origin/scope. Earlier phone results remain valid
+observations of their original installations; they do not prove this retest.
+
+The first Sites static deployment failed desktop integrity preflight: Cloudflare
+injected a JavaScript Detections script into the HTML. Luna correctly refused the
+modified resource. The failure was caught before asking the owner to test that
+address. Cloudflare documents that a
+[`Cache-Control: no-transform` response directive prevents this injection](https://developers.cloudflare.com/cloudflare-challenges/challenge-types/javascript-detections/).
+
+The separate test server now uses the supported Sites Worker ESM format, serving
+the original runtime bytes embedded without alteration and adding
+`Cache-Control: no-store, no-transform`. Local response checks verified all 54
+root/subpath game responses against the original byte hashes, and checked that
+repository/studio/review/test paths return 404. No Luna runtime source, renderer,
+save logic, offline integrity validation or approved artwork was changed.
+
+Sites server source commit: `a42820db496b01ef4010935647f93ecdede70a22`;
+saved version **2**. A local archive was packaged, but its initial upload failed
+before creating a version. Deployment used the pushed source and remote build
+fallback. Deployment succeeded at the fixed URL. The
+[hosted desktop preflight](v1-release/fixed-host-preflight.json) passed at both
+root and subpath: every served game file matched its original hash, excluded
+development/review paths returned 404, the installed worker reached readiness,
+and offline reload/start/pause worked. The larger Luna PNG downloaded intact
+but took about 40 seconds on this connection, exceeding the first desktop
+request's 20-second timeout. The successful rerun allowed 90 seconds per request;
+no game timeout or integrity rule was changed. This is desktop Chrome evidence,
+explicitly `android: false`. Real-device results at this new address remain
+pending.
+
+The owner has been asked to use the new site's root `/` on the Huawei P30:
+wait for readiness, install/add that copy to the home screen, finish a run and
+note HI, equip an earned item if available, then close Luna/Chrome and relaunch
+from the new icon in airplane mode with Wi-Fi off. Do not switch to the target
+until the baseline result is supplied. No phone result for this new site has
+been supplied yet.
 
 ## Owner observations
 
@@ -191,8 +243,9 @@ server switching. A hash-verified previous snapshot is prepared from
 `4dca09896770bde92e4ff20a0617f6cb2ac9eaa932dd32462c2a9593fe1fd161`.
 It remains staged locally at `/luna_game/`. The owner reported offline relaunch
 with HI 661 retained, but the public origin expired before switching to the
-target. C2 remains pending and needs a stable test origin. The original root
-installation remains untouched.
+target. C2 remains pending. The new fixed-address site supplies the stable origin
+for a fresh controlled retest at `/`; its phone baseline is not yet confirmed.
+The original root installation remains untouched.
 Coordinate switching and failure injection
 before C1–C4; casual airplane-mode timing alone does not establish which required
 download was interrupted. Do not substitute desktop results for these rows.
