@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-22T13:11:09.837Z",
+  "browser": "156.0.8078.47",
+  "android": false,
+  "origin": "https://fa100d51ac87bd.lhr.life",
+  "results": [
+    {
+      "prefix": "/",
+      "allRuntimeHashesMatch": true,
+      "excludedPathsUnavailable": true,
+      "httpsWorkerReady": true,
+      "offlineReloadAndPlay": true
+    },
+    {
+      "prefix": "/luna_game/",
+      "allRuntimeHashesMatch": true,
+      "excludedPathsUnavailable": true,
+      "httpsWorkerReady": true,
+      "offlineReloadAndPlay": true
+    }
+  ]
+}

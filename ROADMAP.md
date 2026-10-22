@@ -63,6 +63,16 @@ the prior bowler approval. The owner deferred the other seven item corrections;
 full nine-item visual acceptance and Task 9 real Android verification remain
 pending. See [Task 8 evidence](docs/verification/v1-task8.md) and
 [Task 7 evidence](docs/verification/v1-task7.md).
+Task 9 preparation is now tracked in the [real Android verification record](docs/verification/v1-release.md):
+the owner has a Huawei P30 and authorized a temporary HTTPS test link. Readiness,
+home-screen installation, closed-app airplane-mode launch, start/jump, Store,
+HI persistence and background pause are reported working on EMUI 12.0.0 / Chrome
+155.0.8059.39. The previous-build subpath installation also retained HI 661 and an
+equipped item after offline relaunches. Its temporary hostname expired before the target update;
+update preservation remains unverified. The owner reports all nine items unlocked
+and loading offline in that older build, with mechanics working fine; this does
+not approve deferred visual corrections or verify target artwork delivery.
+Landscape scrolling is accepted for now. Remaining device scenarios are pending.
 
 ## Next iteration: destinations and increasing challenge
 
