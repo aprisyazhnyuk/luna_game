@@ -80,7 +80,7 @@ try{
   for(const category of ['hat','shoes','mark'])await page.selectOption(`#outfit-${category}`,`new-${category}`);
   assert.match(await page.textContent('#source-label'),/No concept reference/);
   const count=await page.evaluate(async()=>{const {getCosmeticSnapshot}=await import('../../src/cosmetic-assets.js');return Object.values(getCosmeticSnapshot().items).filter(item=>item.image).length;});
-  assert.equal(count,4);
+  assert.equal(count,data.items.filter(item=>item.art.kind==='png').length);
   await page.click('[data-motion="ready"]');await page.click('#pause');
   const actual=await page.evaluate(()=>document.querySelector('#native').toDataURL());
   const expected=await page.evaluate(async()=>{

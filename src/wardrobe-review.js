@@ -59,7 +59,8 @@ export function parseReview(data,catalog){
   fits.hat.bowler=validateFit('hat',{kind:'raster',asset:data.asset,x:data.x,y:data.y,scale:data.scale});
   return {fits,outfit:{...catalog.defaults,hat:'bowler'},selectedCategory:'hat',review:null};
  }
- object(data,['version','type','fits','outfit','selectedCategory','review'],['status'],'review');
+ object(data,['version','type','fits','outfit','selectedCategory','review'],['status','rendering'],'review');
+ if(Object.hasOwn(data,'rendering')&&data.rendering!=='stable-ear-mask-v1')throw new Error('Invalid rendering candidate');
  if(data.type!=='luna-wardrobe-review')throw new Error('Not a Luna wardrobe review');
  object(data.fits,categories,[],'fits');
  for(const category of categories){
@@ -79,7 +80,7 @@ export function parseReview(data,catalog){
   outfit[category]=id;
  }
  if(typeof data.selectedCategory!=='string'||!Object.hasOwn(LIMITS,data.selectedCategory))throw new Error('Invalid editor category');
- return {fits,outfit,selectedCategory:data.selectedCategory,review:playback(data.review)};
+ return {fits,outfit,selectedCategory:data.selectedCategory,review:playback(data.review),...(data.rendering?{rendering:data.rendering}:{})};
 }
 export function createReview(draft,catalog){
  // Exports must contain all currently editable items, even if not selected.

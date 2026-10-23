@@ -85,14 +85,20 @@ export function drawImageLuna(c,image,x,y,pose,outfit=ORIGINAL,renderers={}) {
   c.drawImage(image,0,0);c.restore();
   if(layers.shoes)layers.shoes(c,leg,outfit.shoes);else if(shoes)drawShoes(c,leg,outfit.shoes,shoes);c.restore();
  }
- c.save();path(c,BODY);c.clip();
  const earMask=hat?.attachment.earMaskY;
- if(earMask!==null&&earMask!==undefined){
-  // Replace the original ear area with the hat's tailored ear design. The
-  // forehead below this line stays intact, including the blink overlay.
-  c.beginPath();c.rect(0,earMask,image.naturalWidth,image.naturalHeight-earMask);c.clip();
+ // Studio body candidates use this same rig and source-space outline. The
+ // game/Store retain their current draw path until a saved review is applied.
+ if(layers.body){
+  const drawBody=target=>{target.save();path(target,BODY);target.clip();target.drawImage(image,0,0);target.restore();};
+  layers.body(c,image,earMask,drawBody);
+ }else{
+  c.save();path(c,BODY);c.clip();
+  if(earMask!==null&&earMask!==undefined){
+   // Replace the original ear area with the hat's tailored ear design.
+   c.beginPath();c.rect(0,earMask,image.naturalWidth,image.naturalHeight-earMask);c.clip();
+  }
+  c.drawImage(image,0,0);c.restore();
  }
- c.drawImage(image,0,0);c.restore();
  if(layers.mark)layers.mark(c,outfit.mark,pose.stretch);else if(mark)drawMark(c,outfit.mark,pose.stretch,mark);
  if(pose.blink) {
   // Cover only the visible eye, using the surrounding white face colour.

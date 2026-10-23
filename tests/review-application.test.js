@@ -7,6 +7,13 @@ import {fileURLToPath} from 'node:url';
 import {prepareReview,applyPrepared,recoverReview} from '../scripts/lib/review-application.mjs';
 import {sandbox,hashes,hash,project} from './helpers/review-sandbox.js';
 
+test('unapplied rendering candidate cannot be silently applied as a fit-only review',async t=>{
+ const s=await sandbox(t);s.data.rendering='stable-ear-mask-v1';await s.write();
+ const before=await hashes(s.root);
+ await assert.rejects(()=>prepareReview(s),/rendering candidate.*studio only/i);
+ assert.deepEqual(await hashes(s.root),before);
+});
+
 test('dry-run changes nothing; apply transfers all fits and exact PNGs, evidence and cache atomically',async t=>{
  const s=await sandbox(t),before=await hashes(s.root),plan=await prepareReview(s);
  assert.deepEqual(await hashes(s.root),before);assert.equal(plan.report.items.filter(i=>i.changed).length,4);

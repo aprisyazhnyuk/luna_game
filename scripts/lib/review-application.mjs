@@ -73,6 +73,7 @@ export async function prepareReview({root,review,preview}){
  const catalogBytes=await read('assets/cosmetics/catalog.json',1_000_000),catalog=validateCatalog(decode(catalogBytes));
  const reviewBytes=await source(review,MAX_JSON);validateReviewByteLength(reviewBytes.length);
  const draft=parseReview(decode(reviewBytes),catalog),previewBytes=await source(preview,INPUT_LIMITS.pngBytes);validatePng(previewBytes);
+ if(draft.rendering)throw new Error('Rendering candidate is studio only; activate its reviewed implementation before applying this pair. No files changed.');
  const previewHash=sha(previewBytes),validated=new Set([previewHash]),activeImages=new Map();
  const validate=bytes=>{const digest=sha(bytes);if(!validated.has(digest)){validatePng(bytes);validated.add(digest);}return digest;};
  for(const item of catalog.items)if(item.art.kind==='png'&&!activeImages.has(item.art.asset)){
