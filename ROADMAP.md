@@ -69,7 +69,7 @@ home-screen installation, closed-app airplane-mode launch, start/jump, Store,
 HI persistence and background pause are reported working on EMUI 12.0.0 / Chrome
 155.0.8059.39. The previous-build subpath installation also retained HI 661 and an
 equipped item after offline relaunches. Its temporary hostname expired before the target update;
-update preservation remains unverified. The owner reports all nine items unlocked
+that origin could not establish update preservation. The owner reports all nine items unlocked
 and loading offline in that older build, with mechanics working fine; this does
 not approve deferred visual corrections or verify target artwork delivery.
 Landscape scrolling is accepted for now. Remaining device scenarios are pending.
@@ -77,9 +77,11 @@ The owner has authorized a separate fixed-address temporary test site; its older
 build passed a fresh offline phone baseline at `/`: HI 12 and Original look
 remained after relaunch. On 2026-10-23, the interrupted-update attempt reported
 update unavailable, followed by readiness and retained HI 12 / Original look
-after reopening offline. The old witch appearance remains; target recovery and
-a reported eye/body change when choosing a Store hat need clarification. The
-deliberate server delay is removed and desktop target offline checks pass.
+after reopening offline. After the delay was removed, normal online recovery and
+another offline relaunch retained HI 641 and displayed the adjusted witch, by
+owner report. Selecting a hat still changes the face; desktop reproduction
+isolates the ear-mask clip. A separate studio candidate will address this defect
+through the permanent visual approval process.
 
 ## Next iteration: destinations and increasing challenge
 

@@ -32,7 +32,7 @@
     }
   ],
   "sourceObservation": "Store uses still open-eyed reduced-motion pose; game animates and can blink",
-  "diagnosis": "Unconfirmed phone trigger. Fixed paused Store cycles were identical on desktop; default and software Canvas produced different eye-region pixels from the same body image. This does not prove that a Canvas mode switch occurred on the phone.",
+  "diagnosis": "Selecting any hat changes face-region pixels in desktop Chrome. A mask-only draw reproduces it without hat art; removing only the extra ear-mask clip restores the base face hash. This matches the reported trigger; phone backend internals are not instrumented.",
   "runtimeChanges": false,
   "phoneScreenshots": [
     {
@@ -112,7 +112,7 @@
     ],
     "pausedSceneUnchanged": true
   },
-  "nextEvidence": "Normal online update completion, followed by closed-app offline relaunch retaining HI 641 and target witch verification if unlocked.",
+  "nextEvidence": "Prepare isolated studio candidate for sampling-stable ear masking; owner visual review before application.",
   "originConfirmation": {
     "date": "2026-10-23",
     "observer": "owner self-report",
@@ -121,5 +121,67 @@
     "reply": "It shows 641",
     "highScore": 641,
     "cacheGeneration": "unconfirmed"
+  },
+  "hatSelectionReproduction": {
+    "rows": [
+      {
+        "label": "none",
+        "hat": "none",
+        "mask": null,
+        "eyeHash": "1ce44b3b5ddd472f7c7c0a56dfd939047204ea2a2ddfa1ae978319e81888d4c8"
+      },
+      {
+        "label": "bowler",
+        "hat": "bowler",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "witch",
+        "hat": "witch",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "crown",
+        "hat": "crown",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "mask only",
+        "hat": "none",
+        "mask": 476,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "witch, mask removed",
+        "hat": "witch",
+        "mask": "remove",
+        "eyeHash": "1ce44b3b5ddd472f7c7c0a56dfd939047204ea2a2ddfa1ae978319e81888d4c8"
+      }
+    ],
+    "android": false,
+    "browser": "156.0.8078.47",
+    "region": [
+      128,
+      262,
+      16,
+      16
+    ],
+    "drawOrigin": [
+      94,
+      300
+    ],
+    "pose": "neutral, open eyes"
+  },
+  "normalRecoveryOwnerReport": {
+    "date": "2026-10-23",
+    "highScore": 641,
+    "adjustedWitchVisible": true,
+    "offlineClosedAppRelaunch": true,
+    "faceChangeOnHatSelection": true,
+    "observer": "owner self-report",
+    "nondefaultOutfitRetentionAcrossUpdate": "not separately confirmed"
   }
 }

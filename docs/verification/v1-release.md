@@ -12,8 +12,9 @@ offline in the older build, and reported that its mechanics work fine. This does
 not verify the target build's updated witch asset or approve deferred artwork.
 The fixed-address retest baseline is confirmed: offline relaunch retained HI 12
 and Original look. After an interrupted-update attempt, the owner again confirmed
-HI 12 and Original look. Target update completion, recovery and a reported
-Store eye/body appearance change remain unresolved.
+HI 12 and Original look. After normal online recovery, the owner confirmed an
+offline relaunch with HI 641 and the adjusted witch hat. Selecting a hat still
+changes the face; a desktop reproduction isolates the extra ear-mask clip.
 This record is not release acceptance. Seven Task 8 visual correction reviews
 remain deferred; the existing bowler and applied witch approvals are preserved.
 
@@ -190,8 +191,7 @@ then clarified:
 
 Record HI 12 and Original look preservation after the interrupted-update attempt
 as passed by owner report. The older witch appearance is consistent with retaining
-the previous working copy; target activation and completed recovery remain
-pending. The reply does not explicitly identify observation of **Preparing
+the previous working copy. Target recovery was subsequently reported below. The reply does not explicitly identify observation of **Preparing
 offline update…** or the exact disconnection instant. A reported eye/body change
 when choosing a Store hat is an unresolved visual observation. Screenshots were
 subsequently supplied and are analyzed below; the owner then confirmed HI 641
@@ -215,9 +215,18 @@ version used its validated local archive successfully. Local checks verified all
 both root and subpath: all target runtime hashes matched, development/review
 paths returned 404, the worker reached readiness, and offline reload/play worked.
 This is explicitly desktop evidence (`android: false`). The fixed-origin save has since been confirmed offline at HI 641.
-Normal online completion and a subsequent offline target relaunch with HI 641
-are the next phone checks and remain pending. Do not
-force worker activation or clear saves.
+After being guided through normal online completion, closing all clients, then
+an airplane-mode/Wi-Fi-off closed-app relaunch, the owner replied:
+
+> Yes, HI 641, the adjusted hat is shown. But as soon as I hoose the hat in the
+> store the face goes to the older versin.
+
+Record target witch delivery and HI 641 preservation after offline relaunch as
+passed by owner report. This also confirms recovery after the earlier interrupted
+attempt. No different status message was reported. Exact worker identity,
+interruption timing, old-client coexistence and nondefault outfit persistence
+across this update were not instrumented or separately confirmed. Do not force
+worker activation or clear saves.
 
 ### Screenshot follow-up: Store and eye appearance
 
@@ -234,7 +243,7 @@ frozen animation frame, and neither image identifies its URL or cache generation
 To identify the copy, the owner was asked to open the exact fixed-host root URL
 while offline and report its HI. They replied **It shows 641** on 2026-10-23.
 This confirms the fixed-origin save now shows HI 641, matching the screenshots;
-use 641 as the current score for the forthcoming recovery check. Preserve the
+the subsequent recovery check also retained 641. Preserve the
 separate earlier HI 12 baseline and interruption reports as historical results.
 This identifies the origin by owner report, not the installed cache generation.
 The screenshots themselves do not prove the network state.
@@ -249,10 +258,19 @@ A fresh desktop check using Chrome 156.0.8078.47 and the actual game found:
   mode. This demonstrates rendering sensitivity without changing artwork.
 - Rendered blink frames have a closed line, unlike either supplied phone image.
 
-The phone trigger remains unresolved. A browser rendering-mode change is a
-hypothesis, not an observed phone fact. The JPEGs and desktop results do not justify
-changing active artwork or claiming mixed cached game generations. Any visual
-correction still follows the permanent studio review/application workflow.
+The latest owner report narrows the trigger to selecting a hat. A second desktop
+reproduction held the PNG, pose, canvas and coordinates fixed and compared all
+three hats, Original look, a mask-only draw without hat art, and a diagnostic
+witch draw without the mask. All hats and the mask-only draw produced the same
+changed face-region hash; Original look and mask removed produced the same base
+hash. The extra ear-mask clip therefore changes sampled face pixels below its
+boundary independently of the hat art. See the [comparison](v1-release/hat-face-reproduction.png)
+and hashes in the investigation report. This is desktop evidence matching the
+reported trigger, not remote inspection of the phone graphics backend.
+
+A bounded correction will be prepared separately in the permanent studio. The
+approved PNGs and fits remain intact; no candidate is active or hosted. Visual
+approval through a saved review pair is required before application.
 
 ## Owner observations
 
@@ -350,13 +368,13 @@ on the same origin. A new hostname has separate saves and caches.
 | A6 | Note best distance, best single-run treats, earned items and outfit. Reload: values persist. Original look retains rewards; category selections are independent. During a paused run, outfit changes affect the next run. | HI persists after closed-app reopen by owner report; equipped-item persistence also reported on the previous-build offline test installation; rewards and other save checks pending |
 | A7 | Inspect all nine Store item entries; exercise every earned choice, including combinations and animation. Record locked choices as pending, not passed. Do not change the owner's saves to unlock them. | All nine unlocked and loading correctly offline in the previous build by owner report; target artwork, combinations and detailed animation checks pending |
 | A8 | Use the offered installation action or Chrome menu to add/install Luna. Launch from its home-screen icon and record the actual launch mode. | Icon installation/launch passed by owner report; exact launch mode unrecorded |
-| A9 | After readiness, enable airplane mode and ensure Wi-Fi is off. Close all Luna tabs and remove Luna/Chrome from recent apps. Launch from the icon: the game loads and plays with retained progress/outfit and all available item art. | Closed-app airplane-mode launch, start/jump and Store passed by owner report; HI 661, an equipped item and loading all nine items reported on the previous-build test installation; target-build offline save/art checks pending |
+| A9 | After readiness, enable airplane mode and ensure Wi-Fi is off. Close all Luna tabs and remove Luna/Chrome from recent apps. Launch from the icon: the game loads and plays with retained progress/outfit and all available item art. | Closed-app airplane-mode launch, start/jump and Store passed by owner report; HI 661, an equipped item and loading all nine items reported on the previous-build test installation; fixed-origin target offline relaunch retained HI 641 and displayed adjusted witch by owner report; remaining target items pending |
 | A10 | Repeat offline launch after a phone restart if practical; record separately from the closed-app check. Restore connectivity afterward. | Pending |
 | B1 | Repeat first load/readiness, installation, saves, Store assets and closed-app offline launch at `/luna_game/`. Record scope isolation from the root installation. | Previous-build offline relaunch with HI 661 retained, subsequent equipped-item persistence and all nine items loading passed by owner report; target build and independently confirmed phone scope/generation pending |
 | B2 | Keyboard checks (Space/Up jump, P/Escape pause/resume) if a keyboard is available; otherwise record unavailable. | Pending |
 | C1 | On a controlled test scope, install the previous merged generation, earn/save progress and an outfit, and prove its offline launch before updating. | Previous-build offline relaunch with HI 661 retained and subsequent equipped-item persistence passed by owner report. New fixed-origin baseline at `/` retained HI 12 and Original look offline; nondefault equipment at the new origin and independently confirmed phone generation pending |
-| C2 | Serve the target at the same origin/scope with the old app open. Wait for **Update downloaded · close all Luna windows to finish**. Existing clients keep the old generation. Close all Luna clients, reopen, and verify the target generation, witch art, progress and outfit. | Pending |
-| C3 | Interrupt a required download during an update: the old working cache/saves survive and new readiness is not falsely announced. Restore network, finish the update, close old clients, and verify recovery. | Owner reported update unavailable, then readiness after closing/reopening offline on 2026-10-23; HI 12 and Original look retained, older witch appearance reported. Exact interruption timing, cache identity and completed online recovery remain unconfirmed |
+| C2 | Serve the target at the same origin/scope with the old app open. Wait for **Update downloaded · close all Luna windows to finish**. Existing clients keep the old generation. Close all Luna clients, reopen, and verify the target generation, witch art, progress and outfit. | Owner confirmed offline relaunch with HI 641 and adjusted witch on 2026-10-23. Exact status sequence, old-client coexistence, worker identity and nondefault outfit retention across update remain unconfirmed |
+| C3 | Interrupt a required download during an update: the old working cache/saves survive and new readiness is not falsely announced. Restore network, finish the update, close old clients, and verify recovery. | Owner reported update unavailable, then readiness after closing/reopening offline on 2026-10-23; HI 12 and Original look retained, older witch appearance reported. Subsequent online recovery and offline relaunch retained HI 641 and showed adjusted witch by owner report. Exact interruption timing and cache identity remain unconfirmed |
 | C4 | On a separate unused scope/profile, interrupt first installation: it must not claim readiness. Reconnect, wait for readiness and repeat offline launch. | Pending |
 
 Upgrade checks need the same live hostname and scope throughout, with controlled
@@ -365,7 +383,7 @@ server switching. A hash-verified previous snapshot is prepared from
 `4dca09896770bde92e4ff20a0617f6cb2ac9eaa932dd32462c2a9593fe1fd161`.
 It remains staged locally at `/luna_game/`. The owner reported offline relaunch
 with HI 661 retained, but the public origin expired before switching to the
-target. C2 remains pending. The new fixed-address site supplies the stable origin
+target. The new fixed-address site supplies the stable origin
 for a controlled retest at `/`; its phone baseline retained HI 12 and Original
 look after an offline relaunch, confirmed by the owner.
 The original root installation remains untouched.
