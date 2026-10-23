@@ -1,0 +1,38 @@
+{
+  "serverSourceCommit": "5a879bf2863cff89b714e0ded45eea01ab833d77",
+  "delayRemoved": true,
+  "date": "2026-10-23T07:32:37.907Z",
+  "browser": "156.0.8078.47",
+  "android": false,
+  "origin": "https://luna-task9-p30-20261022.cometthyme6.chatgpt.site",
+  "commit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+  "cacheKey": "ec6691ad50f5fd450d3262e56d2904dac1cc6e2a0bc1687510819672152d99ba",
+  "results": [
+    {
+      "prefix": "/",
+      "allRuntimeHashesMatch": true,
+      "excludedPaths": {
+        ".git/config": 404,
+        "concepts/": 404,
+        "tools/": 404,
+        "docs/": 404,
+        "tests/": 404
+      },
+      "httpsWorkerReady": true,
+      "offlineReloadAndPlay": true
+    },
+    {
+      "prefix": "/luna_game/",
+      "allRuntimeHashesMatch": true,
+      "excludedPaths": {
+        ".git/config": 404,
+        "concepts/": 404,
+        "tools/": 404,
+        "docs/": 404,
+        "tests/": 404
+      },
+      "httpsWorkerReady": true,
+      "offlineReloadAndPlay": true
+    }
+  ]
+}

@@ -118,6 +118,9 @@ While the image loads, the hand-placed pixel sprite in `src/pixels.js` acts as a
 
 Manual device checks before release:
 
+Task 9 preparation and the pending Huawei P30 checks are tracked in the
+[real Android verification record](docs/verification/v1-release.md).
+
 - Portrait phone: start, jump, collect bites, lose three chances, restart, pause/resume.
 - Switch apps while running; returning must show a paused game.
 - Reload and verify best distance persists.

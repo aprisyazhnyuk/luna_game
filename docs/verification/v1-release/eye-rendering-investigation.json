@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-23",
+  "android": false,
+  "kind": "Read-only comparison for reported hat-selection eye/body change",
+  "previousGameCommit": "a00836fadbac746b34988559035b9956049ff6d1",
+  "targetGameCommit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+  "checks": [
+    {
+      "path": "assets/luna-custom.png",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "be2bad83b61aabebd6d2fa1f4f69934611c75d646817df4b7fe83d7eae7cad6a"
+    },
+    {
+      "path": "src/animation.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "47359c6dce8f8baa23b2d7a681d2d8b2d35fb136cf136e7cb1a39009342006c1"
+    },
+    {
+      "path": "src/draw.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "0e44af9196156b7a925ad09cdcb0006bd47e6fbc7f7d9355d2c95b6a87f65a61"
+    },
+    {
+      "path": "src/store.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "def5c0ccfa4cef7d85c6b23baca7e7e199364155d75861187fb3ebe0ac0e5d60"
+    },
+    {
+      "path": "src/app.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "ecb8e829834996f95e96e05cdf04662359be38615d8eb3a2c776cc116c9f9724"
+    }
+  ],
+  "sourceObservation": "Store uses still open-eyed reduced-motion pose; game animates and can blink",
+  "diagnosis": "Selecting any hat changes face-region pixels in desktop Chrome. A mask-only draw reproduces it without hat art; removing only the extra ear-mask clip restores the base face hash. This matches the reported trigger; phone backend internals are not instrumented.",
+  "runtimeChanges": false,
+  "phoneScreenshots": [
+    {
+      "name": "photo_2026-10-23_10-40-51.jpg",
+      "sha256": "f98bda4d56f74e39c0a4ed795270455d4fc9d51b89a31b7dce47ae95cb7fd393",
+      "bytes": 20818,
+      "visibleHI": 641,
+      "visibleRunDistance": 29,
+      "visiblePhase": "Paused",
+      "visibleOutfit": "No hat, original body mark, bare paws",
+      "originVisible": false
+    },
+    {
+      "name": "photo_2026-10-23_10-40-55.jpg",
+      "sha256": "3427407cbf9846bb5b2a5fd806f53323083065afb264cb6e6b0722577486101d",
+      "bytes": 20894,
+      "visibleHI": 641,
+      "visibleRunDistance": 21,
+      "visiblePhase": "Paused",
+      "visibleOutfit": "No hat, original body mark, bare paws",
+      "originVisible": false
+    }
+  ],
+  "phoneScreenshotInterpretation": {
+    "bothEyesOpen": true,
+    "blinkExplanation": "ruled out for these two screenshots",
+    "sameFrozenFrame": false,
+    "notes": "Different run distances and paw poses; no address or installed cache identity visible. Owner subsequently opened the exact fixed-host root URL offline and reported HI 641, matching these screenshots."
+  },
+  "desktopReproduction": {
+    "date": "2026-10-23T07:46:14.919Z",
+    "android": false,
+    "browser": "156.0.8078.47",
+    "eyeSampling": [
+      {
+        "software": false,
+        "x": 94,
+        "y": 298,
+        "eyeHash": "4fc302c9f3e9334380250fc9c3429fd7054b982203cca8ae38d268595778dee9"
+      },
+      {
+        "software": false,
+        "x": 94,
+        "y": 299,
+        "eyeHash": "4fc302c9f3e9334380250fc9c3429fd7054b982203cca8ae38d268595778dee9"
+      },
+      {
+        "software": false,
+        "x": 94,
+        "y": 300,
+        "eyeHash": "4fc302c9f3e9334380250fc9c3429fd7054b982203cca8ae38d268595778dee9"
+      },
+      {
+        "software": true,
+        "x": 94,
+        "y": 298,
+        "eyeHash": "2de4d9c62c9e0ff557e59a93c218d7ac08da344559a591e021865eea5b71ac7f"
+      },
+      {
+        "software": true,
+        "x": 94,
+        "y": 299,
+        "eyeHash": "2de4d9c62c9e0ff557e59a93c218d7ac08da344559a591e021865eea5b71ac7f"
+      },
+      {
+        "software": true,
+        "x": 94,
+        "y": 300,
+        "eyeHash": "2de4d9c62c9e0ff557e59a93c218d7ac08da344559a591e021865eea5b71ac7f"
+      }
+    ],
+    "pausedStoreCycles": [
+      "a2dc8efc007f44e9c02607c0ed0f05fae1014703c9bb65f97a286b29ebd5a59a",
+      "a2dc8efc007f44e9c02607c0ed0f05fae1014703c9bb65f97a286b29ebd5a59a",
+      "a2dc8efc007f44e9c02607c0ed0f05fae1014703c9bb65f97a286b29ebd5a59a",
+      "a2dc8efc007f44e9c02607c0ed0f05fae1014703c9bb65f97a286b29ebd5a59a"
+    ],
+    "pausedSceneUnchanged": true
+  },
+  "nextEvidence": "Prepare isolated studio candidate for sampling-stable ear masking; owner visual review before application.",
+  "originConfirmation": {
+    "date": "2026-10-23",
+    "observer": "owner self-report",
+    "url": "https://luna-task9-p30-20261022.cometthyme6.chatgpt.site/",
+    "instruction": "Open exact URL while offline and report HI",
+    "reply": "It shows 641",
+    "highScore": 641,
+    "cacheGeneration": "unconfirmed"
+  },
+  "hatSelectionReproduction": {
+    "rows": [
+      {
+        "label": "none",
+        "hat": "none",
+        "mask": null,
+        "eyeHash": "1ce44b3b5ddd472f7c7c0a56dfd939047204ea2a2ddfa1ae978319e81888d4c8"
+      },
+      {
+        "label": "bowler",
+        "hat": "bowler",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "witch",
+        "hat": "witch",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "crown",
+        "hat": "crown",
+        "mask": null,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "mask only",
+        "hat": "none",
+        "mask": 476,
+        "eyeHash": "0b95267fa2a2e8b378344057baaa000ac922f85eed2508d6c3a8baf31743b49f"
+      },
+      {
+        "label": "witch, mask removed",
+        "hat": "witch",
+        "mask": "remove",
+        "eyeHash": "1ce44b3b5ddd472f7c7c0a56dfd939047204ea2a2ddfa1ae978319e81888d4c8"
+      }
+    ],
+    "android": false,
+    "browser": "156.0.8078.47",
+    "region": [
+      128,
+      262,
+      16,
+      16
+    ],
+    "drawOrigin": [
+      94,
+      300
+    ],
+    "pose": "neutral, open eyes"
+  },
+  "normalRecoveryOwnerReport": {
+    "date": "2026-10-23",
+    "highScore": 641,
+    "adjustedWitchVisible": true,
+    "offlineClosedAppRelaunch": true,
+    "faceChangeOnHatSelection": true,
+    "observer": "owner self-report",
+    "nondefaultOutfitRetentionAcrossUpdate": "not separately confirmed"
+  }
+}
