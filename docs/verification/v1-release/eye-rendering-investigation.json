@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-23",
+  "android": false,
+  "kind": "Read-only comparison for reported hat-selection eye/body change",
+  "previousGameCommit": "a00836fadbac746b34988559035b9956049ff6d1",
+  "targetGameCommit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+  "checks": [
+    {
+      "path": "assets/luna-custom.png",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "be2bad83b61aabebd6d2fa1f4f69934611c75d646817df4b7fe83d7eae7cad6a"
+    },
+    {
+      "path": "src/animation.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "47359c6dce8f8baa23b2d7a681d2d8b2d35fb136cf136e7cb1a39009342006c1"
+    },
+    {
+      "path": "src/draw.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "0e44af9196156b7a925ad09cdcb0006bd47e6fbc7f7d9355d2c95b6a87f65a61"
+    },
+    {
+      "path": "src/store.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "def5c0ccfa4cef7d85c6b23baca7e7e199364155d75861187fb3ebe0ac0e5d60"
+    },
+    {
+      "path": "src/app.js",
+      "unchangedAcrossGameCommits": true,
+      "sha256": "ecb8e829834996f95e96e05cdf04662359be38615d8eb3a2c776cc116c9f9724"
+    }
+  ],
+  "sourceObservation": "Store uses still open-eyed reduced-motion pose; game animates and can blink",
+  "diagnosis": "unconfirmed; phone screenshots requested",
+  "runtimeChanges": false
+}

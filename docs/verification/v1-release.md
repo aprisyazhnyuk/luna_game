@@ -1,6 +1,6 @@
 # Task 9: real Android verification
 
-Status on 2026-10-22: device checks in progress. The owner reports successful
+Status on 2026-10-23: device checks in progress. The owner reports successful
 readiness, home-screen launch after closing Luna/Chrome in airplane mode with
 Wi-Fi off, starting/jumping, opening Store, best-distance persistence and
 background pause on the Huawei P30. The previous-build test installation also
@@ -11,7 +11,9 @@ The owner subsequently confirmed that every item is unlocked and loads correctly
 offline in the older build, and reported that its mechanics work fine. This does
 not verify the target build's updated witch asset or approve deferred artwork.
 The fixed-address retest baseline is confirmed: offline relaunch retained HI 12
-and Original look. Update interruption and recovery are pending.
+and Original look. After an interrupted-update attempt, the owner again confirmed
+HI 12 and Original look. Target update completion, recovery and a reported
+Store eye/body appearance change remain unresolved.
 This record is not release acceptance. Seven Task 8 visual correction reviews
 remain deferred; the existing bowler and applied witch approvals are preserved.
 
@@ -22,7 +24,7 @@ remain deferred; the existing bowler and applied witch approvals are preserved.
 | Device | Huawei P30, reported by owner |
 | Android / EMUI version | EMUI 12.0.0; underlying Android version not supplied |
 | Chrome version | 155.0.8059.39 |
-| Device test date / observer | 2026-10-22 / owner, remote self-report |
+| Device test dates / observer | 2026-10-22 and 2026-10-23 / owner, remote self-report |
 | Target merged commit | `a42e9a6fd235217677cfe211cea12eb47b924bc5` (PR #10) |
 | Target offline identity | `ec6691ad50f5fd450d3262e56d2904dac1cc6e2a0bc1687510819672152d99ba` |
 | Owner-tested root origin | `https://fa100d51ac87bd.lhr.life` (subsequently rotated by provider) |
@@ -168,10 +170,53 @@ preflight and the owner's explicit phone baseline remain separate evidence.
 The owner has been instructed to reconnect the HI 12 installation, observe
 **Preparing offline update…**, enable airplane mode with Wi-Fi off during the
 controlled delay, note the status, then close Luna/Chrome and relaunch offline.
-Status, playability, HI and outfit results are pending. If preparation is not
-observed, timing alone will not be recorded as a required-download interruption.
-After this result, remove the test-server delay before guiding completion and
-recovery on the same origin; do not force worker activation or clear saves.
+On 2026-10-23 the owner reported:
+
+> Offline update unavailable. Then I closed everything while beeing offline,
+> opened it again and saw Ready for offline adventures. The new version was up
+
+Record the reported update-unavailable status and subsequent closed-app offline
+relaunch reaching readiness. The owner describes the opened copy as the new
+version, but has not supplied an identifying visual or worker/cache measurement.
+The active-worker readiness check can also report **Ready for offline adventures**
+for the retained previous generation after a failed update. Therefore this reply
+alone does not establish target activation or completed recovery. The owner
+then clarified:
+
+> Yes, HI 12 and original look were there. No, I saw the unadjusted older witch
+> hat, but the eyes were from the new version. The strange thing is when I chose
+> a hat in the store Luna's eyes and image switched to he older version for some
+> reason.
+
+Record HI 12 and Original look preservation after the interrupted-update attempt
+as passed by owner report. The older witch appearance is consistent with retaining
+the previous working copy; target activation and completed recovery remain
+pending. The reply does not explicitly identify observation of **Preparing
+offline update…** or the exact disconnection instant. A reported eye/body change
+when choosing a Store hat is an unresolved visual observation. Screenshots,
+the selected hat and identification of the test copy have been requested.
+
+The [read-only comparison](v1-release/eye-rendering-investigation.json) of both
+game commits confirms `assets/luna-custom.png`,
+`src/animation.js`, `src/draw.js`, `src/store.js` and `src/app.js` are byte-identical.
+The Store renders `lunaPose(createRun(),0,true)` (a still, open-eyed pose), while
+the game uses the animation clock and can blink. A pose difference is a possible
+explanation, not a confirmed diagnosis of the owner's observation. No appearance
+change or new artwork application is authorized by these checks.
+
+The deliberate delay was removed on the temporary server; exact target game
+bytes remain unchanged. Recovery server source commit:
+`5a879bf2863cff89b714e0ded45eea01ab833d77`, saved version **4**, deployment
+`appgdep_6adb0d42b6c0819196552f7064673f26` succeeded at the same origin. This
+version used its validated local archive successfully. Local checks verified all
+56 root/subpath response hashes, excluded paths and removal of the timer. The
+[hosted desktop recovery preflight](v1-release/recovery-preflight.json) passed at
+both root and subpath: all target runtime hashes matched, development/review
+paths returned 404, the worker reached readiness, and offline reload/play worked.
+This is explicitly desktop evidence (`android: false`). The phone has been asked
+to remain offline while the visual observation is clarified.
+Online completion and subsequent offline target relaunch remain pending. Do not
+force worker activation or clear saves.
 
 ## Owner observations
 
@@ -275,7 +320,7 @@ on the same origin. A new hostname has separate saves and caches.
 | B2 | Keyboard checks (Space/Up jump, P/Escape pause/resume) if a keyboard is available; otherwise record unavailable. | Pending |
 | C1 | On a controlled test scope, install the previous merged generation, earn/save progress and an outfit, and prove its offline launch before updating. | Previous-build offline relaunch with HI 661 retained and subsequent equipped-item persistence passed by owner report. New fixed-origin baseline at `/` retained HI 12 and Original look offline; nondefault equipment at the new origin and independently confirmed phone generation pending |
 | C2 | Serve the target at the same origin/scope with the old app open. Wait for **Update downloaded · close all Luna windows to finish**. Existing clients keep the old generation. Close all Luna clients, reopen, and verify the target generation, witch art, progress and outfit. | Pending |
-| C3 | Interrupt a required download during an update: the old working cache/saves survive and new readiness is not falsely announced. Restore network, finish the update, close old clients, and verify recovery. | Pending |
+| C3 | Interrupt a required download during an update: the old working cache/saves survive and new readiness is not falsely announced. Restore network, finish the update, close old clients, and verify recovery. | Owner reported update unavailable, then readiness after closing/reopening offline on 2026-10-23; HI 12 and Original look retained, older witch appearance reported. Exact interruption timing, cache identity and completed online recovery remain unconfirmed |
 | C4 | On a separate unused scope/profile, interrupt first installation: it must not claim readiness. Reconnect, wait for readiness and repeat offline launch. | Pending |
 
 Upgrade checks need the same live hostname and scope throughout, with controlled

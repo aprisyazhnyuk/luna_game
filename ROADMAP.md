@@ -75,7 +75,11 @@ not approve deferred visual corrections or verify target artwork delivery.
 Landscape scrolling is accepted for now. Remaining device scenarios are pending.
 The owner has authorized a separate fixed-address temporary test site; its older
 build passed a fresh offline phone baseline at `/`: HI 12 and Original look
-remained after relaunch. Controlled update interruption and recovery are next.
+remained after relaunch. On 2026-10-23, the interrupted-update attempt reported
+update unavailable, followed by readiness and retained HI 12 / Original look
+after reopening offline. The old witch appearance remains; target recovery and
+a reported eye/body change when choosing a Store hat need clarification. The
+deliberate server delay is removed and desktop target offline checks pass.
 
 ## Next iteration: destinations and increasing challenge
 
