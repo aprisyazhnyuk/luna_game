@@ -194,8 +194,8 @@ the previous working copy; target activation and completed recovery remain
 pending. The reply does not explicitly identify observation of **Preparing
 offline update…** or the exact disconnection instant. A reported eye/body change
 when choosing a Store hat is an unresolved visual observation. Screenshots were
-subsequently supplied and are analyzed below; the test origin is still being
-identified.
+subsequently supplied and are analyzed below; the owner then confirmed HI 641
+at the exact fixed test address while offline.
 
 The [read-only comparison](v1-release/eye-rendering-investigation.json) of both
 game commits confirms `assets/luna-custom.png`,
@@ -214,9 +214,9 @@ version used its validated local archive successfully. Local checks verified all
 [hosted desktop recovery preflight](v1-release/recovery-preflight.json) passed at
 both root and subpath: all target runtime hashes matched, development/review
 paths returned 404, the worker reached readiness, and offline reload/play worked.
-This is explicitly desktop evidence (`android: false`). The phone has been asked
-to remain offline while the visual observation is clarified.
-Online completion and subsequent offline target relaunch remain pending. Do not
+This is explicitly desktop evidence (`android: false`). The fixed-origin save has since been confirmed offline at HI 641.
+Normal online completion and a subsequent offline target relaunch with HI 641
+are the next phone checks and remain pending. Do not
 force worker activation or clear saves.
 
 ### Screenshot follow-up: Store and eye appearance
@@ -231,10 +231,13 @@ folder. Their hashes and observations are in the
 Both phone frames show **Paused**, no hat and **HI 641**, with current distances
 29 and 21 and different paw poses. Both eyes are open. They are not the same
 frozen animation frame, and neither image identifies its URL or cache generation.
-HI 641 differs from the earlier fixed-origin HI 12 baseline; this might reflect
-further play or another installed copy. The owner has been asked to open the
-exact fixed-host URL while offline and report its HI. These screenshots do not
-establish which update generation is installed or prove the network state.
+To identify the copy, the owner was asked to open the exact fixed-host root URL
+while offline and report its HI. They replied **It shows 641** on 2026-10-23.
+This confirms the fixed-origin save now shows HI 641, matching the screenshots;
+use 641 as the current score for the forthcoming recovery check. Preserve the
+separate earlier HI 12 baseline and interruption reports as historical results.
+This identifies the origin by owner report, not the installed cache generation.
+The screenshots themselves do not prove the network state.
 
 A fresh desktop check using Chrome 156.0.8078.47 and the actual game found:
 

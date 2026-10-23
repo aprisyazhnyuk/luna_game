@@ -60,7 +60,7 @@
     "bothEyesOpen": true,
     "blinkExplanation": "ruled out for these two screenshots",
     "sameFrozenFrame": false,
-    "notes": "Different run distances and paw poses; no address or installed cache identity visible. HI 641 differs from the earlier HI 12 baseline, so exact origin is being checked."
+    "notes": "Different run distances and paw poses; no address or installed cache identity visible. Owner subsequently opened the exact fixed-host root URL offline and reported HI 641, matching these screenshots."
   },
   "desktopReproduction": {
     "date": "2026-10-23T07:46:14.919Z",
@@ -112,5 +112,14 @@
     ],
     "pausedSceneUnchanged": true
   },
-  "nextEvidence": "Owner asked to open the exact fixed-host URL offline and report HI to identify the installation."
+  "nextEvidence": "Normal online update completion, followed by closed-app offline relaunch retaining HI 641 and target witch verification if unlocked.",
+  "originConfirmation": {
+    "date": "2026-10-23",
+    "observer": "owner self-report",
+    "url": "https://luna-task9-p30-20261022.cometthyme6.chatgpt.site/",
+    "instruction": "Open exact URL while offline and report HI",
+    "reply": "It shows 641",
+    "highScore": 641,
+    "cacheGeneration": "unconfirmed"
+  }
 }
