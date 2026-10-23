@@ -193,16 +193,17 @@ as passed by owner report. The older witch appearance is consistent with retaini
 the previous working copy; target activation and completed recovery remain
 pending. The reply does not explicitly identify observation of **Preparing
 offline update…** or the exact disconnection instant. A reported eye/body change
-when choosing a Store hat is an unresolved visual observation. Screenshots,
-the selected hat and identification of the test copy have been requested.
+when choosing a Store hat is an unresolved visual observation. Screenshots were
+subsequently supplied and are analyzed below; the test origin is still being
+identified.
 
 The [read-only comparison](v1-release/eye-rendering-investigation.json) of both
 game commits confirms `assets/luna-custom.png`,
 `src/animation.js`, `src/draw.js`, `src/store.js` and `src/app.js` are byte-identical.
 The Store renders `lunaPose(createRun(),0,true)` (a still, open-eyed pose), while
-the game uses the animation clock and can blink. A pose difference is a possible
-explanation, not a confirmed diagnosis of the owner's observation. No appearance
-change or new artwork application is authorized by these checks.
+the game uses the animation clock and can blink. Both supplied screenshots show
+open eyes, so the earlier blinking explanation does not explain this pair. No appearance change or new artwork application is
+authorized by these checks.
 
 The deliberate delay was removed on the temporary server; exact target game
 bytes remain unchanged. Recovery server source commit:
@@ -217,6 +218,38 @@ This is explicitly desktop evidence (`android: false`). The phone has been asked
 to remain offline while the visual observation is clarified.
 Online completion and subsequent offline target relaunch remain pending. Do not
 force worker activation or clear saves.
+
+### Screenshot follow-up: Store and eye appearance
+
+The owner supplied two JPEG screenshots on 2026-10-23 and reported that the smaller,
+rounder eye appears after leaving Store, while remaining uncertain about the exact
+trigger. The [comparison](v1-release/phone-eye-comparison.png) enlarges only the
+character area; original files remain unchanged in the local ignored evidence
+folder. Their hashes and observations are in the
+[investigation report](v1-release/eye-rendering-investigation.json).
+
+Both phone frames show **Paused**, no hat and **HI 641**, with current distances
+29 and 21 and different paw poses. Both eyes are open. They are not the same
+frozen animation frame, and neither image identifies its URL or cache generation.
+HI 641 differs from the earlier fixed-origin HI 12 baseline; this might reflect
+further play or another installed copy. The owner has been asked to open the
+exact fixed-host URL while offline and report its HI. These screenshots do not
+establish which update generation is installed or prove the network state.
+
+A fresh desktop check using Chrome 156.0.8078.47 and the actual game found:
+
+- Four captures after repeated Store open/close cycles at one paused game pose
+  had identical hashes. Store exit alone did not reproduce the change there.
+- The same body PNG and neutral pose produced different eye-region pixels with
+  default Canvas versus explicitly software-backed Canvas. Moving the draw origin
+  between y=298, 299 and 300 did not change the aligned eye pixels within either
+  mode. This demonstrates rendering sensitivity without changing artwork.
+- Rendered blink frames have a closed line, unlike either supplied phone image.
+
+The phone trigger remains unresolved. A browser rendering-mode change is a
+hypothesis, not an observed phone fact. The JPEGs and desktop results do not justify
+changing active artwork or claiming mixed cached game generations. Any visual
+correction still follows the permanent studio review/application workflow.
 
 ## Owner observations
 
