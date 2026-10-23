@@ -88,3 +88,29 @@ Saved-pose pixel comparisons use Chrome's software Canvas backend explicitly
 comparison canvas follow the same rasterization path. Comparisons decode PNGs
 before checking pixels. Default-backend game/studio catalog smoke tests remain
 separate. Neither constitutes real Android or installed-worker upgrade evidence.
+
+## Hat-dependent face correction candidate (2026-10-23)
+
+The permanent studio has a **Face comparison** selector. **Current game** is the
+normal default. `?face-review=1` opens **Candidate · keep face consistent with hats**.
+This candidate changes how the original ears are hidden: the shared rig draws the
+body to a reusable canvas with the original outline/transform, then removes the
+ear area from that layer. It does not resample or replace any PNG or change fits.
+The game and Store still use the current rendering; the candidate module is
+studio-only and excluded from the runtime offline inventory.
+
+Inspect all three hats and Original Luna, in Stand/Walk/Jump (including landing)
+and Blink, at both sizes. Pause to compare the two rendering choices at one pose.
+Select Candidate before saving. **Save fit JSON** freezes the pose and downloads
+`luna-face-fit.json`; **Save preview PNG** downloads `luna-face-preview.png`.
+Keep that pair together and tell the developer to apply it after review.
+
+Candidate v2 reviews contain optional `rendering: "stable-ear-mask-v1"`. The shared
+parser validates and preserves that exact value; unknown values fail. Historical
+reviews without it restore Current game. Every fit/embedded PNG and the saved pose
+retain the existing contract. The application command currently refuses this
+studio-only variant before any writes; support for activating the reviewed code
+must be completed after visual approval. It must never silently apply only fits
+from a rendering review. Ordinary approved wardrobe reviews remain supported.
+
+See [candidate verification](verification/hat-face-candidate.md).

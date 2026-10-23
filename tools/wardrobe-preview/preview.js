@@ -1,4 +1,5 @@
 import {drawImageLuna,lunaPose} from '../../src/animation.js';
+import {drawStableBody} from './stable-ear-mask.js';
 import {createRun,jump,step} from '../../src/engine.js';
 import {loadCosmeticAssets,decodeCosmeticPng} from '../../src/cosmetic-assets.js';
 import {INPUT_LIMITS,validateReviewByteLength} from '../../src/cosmetic-model.js';
@@ -44,6 +45,7 @@ try {
  const itemName=(category,id)=>snapshot.catalog.items.find(item=>item.category===category&&item.id===id)?.name??id;
  const appliedImages=new Map(Object.values(snapshot.items).filter(item=>item.image).map(item=>[key(item.category,item.id),item.image]));
  let fits=clone(initial),images=new Map(appliedImages),selectedCategory='hat',revision=0;
+ let rendering=new URL(location.href).searchParams.has('face-review')?'stable-ear-mask-v1':'current';
  const outfit={...ORIGINAL,hat:snapshot.catalog.items.find(item=>item.category==='hat'&&item.fit)?.id??ORIGINAL.hat};
  const luna=await load('assets/luna-custom.png');let reference=null;
  const sourceContext=context('#source'),accessoryContext=context('#accessory');
@@ -52,6 +54,7 @@ try {
   const fit=fits[category][id];return fit?{fit,image:fit.kind==='raster'?images.get(key(category,id)):undefined}:undefined;
  };
  const renderers={
+  get body(){return rendering==='stable-ear-mask-v1'?drawStableBody:undefined;},
   hat:(c,id)=>drawHat(c,id,override('hat',id)),
   shoes:(c,leg,id)=>drawShoes(c,leg,id,override('shoes',id)),
   mark:(c,id,stretch)=>drawMark(c,id,stretch,override('mark',id))
@@ -108,6 +111,7 @@ try {
   view(large,5,63,88);view(native,1,73,96);
  }
  function sync(artwork=false){
+  $('#rendering').value=rendering;
   const {category,id,fit}=active();$('#edit-category').value=category;
   for(const c of Object.keys(outfit))$(`#outfit-${c}`).value=outfit[c];
   $('#fit-title').textContent=fit?`${itemName(category,id)} fit`:'Choose an item';
@@ -130,6 +134,10 @@ try {
   select.addEventListener('change',()=>{++revision;outfit[category]=select.value;selectedCategory=category;sync(true);});
  }
  $('#edit-category').addEventListener('change',event=>{++revision;selectedCategory=event.target.value;sync(true);});
+ $('#rendering').addEventListener('change',event=>{
+  ++revision;rendering=event.target.value;sync();
+  status.textContent=rendering==='current'?'Showing the current game rendering.':'Showing the face correction candidate. Save its JSON and PNG for review; the game is unchanged.';
+ });
  $('#original').addEventListener('click',()=>{++revision;Object.assign(outfit,ORIGINAL);selectedCategory='mark';sync(true);});
  for(const name of ['x','y','scale'])$(`#${name}`).addEventListener('input',event=>{
   const {fit}=active();if(!fit)return;++revision;fit[name]=Number(event.target.value);
@@ -199,6 +207,7 @@ try {
    })));
    if(request!==revision)return;
    fits=candidate.fits;images=nextImages;Object.assign(outfit,candidate.outfit);selectedCategory=candidate.selectedCategory;
+   rendering=candidate.rendering??'current';
    const review=candidate.review;setMotion(review?.motion??'ready');
    if(review){heldPose=review.pose;restartOnPlay=true;run.y=review.height;$('#speed').value=String(review.playbackSpeed);setPaused(true);}
    sync(true);status.textContent=`Loaded ${file.name}. All saved fits restored${review?' with the saved pose; Play restarts that animation':''}. The game is unchanged.`;
@@ -208,12 +217,12 @@ try {
  function freezeFrame(){heldPose=currentPose();forceBlinkUntil=0;setPaused(true);render();}
  $('#export').addEventListener('click',()=>{
   ++revision;freezeFrame();
-  const exported=createReview({fits,outfit,selectedCategory,
+  const exported=createReview({fits,outfit,selectedCategory,...(rendering==='current'?{}:{rendering}),
    review:{motion,playbackSpeed:Number($('#speed').value),height:run.y,pose:currentPose()}},snapshot.catalog);
-  download(new Blob([JSON.stringify(exported,null,2)+'\n'],{type:'application/json'}),'luna-wardrobe-fit.json');
+  download(new Blob([JSON.stringify(exported,null,2)+'\n'],{type:'application/json'}),rendering==='current'?'luna-wardrobe-fit.json':'luna-face-fit.json');
   status.textContent='Paused at the saved pose. All item fits are in the JSON. Save the matching preview PNG, then tell me to apply the files.';
  });
- $('#snapshot').addEventListener('click',()=>{++revision;freezeFrame();$('#luna').toBlob(blob=>download(blob,'luna-wardrobe-preview.png'));});
+ $('#snapshot').addEventListener('click',()=>{++revision;freezeFrame();const name=rendering==='current'?'luna-wardrobe-preview.png':'luna-face-preview.png';$('#luna').toBlob(blob=>download(blob,name));});
  sync(true);status.textContent='Every hat, shoe style, and body mark can be adjusted. Changes stay in this preview until applied.';
  conceptReference().then(value=>{reference=value;showArtwork();});
  function frame(now){
