@@ -16,8 +16,8 @@ function review(){
   review:{motion:'ready',height:0,playbackSpeed:.5,pose:lunaPose(createRun(),0)}};
 }
 test('face candidate reviews preserve an explicit rendering variant; old reviews stay current',()=>{
- const source=review();source.rendering='stable-ear-mask-v1';
- assert.equal(parseReview(source,catalog).rendering,'stable-ear-mask-v1');
+ const source=review();
+ for(const variant of ['stable-ear-mask-v1','stable-face-layer-v2']){source.rendering=variant;assert.equal(parseReview(source,catalog).rendering,variant);}
  assert.equal(parseReview(review(),catalog).rendering,undefined);
  for(const value of ['unknown',null,{},'current']){
   source.rendering=value;assert.throws(()=>parseReview(source,catalog),/rendering/i);

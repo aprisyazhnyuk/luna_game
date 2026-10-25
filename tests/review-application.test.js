@@ -8,10 +8,12 @@ import {prepareReview,applyPrepared,recoverReview} from '../scripts/lib/review-a
 import {sandbox,hashes,hash,project} from './helpers/review-sandbox.js';
 
 test('unapplied rendering candidate cannot be silently applied as a fit-only review',async t=>{
- const s=await sandbox(t);s.data.rendering='stable-ear-mask-v1';await s.write();
- const before=await hashes(s.root);
- await assert.rejects(()=>prepareReview(s),/rendering candidate.*studio only/i);
- assert.deepEqual(await hashes(s.root),before);
+ for(const variant of ['stable-ear-mask-v1','stable-face-layer-v2']){
+  const s=await sandbox(t);s.data.rendering=variant;await s.write();
+  const before=await hashes(s.root);
+  await assert.rejects(()=>prepareReview(s),/rendering candidate.*studio only/i);
+  assert.deepEqual(await hashes(s.root),before);
+ }
 });
 
 test('dry-run changes nothing; apply transfers all fits and exact PNGs, evidence and cache atomically',async t=>{

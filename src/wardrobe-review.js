@@ -60,7 +60,7 @@ export function parseReview(data,catalog){
   return {fits,outfit:{...catalog.defaults,hat:'bowler'},selectedCategory:'hat',review:null};
  }
  object(data,['version','type','fits','outfit','selectedCategory','review'],['status','rendering'],'review');
- if(Object.hasOwn(data,'rendering')&&data.rendering!=='stable-ear-mask-v1')throw new Error('Invalid rendering candidate');
+ if(Object.hasOwn(data,'rendering')&&!['stable-ear-mask-v1','stable-face-layer-v2'].includes(data.rendering))throw new Error('Invalid rendering candidate');
  if(data.type!=='luna-wardrobe-review')throw new Error('Not a Luna wardrobe review');
  object(data.fits,categories,[],'fits');
  for(const category of categories){

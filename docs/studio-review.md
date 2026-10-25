@@ -92,7 +92,8 @@ separate. Neither constitutes real Android or installed-worker upgrade evidence.
 ## Hat-dependent face correction candidate (2026-10-23)
 
 The permanent studio has a **Face comparison** selector. **Current game** is the
-normal default. `?face-review=1` opens **Candidate · keep face consistent with hats**.
+normal default. `?face-review=2` opens **Candidate 2 · stable face layer**. The earlier candidate
+is retained as **Previous candidate · eye issue unresolved**.
 This candidate changes how the original ears are hidden: the shared rig draws the
 body to a reusable canvas with the original outline/transform, then removes the
 ear area from that layer. It does not resample or replace any PNG or change fits.
@@ -114,3 +115,25 @@ must be completed after visual approval. It must never silently apply only fits
 from a rendering review. Ordinary approved wardrobe reviews remain supported.
 
 See [candidate verification](verification/hat-face-candidate.md).
+
+### Candidate 2 and native pixel evidence (2026-10-25)
+
+The owner selected phone screenshot 2 (run score 21) as the desired face and
+reported both earlier studio modes showing the unwanted circular eye. The first
+candidate is therefore unapproved and insufficient. Use **Face pixels ×8** to
+inspect a direct enlargement of the small canvas. The large artwork view redraws
+the source at a larger scale and can hide a native sampling difference.
+
+`stable-face-layer-v2` is a separately identified experimental rendering variant.
+It samples the eye on an isolated canvas even for no-hat outfits, avoiding a
+return to the destination canvas's changed sampling path. It preserves the PNG
+and the normal blink overlay. Full application remains blocked pending approval
+and validated activation support. Earlier `stable-ear-mask-v1` reviews retain
+their old behavior and cannot silently become candidate 2.
+
+Candidate 2 JSON still records all fits, exact embedded PNGs, outfit and pose.
+Its PNG has two full-character views: 640×480 enlarged artwork at (0,40), and
+native pixels enlarged 5× at (640,40), on a 1280×520 canvas with headings. The
+native view crops (10,8,128,96) from the 150×110 studio canvas. Both views must
+match the restored saved pose before applying this rendering review. Ordinary
+wardrobe and candidate 1 PNGs retain the existing 640×480 format.

@@ -1,10 +1,53 @@
 # Hat-dependent face correction: studio candidate
 
 Date: 2026-10-23. Base: `a42e9a6fd235217677cfe211cea12eb47b924bc5`.
-Branch: `codex/hat-face-preview`. Status: awaiting owner visual review; not applied,
+Branch: `codex/hat-face-preview`. Status: candidate 1 rejected by the owner; candidate 2 awaiting visual review. Not applied,
 not deployed, not Android-verified. Task 9 evidence remains separately in PR #11.
 
-## Reproduction and scope
+## Correction after owner feedback (2026-10-25)
+
+The owner reported that Current game and candidate 1 both show the unwanted
+circular eyes. They explicitly selected **phone screenshot 2, run score 21** as
+the desired visual reference. Candidate 1 is not an accepted eye correction.
+
+The earlier face-region test included the nose/outline. Native mask differences
+were found there; that did not establish the cause of the reported eye change.
+A new test isolates the actual eye (7×7 pixels at x=128, y=262 in the neutral
+390×380 game draw). Repeated canvas readback is a controlled desktop trigger:
+the original candidate changes the eye when returning to no hat. This does not
+prove that readback or the same backend transition occurs on the Huawei.
+The enlarged studio artwork is rendered again at 5× source scale; it is not an
+enlargement of the game's already sampled pixels. It was therefore an inadequate
+comparison for this report.
+
+Candidate 2 (`stable-face-layer-v2`) preserves a dedicated, unread body sampling
+canvas for the eye with and without a hat. It copies the original face pixels
+through a pixel-aligned window; the existing blink is drawn afterward. The window
+uses the game's existing off-white background to avoid double alpha blending.
+All artwork bytes and placements remain unchanged. The old ear-mask candidate is
+retained for historical review imports, labeled as unresolved.
+
+**Face pixels ×8** copies the native preview directly, without redrawing the
+character. Candidate 2's saved PNG is 1280×520: enlarged artwork on the left,
+actual game pixels magnified 5× on the right, both at the saved pose. The existing
+JSON variant identifies that presentation; legacy pairs retain their prior format.
+Candidate 2 is still rejected by the application command before any active writes.
+
+Fresh checks pass in default and explicitly software Canvas modes: 42 mask-region
+comparisons, initial Original-look equality, original-ear hiding, seven cycles
+through hat/no-hat with unchanged actual eye pixels during readback, exact native
+magnification, and JSON/PNG import restoring both saved views. The old implementation
+failed the added eye-cycle check before revision. Full Node suite: 174 tests pass.
+The normal studio integration checks also pass. Cached studio modules were observed
+in the in-app browser and the revised entry/module/style URLs are versioned to
+ensure this comparison loads the new code.
+
+This stabilizes the sampled eye within each tested backend; different initial
+backends can still sample the source differently. The target face still needs
+owner review in the native-pixel view and a real-phone recheck. Do not claim the
+phone defect is fixed or treat candidate 1's passing mask tests as eye verification.
+
+## Earlier candidate 1 reproduction and scope (superseded for eye diagnosis)
 
 The owner reports HI 641 and adjusted witch art after the fixed-origin update and
 closed-app offline relaunch, but selecting a hat changes the face. Desktop Chrome
