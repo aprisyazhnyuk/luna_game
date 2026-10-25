@@ -1,0 +1,81 @@
+{
+  "purpose": "Controlled required-download fixture preparation; not a phone update result",
+  "android": false,
+  "serverSourceCommit": "6bade8485844fdbc0476eb12f81daba18314f84c",
+  "gameCommit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+  "siteVersion": 3,
+  "versionId": "appgprj_6ada21ef3b948191affffbab5f429081~appgver_e6fc72ff2ab881919b43272dfa465b88",
+  "deploymentId": "appgdep_6ada357b1b1081918268e14a144d8a6e",
+  "deploymentStatus": "succeeded",
+  "archiveUpload": "Failed after 170866 ms before version creation; exact pushed-source remote build used",
+  "local": {
+    "checkedAt": "2026-10-22T15:32:50.534Z",
+    "android": false,
+    "exactByteResponses": 56,
+    "excludedPaths": "404 in both scopes",
+    "delayOnlyRequiredPngGetMs": [
+      120000,
+      120000
+    ],
+    "headDelay": false,
+    "result": "pass"
+  },
+  "hosted": {
+    "checkedAt": "2026-10-22T17:51:46.142413+00:00",
+    "android": false,
+    "origin": "https://luna-task9-p30-20261022.cometthyme6.chatgpt.site/",
+    "serverSourceCommit": "6bade8485844fdbc0476eb12f81daba18314f84c",
+    "gameCommit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+    "checks": [
+      {
+        "path": "index.html",
+        "curlExit": 0,
+        "exactTargetHash": true
+      },
+      {
+        "path": "offline-assets.js",
+        "curlExit": 0,
+        "exactTargetHash": true
+      },
+      {
+        "path": "assets/cosmetics/catalog.json",
+        "curlExit": 0,
+        "exactTargetHash": true
+      },
+      {
+        "path": "sw.js",
+        "curlExit": 0,
+        "exactTargetHash": true
+      }
+    ],
+    "requiredPng": {
+      "path": "assets/cosmetics/witch-1574333b5e01a3180a3e53193f85a03bbf71c87f237168dfd86b6d5f8034e12f.png",
+      "headCurlExit": 0,
+      "fixtureHeaderMatches": true,
+      "boundedGetSeconds": 8.01,
+      "getCurlExit": 28,
+      "receivedBytes": 0,
+      "expectedBoundedTimeout": true
+    },
+    "scope": "/",
+    "phoneOutcome": "pending",
+    "result": "pass"
+  },
+  "additionalBrowserPrecheck": {
+    "checkedAt": "2026-10-22T15:35:31.198Z",
+    "android": false,
+    "origin": "https://luna-task9-p30-20261022.cometthyme6.chatgpt.site",
+    "scope": "/",
+    "baselineCommit": "a00836fadbac746b34988559035b9956049ff6d1",
+    "targetCommit": "a42e9a6fd235217677cfe211cea12eb47b924bc5",
+    "observations": [],
+    "result": "fail",
+    "error": "page.waitForFunction: Timeout 150000ms exceeded."
+  },
+  "limits": [
+    "Additional browser attempt timed out waiting for previous-generation readiness before exercising any update. Its cause was not established; it is not an update-test pass.",
+    "An initial urllib probe returned HTTP 403. The subsequent curl probes received exact target bytes and the expected delay; no server access change was made.",
+    "Live targeted response checks cover root only; local byte checks cover both scopes.",
+    "Phone interruption and recovery results pending."
+  ]
+}
