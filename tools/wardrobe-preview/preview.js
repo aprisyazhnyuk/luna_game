@@ -1,11 +1,12 @@
 import {drawImageLuna,lunaPose} from '../../src/animation.js';
+import {drawStableBody,drawStableFaceBody} from './stable-ear-mask.js?face-review=2';
 import {createRun,jump,step} from '../../src/engine.js';
 import {loadCosmeticAssets,decodeCosmeticPng} from '../../src/cosmetic-assets.js';
 import {INPUT_LIMITS,validateReviewByteLength} from '../../src/cosmetic-model.js';
 import {drawHat,drawShoes,drawMark} from '../../src/cosmetics.js';
 import {stamp} from '../../src/pixels.js';
 import {ITEMS,ORIGINAL} from '../../src/customisation.js';
-import {LIMITS,clone,defaultFits,parseReview,createReview,validateAsset} from '../../src/wardrobe-review.js';
+import {LIMITS,clone,defaultFits,parseReview,createReview,validateAsset} from '../../src/wardrobe-review.js?face-review=2';
 
 const $=selector=>document.querySelector(selector),status=$('#status');
 const root=new URL('../../',import.meta.url),key=(category,id)=>`${category}/${id}`;
@@ -44,6 +45,7 @@ try {
  const itemName=(category,id)=>snapshot.catalog.items.find(item=>item.category===category&&item.id===id)?.name??id;
  const appliedImages=new Map(Object.values(snapshot.items).filter(item=>item.image).map(item=>[key(item.category,item.id),item.image]));
  let fits=clone(initial),images=new Map(appliedImages),selectedCategory='hat',revision=0;
+ let rendering=new URL(location.href).searchParams.has('face-review')?'stable-face-layer-v2':'current';
  const outfit={...ORIGINAL,hat:snapshot.catalog.items.find(item=>item.category==='hat'&&item.fit)?.id??ORIGINAL.hat};
  const luna=await load('assets/luna-custom.png');let reference=null;
  const sourceContext=context('#source'),accessoryContext=context('#accessory');
@@ -52,6 +54,7 @@ try {
   const fit=fits[category][id];return fit?{fit,image:fit.kind==='raster'?images.get(key(category,id)):undefined}:undefined;
  };
  const renderers={
+  get body(){return rendering==='stable-face-layer-v2'?drawStableFaceBody:rendering==='stable-ear-mask-v1'?drawStableBody:undefined;},
   hat:(c,id)=>drawHat(c,id,override('hat',id)),
   shoes:(c,leg,id)=>drawShoes(c,leg,id,override('shoes',id)),
   mark:(c,id,stretch)=>drawMark(c,id,stretch,override('mark',id))
@@ -93,7 +96,7 @@ try {
  }
  let motion='walk',paused=false,forceBlinkUntil=0,clock=0,previous=performance.now(),run=createRun(),heldPose=null,restartOnPlay=false;
  run.phase='running';
- const large=context('#luna'),native=context('#native');
+ const large=context('#luna'),native=context('#native'),facePixels=context('#face-pixels');
  function currentPose(){
   const pose=clone(heldPose??lunaPose(run,clock));if(performance.now()<forceBlinkUntil)pose.blink=true;return pose;
  }
@@ -106,8 +109,10 @@ try {
   }
   // Extra headroom keeps the taller witch hat visible at its current fit.
   view(large,5,63,88);view(native,1,73,96);
+  facePixels.clearRect(0,0,336,320);facePixels.drawImage(native.canvas,94,40,42,40,0,0,336,320);
  }
  function sync(artwork=false){
+  $('#rendering').value=rendering;
   const {category,id,fit}=active();$('#edit-category').value=category;
   for(const c of Object.keys(outfit))$(`#outfit-${c}`).value=outfit[c];
   $('#fit-title').textContent=fit?`${itemName(category,id)} fit`:'Choose an item';
@@ -130,6 +135,10 @@ try {
   select.addEventListener('change',()=>{++revision;outfit[category]=select.value;selectedCategory=category;sync(true);});
  }
  $('#edit-category').addEventListener('change',event=>{++revision;selectedCategory=event.target.value;sync(true);});
+ $('#rendering').addEventListener('change',event=>{
+  ++revision;rendering=event.target.value;sync();
+  status.textContent=rendering==='current'?'Showing the current game rendering.':rendering==='stable-ear-mask-v1'?'Previous candidate: it did not resolve the reported eye change.':'Candidate 2: inspect Face pixels ×8 against phone screenshot 2. This is not yet a verified phone fix.';
+ });
  $('#original').addEventListener('click',()=>{++revision;Object.assign(outfit,ORIGINAL);selectedCategory='mark';sync(true);});
  for(const name of ['x','y','scale'])$(`#${name}`).addEventListener('input',event=>{
   const {fit}=active();if(!fit)return;++revision;fit[name]=Number(event.target.value);
@@ -199,6 +208,7 @@ try {
    })));
    if(request!==revision)return;
    fits=candidate.fits;images=nextImages;Object.assign(outfit,candidate.outfit);selectedCategory=candidate.selectedCategory;
+   rendering=candidate.rendering??'current';
    const review=candidate.review;setMotion(review?.motion??'ready');
    if(review){heldPose=review.pose;restartOnPlay=true;run.y=review.height;$('#speed').value=String(review.playbackSpeed);setPaused(true);}
    sync(true);status.textContent=`Loaded ${file.name}. All saved fits restored${review?' with the saved pose; Play restarts that animation':''}. The game is unchanged.`;
@@ -208,12 +218,21 @@ try {
  function freezeFrame(){heldPose=currentPose();forceBlinkUntil=0;setPaused(true);render();}
  $('#export').addEventListener('click',()=>{
   ++revision;freezeFrame();
-  const exported=createReview({fits,outfit,selectedCategory,
+  const exported=createReview({fits,outfit,selectedCategory,...(rendering==='current'?{}:{rendering}),
    review:{motion,playbackSpeed:Number($('#speed').value),height:run.y,pose:currentPose()}},snapshot.catalog);
-  download(new Blob([JSON.stringify(exported,null,2)+'\n'],{type:'application/json'}),'luna-wardrobe-fit.json');
+  download(new Blob([JSON.stringify(exported,null,2)+'\n'],{type:'application/json'}),rendering==='current'?'luna-wardrobe-fit.json':'luna-face-fit.json');
   status.textContent='Paused at the saved pose. All item fits are in the JSON. Save the matching preview PNG, then tell me to apply the files.';
  });
- $('#snapshot').addEventListener('click',()=>{++revision;freezeFrame();$('#luna').toBlob(blob=>download(blob,'luna-wardrobe-preview.png'));});
+ $('#snapshot').addEventListener('click',()=>{
+  ++revision;freezeFrame();const name=rendering==='current'?'luna-wardrobe-preview.png':'luna-face-preview.png';
+  if(rendering!=='stable-face-layer-v2'){$('#luna').toBlob(blob=>download(blob,name));return;}
+  // V2 evidence includes both source enlargement and magnified native pixels.
+  const canvas=document.createElement('canvas');canvas.width=1280;canvas.height=520;
+  const c=canvas.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#f7f7f2';c.fillRect(0,0,1280,520);
+  c.fillStyle='#42443f';c.font='18px sans-serif';c.fillText('Enlarged artwork',16,26);c.fillText('Actual game pixels ×5',656,26);
+  c.drawImage(large.canvas,0,40);c.drawImage(native.canvas,10,8,128,96,640,40,640,480);
+  canvas.toBlob(blob=>download(blob,name));
+ });
  sync(true);status.textContent='Every hat, shoe style, and body mark can be adjusted. Changes stay in this preview until applied.';
  conceptReference().then(value=>{reference=value;showArtwork();});
  function frame(now){

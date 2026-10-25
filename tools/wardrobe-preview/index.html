@@ -4,8 +4,8 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width,initial-scale=1">
  <title>Luna · Review studio</title>
- <link rel="stylesheet" href="./preview.css">
- <script type="module" src="./preview.js"></script>
+ <link rel="stylesheet" href="./preview.css?face-review=2">
+ <script type="module" src="./preview.js?face-review=2"></script>
 </head>
 <body>
  <main>
@@ -16,19 +16,24 @@
    <label>Shoes <select id="outfit-shoes"></select></label>
    <button type="button" id="original">Original Luna</button>
   </section>
+  <section class="outfit-controls" aria-label="Face rendering review">
+   <label>Face comparison <select id="rendering"><option value="current">Current game</option><option value="stable-face-layer-v2">Candidate 2 · stable face layer</option><option value="stable-ear-mask-v1">Previous candidate · eye issue unresolved</option></select></label>
+   <span>Use “Face pixels ×8” below to inspect the actual small face. Candidate 2 is experimental; compare it with phone screenshot 2 (run score 21).</span>
+  </section>
   <section class="references" aria-label="Reference and selected item">
    <figure><canvas id="source" width="346" height="192"></canvas><figcaption id="source-label">Approved concept</figcaption></figure>
    <figure><canvas id="accessory" width="346" height="192"></canvas><figcaption id="accessory-label">Selected item</figcaption></figure>
   </section>
   <div class="workspace">
    <section class="stage" aria-label="Animated game renderer preview">
-    <div class="stage-heading"><h2>On Luna</h2><span>Enlarged · camera follows jumps</span></div>
+    <div class="stage-heading"><h2>On Luna</h2><span>Enlarged artwork · not a game-pixel zoom</span></div>
     <canvas id="luna" width="640" height="480" aria-label="Animated Luna outfit preview"></canvas>
     <div class="playback" role="group" aria-label="Preview animation">
      <button type="button" data-motion="ready">Stand</button><button type="button" data-motion="walk" aria-pressed="true">Walk</button><button type="button" data-motion="jump">Jump</button><button type="button" id="blink">Blink</button><button type="button" id="pause">Pause</button><button type="button" id="step">Step frame</button>
     </div>
     <label class="speed-control">Playback speed <select id="speed"><option value="0.25">¼ speed</option><option value="0.5">½ speed</option><option value="1" selected>Normal</option></select></label>
     <div class="native"><span>Actual game size</span><canvas id="native" width="150" height="110" aria-label="Preview at actual game size"></canvas></div>
+    <figure class="face-pixels"><figcaption>Face pixels ×8</figcaption><canvas id="face-pixels" width="336" height="320" aria-label="Actual game face pixels magnified eight times"></canvas><p>These are the pixels from the small preview above, enlarged without redrawing the face.</p></figure>
    </section>
    <section class="controls" aria-labelledby="fit-title"><p class="eyebrow">PREVIEW ONLY</p>
     <label for="edit-category">Adjust <select id="edit-category"><option value="hat">Hat</option><option value="shoes">Shoes</option><option value="mark">Body mark</option></select></label>

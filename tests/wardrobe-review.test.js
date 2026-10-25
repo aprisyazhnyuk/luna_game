@@ -15,6 +15,14 @@ function review(){
  return {version:2,type:'luna-wardrobe-review',fits:clone(defaults),outfit:{hat:'witch',shoes:'sandals',mark:'skull'},selectedCategory:'shoes',
   review:{motion:'ready',height:0,playbackSpeed:.5,pose:lunaPose(createRun(),0)}};
 }
+test('face candidate reviews preserve an explicit rendering variant; old reviews stay current',()=>{
+ const source=review();
+ for(const variant of ['stable-ear-mask-v1','stable-face-layer-v2']){source.rendering=variant;assert.equal(parseReview(source,catalog).rendering,variant);}
+ assert.equal(parseReview(review(),catalog).rendering,undefined);
+ for(const value of ['unknown',null,{},'current']){
+  source.rendering=value;assert.throws(()=>parseReview(source,catalog),/rendering/i);
+ }
+});
 test('one saved review retains edits to all nine items and the combined outfit',()=>{
  const source=review();
  for(const items of Object.values(source.fits))for(const fit of Object.values(items)){fit.x+=3;fit.y+=4;fit.scale+=.1;}
