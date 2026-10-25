@@ -79,9 +79,9 @@ remained after relaunch. On 2026-10-23, the interrupted-update attempt reported
 update unavailable, followed by readiness and retained HI 12 / Original look
 after reopening offline. After the delay was removed, normal online recovery and
 another offline relaunch retained HI 641 and displayed the adjusted witch, by
-owner report. Selecting a hat still changes the face; desktop reproduction
-isolates the ear-mask clip. A separate studio candidate will address this defect
-through the permanent visual approval process.
+owner report. Selecting a hat still changes the face. The owner rejected the first studio
+candidate: its ear-mask diagnosis did not establish the reported eye change.
+A revised candidate and actual-pixel comparison in PR #12 await visual review.
 
 ## Next iteration: destinations and increasing challenge
 

@@ -32,7 +32,7 @@
     }
   ],
   "sourceObservation": "Store uses still open-eyed reduced-motion pose; game animates and can blink",
-  "diagnosis": "Selecting any hat changes face-region pixels in desktop Chrome. A mask-only draw reproduces it without hat art; removing only the extra ear-mask clip restores the base face hash. This matches the reported trigger; phone backend internals are not instrumented.",
+  "diagnosis": "Unresolved phone eye trigger. The earlier ear-mask test detected a broader face region, chiefly the nose/outline, and did not establish the eye defect cause. Owner rejected candidate1. Controlled desktop readback changes actual-eye pixels when returning to no hat, including with candidate1; no phone backend transition has been measured.",
   "runtimeChanges": false,
   "phoneScreenshots": [
     {
@@ -183,5 +183,11 @@
     "faceChangeOnHatSelection": true,
     "observer": "owner self-report",
     "nondefaultOutfitRetentionAcrossUpdate": "not separately confirmed"
+  },
+  "ownerCorrection20261025": {
+    "bothStudioModes": "unwanted older circular eyes",
+    "desiredReference": "photo_2026-10-23_10-40-55.jpg, run score21",
+    "firstCandidateApproved": false,
+    "next": "Candidate2 isolated eye sampling and direct native-pixel magnification in PR12; approval/application/phone recheck pending"
   }
 }

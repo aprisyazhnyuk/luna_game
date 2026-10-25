@@ -14,7 +14,8 @@ The fixed-address retest baseline is confirmed: offline relaunch retained HI 12
 and Original look. After an interrupted-update attempt, the owner again confirmed
 HI 12 and Original look. After normal online recovery, the owner confirmed an
 offline relaunch with HI 641 and the adjusted witch hat. Selecting a hat still
-changes the face; a desktop reproduction isolates the extra ear-mask clip.
+changes the face; the earlier ear-mask diagnosis proved insufficient for the eye
+change, and a revised studio candidate remains under review.
 This record is not release acceptance. Seven Task 8 visual correction reviews
 remain deferred; the existing bowler and applied witch approvals are preserved.
 
@@ -271,6 +272,24 @@ reported trigger, not remote inspection of the phone graphics backend.
 A bounded correction will be prepared separately in the permanent studio. The
 approved PNGs and fits remain intact; no candidate is active or hosted. Visual
 approval through a saved review pair is required before application.
+
+### Eye diagnosis correction (2026-10-25)
+
+The owner reports that both Current game and the first studio candidate show the
+unwanted older circular eyes. They identify the second phone screenshot (run
+score 21) as the desired face. The first candidate is not visually approved.
+
+The earlier mask reproduction detected pixels in a broad face region, including
+the nose/outline; it did not prove the reported eye defect's cause. A subsequent
+actual-eye test demonstrates a desktop sampling change during controlled canvas
+readback even with that candidate, when returning to no hat. This is diagnostic
+desktop evidence, not proof of a phone backend transition. The previous root-cause
+claim is superseded by this narrower finding.
+
+PR #12 prepares a revised, isolated eye-sampling candidate and magnifies actual
+native pixels for comparison. A saved pair, owner instruction, validated activation
+and Huawei recheck remain required. HI 641 / adjusted-witch offline recovery
+observations remain valid and separate from the unresolved face defect.
 
 ## Owner observations
 
